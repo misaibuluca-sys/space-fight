@@ -85,6 +85,7 @@
   .btn.secondary { border-color:rgba(200,180,255,0.4); background:linear-gradient(180deg, rgba(155,139,255,0.28), rgba(70,55,140,0.22) 60%, rgba(30,20,70,0.4)); color:#e4dcff; box-shadow:0 4px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 14px rgba(155,139,255,0.15); }
   .btn.secondary:hover { box-shadow:0 4px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 24px rgba(185,150,255,0.35); }
   .btn.secondary:active { box-shadow:0 1px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 12px rgba(185,150,255,0.2); }
+  .btn.tiny { padding:0.5rem 0.9rem; font-size:0.8rem; }
 
   .btn-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
 
@@ -112,17 +113,37 @@
 
   .howto-text { font-size:1.15rem; line-height:1.7; text-align:left; color:#cfd3ff; }
   .howto-text b { color:#5ef1ff; }
-  .howto-text .p1c { color:#5ef1ff; font-weight:700; }
-  .howto-text .p2c { color:#ff6fd8; font-weight:700; }
 
-  /* Settings screen */
-  .setup-grid {
-    display:flex; gap:2rem; flex-wrap:wrap; justify-content:center;
+  /* ---------- Player-count stepper (connect screen) ---------- */
+  .count-stepper { display:flex; align-items:center; gap:1rem; }
+  .count-stepper-btn {
+    width:2.6rem; height:2.6rem; border-radius:50%; font-family:'Orbitron'; font-size:1.3rem;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25); color:#fff; cursor:pointer;
   }
+  .count-stepper-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .count-stepper-val { font-family:'Orbitron'; font-size:1.6rem; min-width:2.2rem; color:#ffe066; }
+
+  /* ---------- Sliding setup carousel (settings / powers screens) ---------- */
+  .setup-carousel { display:flex; align-items:center; gap:1rem; width:min(94vw, 420px); }
+  .setup-viewport { position:relative; flex:1; overflow:hidden; border-radius:16px; touch-action:pan-y; }
+  .setup-track { display:flex; width:100%; transition:transform .4s cubic-bezier(.2,.85,.25,1); will-change:transform; }
+  .setup-track.dragging { transition:none; }
+  .setup-slide { flex:0 0 100%; padding:0 0.2rem; }
+  .setup-dots { display:flex; gap:0.5rem; justify-content:center; }
+  .setup-dot { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.2); border:none; cursor:pointer; padding:0; transition:all .2s ease; }
+  .setup-dot.active { background:#ffe066; box-shadow:0 0 8px rgba(255,224,102,0.8); transform:scale(1.4); }
+  .setup-arrow {
+    flex-shrink:0; width:2.4rem; height:2.4rem; border-radius:50%;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
+    color:#e8ecff; font-size:1.3rem; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .setup-arrow:hover { background:rgba(94,241,255,0.22); border-color:#5ef1ff; }
+
   .player-card {
-    width:280px;
+    width:100%;
     background:
-      radial-gradient(ellipse 65% 50% at 15% 0%, rgba(94,241,255,0.14), transparent 65%),
+      radial-gradient(ellipse 65% 50% at 15% 0%, var(--pcolor-fade,rgba(94,241,255,0.14)), transparent 65%),
       radial-gradient(ellipse 60% 50% at 95% 100%, rgba(139,90,255,0.14), transparent 65%),
       rgba(13,11,32,0.85);
     border:1px solid rgba(160,150,255,0.35);
@@ -130,12 +151,6 @@
     padding:1.4rem;
     display:flex; flex-direction:column; gap:0.8rem;
     box-shadow:0 0 30px rgba(90,60,200,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-  .player-card.p2 {
-    background:
-      radial-gradient(ellipse 65% 50% at 15% 0%, rgba(255,111,216,0.14), transparent 65%),
-      radial-gradient(ellipse 60% 50% at 95% 100%, rgba(139,90,255,0.14), transparent 65%),
-      rgba(13,11,32,0.85);
   }
   .player-card h3 { font-family:'Orbitron'; font-size:1rem; letter-spacing:0.05em; }
   .player-card label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; text-align:left; }
@@ -237,13 +252,7 @@
   .cheat-q-text { font-size:0.8rem; color:#e4dcff; text-align:left; line-height:1.3; }
   .cheat-q-del { padding:0.3rem 0.6rem !important; font-size:0.7rem !important; flex-shrink:0; }
   .cheat-empty { font-size:0.8rem; color:#7178a3; text-align:center; padding:0.6rem; }
-  
-  .power-select-section { margin-top:1rem; }
-  .power-select-section h4 { font-family:'Orbitron'; font-size:0.9rem; letter-spacing:0.06em; text-transform:uppercase; color:#ffe066; margin-bottom:0.6rem; }
-  .power-select-container { max-height:300px; overflow-y:auto; }
-  .power-counter { font-size:0.75rem; color:#9aa3d9; margin-bottom:0.4rem; }
 
-  /* Power picker */
   .power-list { display:flex; flex-direction:column; gap:0.6rem; }
   .power-row { display:flex; justify-content:space-between; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.55rem 0.8rem; cursor:pointer; transition:all 0.15s ease; border:1px solid transparent; }
   .power-row:hover { background:rgba(255,255,255,0.08); }
@@ -253,13 +262,6 @@
   .power-name { font-size:0.95rem; color:#fff; font-weight:700; }
   .power-desc { font-size:0.72rem; color:#9aa3d9; line-height:1.3; }
   .power-key-btn { min-width:60px; padding:0.5rem 0.7rem; font-size:0.85rem; flex-shrink:0; background:rgba(120,220,255,0.2); border:1px solid rgba(120,220,255,0.5); border-radius:4px; font-weight:700; }
-  .power-key-btn.p1 { color:#5ef1ff; }
-  .power-key-btn.p2 { color:#ff6fd8; }
-  .power-hint { font-size:0.85rem; color:#9aa3d9; max-width:640px; line-height:1.5; }
-
-  /* Skin picker */
-  .skin-label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; text-align:left; margin-top:0.2rem; display:flex; align-items:center; justify-content:space-between; }
-  .skin-name-big { color:#ffe066; font-weight:700; text-transform:none; letter-spacing:0; font-size:0.8rem; text-shadow:0 0 10px rgba(255,224,102,0.5); }
 
   /* ============ SCI-FI CORNER FRAME (reusable HUD-style corner brackets) ============ */
   .corner-frame { position:relative; --frame-color:#5ef1ff; }
@@ -278,7 +280,6 @@
     filter: drop-shadow(0 0 3px var(--frame-color));
   }
   @keyframes cornerPulse { 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
-  .corner-frame.p2 { --frame-color:#ff6fd8; }
   .corner-frame::after {
     content:''; position:absolute; inset:0; pointer-events:none; z-index:3; border-radius:inherit;
     background:
@@ -382,22 +383,11 @@
   .howto-text h4 { font-family:'Orbitron'; font-size:0.85rem; color:#ffe066; letter-spacing:0.06em; text-transform:uppercase; margin:1rem 0 0.5rem; }
   .howto-text h4:first-child { margin-top:0; }
   .icon-row { display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; }
-  .kbd {
-    display:inline-flex; align-items:center; justify-content:center;
-    min-width:2rem; height:2rem; padding:0 0.5rem;
-    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.3);
-    border-bottom-width:3px; border-radius:6px;
-    font-family:'Orbitron'; font-size:0.85rem; color:#fff;
-  }
-  .move-pad { display:inline-grid; grid-template-columns:repeat(3,2rem); grid-template-rows:repeat(2,2rem); gap:0.25rem; vertical-align:middle; }
-  .move-pad .kbd { min-width:0; height:2rem; font-size:0.75rem; }
   .action-chip {
     display:inline-flex; align-items:center; gap:0.4rem; flex-shrink:0;
     background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2);
     border-radius:20px; padding:0.3rem 0.8rem; font-size:0.9rem;
   }
-  .move-block { display:flex; align-items:center; gap:0.9rem; margin-bottom:0.6rem; flex-wrap:wrap; }
-  .move-block .who { font-weight:700; min-width:78px; text-align:left; }
   .atk-row { display:flex; align-items:flex-start; gap:0.8rem; margin-bottom:0.7rem; }
   .atk-row .action-chip { margin-top:0.1rem; font-family:'Orbitron'; font-size:0.7rem; letter-spacing:0.04em; }
   .atk-row .atk-punch { color:#5ef1ff; border-color:rgba(94,241,255,0.4); }
@@ -418,11 +408,12 @@
 
   #hud {
     position:absolute; top:16px; left:0; right:0;
-    display:flex; justify-content:space-between; padding:0 24px;
+    display:flex; justify-content:center; align-items:flex-start; gap:0.6rem; flex-wrap:wrap;
+    padding:0 24px;
     font-family:'Orbitron'; pointer-events:none;
   }
-  .score-box { font-size:1.1rem; padding:0.4rem 1rem; border-radius:8px; background:linear-gradient(180deg, rgba(30,26,70,0.85), rgba(12,10,28,0.85)); border:1px solid rgba(150,170,255,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(94,150,255,0.15); }
-  .round-box { font-size:0.9rem; padding:0.4rem 1rem; border-radius:8px; background:linear-gradient(180deg, rgba(70,45,140,0.7), rgba(12,10,28,0.85)); border:1px solid rgba(190,160,255,0.4); align-self:flex-start; box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(139,90,255,0.18); }
+  .score-box { font-size:clamp(0.7rem,1.6vw,1.05rem); padding:0.35rem 0.85rem; border-radius:8px; background:linear-gradient(180deg, rgba(30,26,70,0.85), rgba(12,10,28,0.85)); border:1px solid rgba(150,170,255,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(94,150,255,0.15); }
+  .round-box { font-size:0.9rem; padding:0.4rem 1rem; border-radius:8px; background:linear-gradient(180deg, rgba(70,45,140,0.7), rgba(12,10,28,0.85)); border:1px solid rgba(190,160,255,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(139,90,255,0.18); }
 
   #question-banner {
     position:absolute; left:50%; transform:translate(-50%,-50%);
@@ -453,6 +444,7 @@
     padding:1.6rem 2.4rem; border-radius:14px; z-index:6;
     box-shadow:0 0 50px rgba(139,90,255,0.35);
     animation: popin 0.35s cubic-bezier(.2,1.4,.4,1);
+    max-width:92vw;
   }
   @keyframes popin { 0%{ transform:translate(-50%,-50%) scale(0.6); opacity:0; } 100%{ transform:translate(-50%,-50%) scale(1); opacity:1; } }
   .answer-chip {
@@ -462,10 +454,10 @@
   }
   .answer-chip.true { background:rgba(80,255,160,0.15); color:#7dffb0; border:1px solid rgba(120,255,170,0.5); }
   .answer-chip.false { background:rgba(255,90,90,0.15); color:#ff7d7d; border:1px solid rgba(255,130,130,0.5); }
-  .result-players { display:flex; gap:1.4rem; justify-content:center; }
+  .result-players { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; }
   .result-player {
     display:flex; flex-direction:column; align-items:center; gap:0.3rem;
-    padding:0.6rem 1.1rem; border-radius:10px; font-size:1rem; min-width:120px;
+    padding:0.6rem 0.9rem; border-radius:10px; font-size:0.95rem; min-width:100px;
     background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12);
   }
   .result-player.win { background:rgba(255,224,102,0.12); border-color:rgba(255,224,102,0.55); box-shadow:0 0 20px rgba(255,224,102,0.25); }
@@ -489,17 +481,15 @@
     background:rgba(255,255,255,0.05); border:1px solid rgba(255,224,102,0.35);
     border-radius:14px; padding:0.6rem 1.4rem; margin:0.4rem 0 0.8rem;
   }
-  .connect-status-list { display:flex; flex-direction:column; gap:0.8rem; margin-top:0.6rem; }
+  .connect-status-list { display:flex; flex-direction:column; gap:0.6rem; margin-top:0.6rem; }
   .connect-status-row {
     display:flex; align-items:center; gap:0.8rem; min-width:240px;
     background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px; padding:0.7rem 1rem;
+    border-radius:10px; padding:0.6rem 1rem;
   }
   .connect-status-dot { width:14px; height:14px; border-radius:50%; background:#5a5a7a; box-shadow:0 0 8px rgba(0,0,0,0.4); flex-shrink:0; transition:all .2s ease; }
   .connect-status-row.online .connect-status-dot { background:#5cff9d; box-shadow:0 0 10px #5cff9d; }
   .connect-status-name { font-family:'Orbitron'; font-size:0.95rem; }
-  .connect-status-row.p1 .connect-status-name { color:#5ef1ff; }
-  .connect-status-row.p2 .connect-status-name { color:#ff6fd8; }
   .connect-status-state { margin-left:auto; font-size:0.8rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.05em; }
   .connect-status-row.online .connect-status-state { color:#5cff9d; }
 </style>
@@ -512,21 +502,20 @@
     <div class="grid-overlay"></div>
     <div class="subtitle">Space Fight</div>
     <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Conectar Jogadores</h1>
+
+    <div id="connect-count-picker">
+      <div style="font-size:0.9rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.6rem;">Quantos jogadores?</div>
+      <div class="count-stepper">
+        <button class="count-stepper-btn" id="count-minus" type="button">−</button>
+        <div class="count-stepper-val" id="count-val">2</div>
+        <button class="count-stepper-btn" id="count-plus" type="button">+</button>
+      </div>
+    </div>
+
     <div style="font-size:0.9rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.1em;">Código da sala</div>
     <div class="room-code-box" id="room-code">----</div>
     <div style="font-size:0.9rem; color:#cfd3ff;">Peça pros jogadores abrirem a página de controle no celular e digitarem esse código.</div>
-    <div class="connect-status-list">
-      <div class="connect-status-row p1" id="connect-row-p1">
-        <div class="connect-status-dot"></div>
-        <div class="connect-status-name">Player 1</div>
-        <div class="connect-status-state">aguardando</div>
-      </div>
-      <div class="connect-status-row p2" id="connect-row-p2">
-        <div class="connect-status-dot"></div>
-        <div class="connect-status-name">Player 2</div>
-        <div class="connect-status-state">aguardando</div>
-      </div>
-    </div>
+    <div class="connect-status-list" id="connect-status-list"></div>
     <div class="btn-row" style="margin-top:1rem;">
       <button class="btn" id="btn-connect-continue" disabled>▶ Continuar</button>
       <button class="btn secondary" id="btn-connect-skip">Jogar sem celular (teclado)</button>
@@ -548,7 +537,7 @@
     </div>
     <div class="subtitle">Batalha Orbital</div>
     <h1 class="logo">SPACE FIGHT</h1>
-    <div class="subtitle" style="letter-spacing:0.15em; opacity:0.6; font-size:0.8rem;">Verdadeiro ou Falso · 2 Jogadores</div>
+    <div class="subtitle" style="letter-spacing:0.15em; opacity:0.6; font-size:0.8rem;" id="title-players-sub">Verdadeiro ou Falso · 2 Jogadores</div>
     <div class="btn-row" style="margin-top:0.6rem;">
       <button class="btn" id="btn-start">▶ Começar</button>
       <button class="btn secondary" id="btn-howto">Como Jogar</button>
@@ -576,33 +565,16 @@
           <div class="zn">zona neutra</div>
           <div class="zf">✕ F</div>
         </div>
-        <p style="margin-bottom:0.9rem;">Uma pergunta de <b>Verdadeiro ou Falso</b> aparece na tela. Cada jogador precisa pilotar sua nave até o lado correto da arena antes do tempo acabar. Quem estiver na área certa quando o tempo esgota ganha <b>+1 ponto</b>. Vence quem tiver mais pontos após <b>5 perguntas</b>.</p>
+        <p style="margin-bottom:0.9rem;">Uma pergunta de <b>Verdadeiro ou Falso</b> aparece na tela. Cada jogador (de 2 a 5) precisa pilotar sua nave até o lado correto da arena antes do tempo acabar. Quem estiver na área certa quando o tempo esgota ganha <b>+1 ponto</b>. Vence quem tiver mais pontos após <b>5 perguntas</b>.</p>
 
         <h4>Controles</h4>
-        <div class="move-block">
-          <span class="who p1c">Player 1</span>
-          <span class="move-pad">
-            <span></span><span class="kbd">W</span><span></span>
-            <span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
-          </span>
-          <span class="action-chip"><span class="kbd">Q</span></span>
-          <span class="action-chip"><span class="kbd">E</span></span>
-        </div>
-        <div class="move-block">
-          <span class="who p2c">Player 2</span>
-          <span class="move-pad">
-            <span></span><span class="kbd">↑</span><span></span>
-            <span class="kbd">←</span><span class="kbd">↓</span><span class="kbd">→</span>
-          </span>
-          <span class="action-chip"><span class="kbd">Shift</span></span>
-          <span class="action-chip"><span class="kbd">Enter</span></span>
-        </div>
-        <p style="margin-top:0.8rem; font-size:0.95rem; color:#b8c1ff;"><b>Nota:</b> escolha 2 poderes na tela de configuração. Cada tecla ativa um poder diferente.</p>
+        <p style="margin-bottom:0.6rem;">Cada jogador controla sua nave pelo <b>celular</b>: um joystick pra mover e dois botões de poder. Abra <code>controller.html</code> no celular, digite o código da sala e escolha seu jogador.</p>
+        <p style="margin-top:0.4rem; font-size:0.95rem; color:#b8c1ff;"><b>Nota:</b> escolha 2 poderes na tela de configuração — eles ficam nos dois botões de poder do celular. Sem celular, o Player 1 pode jogar pelo teclado (WASD + Q/E).</p>
 
         <h4>Poderes Disponíveis</h4>
         <div class="atk-row">
           <span class="action-chip atk-punch">SOCO</span>
-          <span class="atk-desc">rápido, curto alcance, empurrão médio, recarrega rápido.</span>
+          <span class="atk-desc">rápido, curto alcance, empurrão médio, recarrega rápido. Acerta o adversário mais próximo.</span>
         </div>
         <div class="atk-row">
           <span class="action-chip atk-meteor">METEORO</span>
@@ -614,7 +586,7 @@
         </div>
         <div class="atk-row">
           <span class="action-chip" style="color:#7d5aff; border-color:rgba(125,90,255,0.4);">BURACO NEGRO</span>
-          <span class="atk-desc">puxa o adversário para dentro e o atordoa, similar ao meteoro. Só pode ser usado FORA da zona de V ou F (na zona neutra). Recarrega muito devagar.</span>
+          <span class="atk-desc">puxa o adversário mais próximo para dentro e o atordoa, similar ao meteoro. Só pode ser usado FORA da zona de V ou F (na zona neutra). Recarrega muito devagar.</span>
         </div>
         <h4>Power-up</h4>
         <div class="atk-row">
@@ -630,53 +602,16 @@
   <!-- SETTINGS -->
   <div id="screen-settings" class="screen title-bg hidden">
     <div class="grid-overlay"></div>
-    <div class="sparkle-layer">
-      <span class="sparkle cyan" style="top:10%; left:7%; width:16px; height:16px; animation-delay:.2s;"></span>
-      <span class="sparkle pink" style="top:18%; left:88%; width:12px; height:12px; animation-delay:1.1s;"></span>
-      <span class="sparkle gold" style="top:70%; left:10%; width:11px; height:11px; animation-delay:.6s;"></span>
-      <span class="sparkle purple" style="top:80%; left:82%; width:15px; height:15px; animation-delay:1.7s;"></span>
-      <span class="sparkle cyan" style="top:42%; left:94%; width:9px; height:9px; animation-delay:2.2s;"></span>
-      <span class="sparkle pink" style="top:6%; left:45%; width:10px; height:10px; animation-delay:.9s;"></span>
-      <span class="sparkle gold" style="top:55%; left:3%; width:8px; height:8px; animation-delay:1.5s;"></span>
-      <span class="sparkle purple" style="top:88%; left:35%; width:10px; height:10px; animation-delay:.4s;"></span>
-    </div>
     <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Configurações</h1>
-    <div class="setup-grid">
-      <div class="player-card corner-frame">
-        <h3 style="color:#5ef1ff;">Player 1</h3>
-        <label>Nome</label>
-        <input type="text" id="p1-name" value="Player 1" maxlength="14">
-        <label>Cor da nave</label>
-        <input type="color" id="p1-color" value="#5ef1ff">
-        <div class="skin-label">Modelo da nave <span class="skin-name-big" id="p1-skin-name">Clássica</span></div>
-        <div class="ship-carousel">
-          <button type="button" class="carousel-arrow" id="p1-prev">‹</button>
-          <div class="carousel-viewport corner-frame" id="p1-viewport">
-            <div class="carousel-track" id="p1-track"></div>
-          </div>
-          <button type="button" class="carousel-arrow" id="p1-next">›</button>
-        </div>
-        <div class="carousel-dots" id="p1-dots"></div>
-        <div class="controls-box"><b>Mover:</b> W A S D</div>
+    <div style="font-size:0.85rem; color:#9aa3d9;" id="settings-hint">Deslize para configurar cada jogador</div>
+    <div class="setup-carousel">
+      <button type="button" class="setup-arrow" id="settings-prev">‹</button>
+      <div class="setup-viewport">
+        <div class="setup-track" id="settings-track"></div>
       </div>
-      <div class="player-card corner-frame p2">
-        <h3 style="color:#ff6fd8;">Player 2</h3>
-        <label>Nome</label>
-        <input type="text" id="p2-name" value="Player 2" maxlength="14">
-        <label>Cor da nave</label>
-        <input type="color" id="p2-color" value="#ff6fd8">
-        <div class="skin-label">Modelo da nave <span class="skin-name-big" id="p2-skin-name">Clássica</span></div>
-        <div class="ship-carousel">
-          <button type="button" class="carousel-arrow" id="p2-prev">‹</button>
-          <div class="carousel-viewport corner-frame p2" id="p2-viewport">
-            <div class="carousel-track" id="p2-track"></div>
-          </div>
-          <button type="button" class="carousel-arrow" id="p2-next">›</button>
-        </div>
-        <div class="carousel-dots" id="p2-dots"></div>
-        <div class="controls-box"><b>Mover:</b> ↑ ↓ ← →</div>
-      </div>
+      <button type="button" class="setup-arrow" id="settings-next">›</button>
     </div>
+    <div class="setup-dots" id="settings-dots"></div>
     <div class="btn-row">
       <button class="btn secondary" id="btn-settings-back">Voltar</button>
       <button class="btn" id="btn-play">▶ Próximo: Poderes</button>
@@ -686,28 +621,16 @@
   <!-- POWERS -->
   <div id="screen-powers" class="screen title-bg hidden">
     <div class="grid-overlay"></div>
-    <div class="sparkle-layer">
-      <span class="sparkle cyan" style="top:10%; left:7%; width:16px; height:16px; animation-delay:.2s;"></span>
-      <span class="sparkle pink" style="top:18%; left:88%; width:12px; height:12px; animation-delay:1.1s;"></span>
-      <span class="sparkle gold" style="top:70%; left:10%; width:11px; height:11px; animation-delay:.6s;"></span>
-      <span class="sparkle purple" style="top:80%; left:82%; width:15px; height:15px; animation-delay:1.7s;"></span>
-      <span class="sparkle cyan" style="top:42%; left:94%; width:9px; height:9px; animation-delay:2.2s;"></span>
-      <span class="sparkle pink" style="top:6%; left:45%; width:10px; height:10px; animation-delay:.9s;"></span>
-      <span class="sparkle gold" style="top:55%; left:3%; width:8px; height:8px; animation-delay:1.5s;"></span>
-      <span class="sparkle purple" style="top:88%; left:35%; width:10px; height:10px; animation-delay:.4s;"></span>
-    </div>
     <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Escolha seus Poderes</h1>
-    <div class="power-hint">Escolha 2 poderes para cada jogador. Clique no poder pra selecioná-lo. Cada tecla ativará um poder diferente no jogo.</div>
-    <div class="setup-grid">
-      <div class="player-card corner-frame">
-        <h3 style="color:#5ef1ff;">Player 1</h3>
-        <div class="power-list" id="p1-powers"></div>
+    <div class="power-hint" style="font-size:0.85rem; color:#9aa3d9; max-width:420px;">Escolha 2 poderes para cada jogador. Deslize entre os jogadores. Cada poder vai para um dos 2 botões do celular.</div>
+    <div class="setup-carousel">
+      <button type="button" class="setup-arrow" id="powers-prev">‹</button>
+      <div class="setup-viewport">
+        <div class="setup-track" id="powers-track"></div>
       </div>
-      <div class="player-card corner-frame p2">
-        <h3 style="color:#ff6fd8;">Player 2</h3>
-        <div class="power-list" id="p2-powers"></div>
-      </div>
+      <button type="button" class="setup-arrow" id="powers-next">›</button>
     </div>
+    <div class="setup-dots" id="powers-dots"></div>
     <div class="btn-row">
       <button class="btn secondary" id="btn-powers-back">Voltar</button>
       <button class="btn" id="btn-powers-play">▶ Jogar</button>
@@ -717,11 +640,7 @@
   <!-- GAME -->
   <div id="screen-game" class="screen hidden" style="padding:0;">
     <canvas id="game"></canvas>
-    <div id="hud">
-      <div class="score-box corner-frame" id="hud-p1">Player 1: 0</div>
-      <div class="round-box corner-frame" id="hud-round">Pergunta 1 / 5</div>
-      <div class="score-box corner-frame p2" id="hud-p2">Player 2: 0</div>
-    </div>
+    <div id="hud"></div>
     <div id="question-banner" class="hidden"></div>
     <div id="result-banner" class="hidden"></div>
   </div>
@@ -729,16 +648,6 @@
   <!-- GAME OVER -->
   <div id="screen-over" class="screen title-bg hidden">
     <div class="grid-overlay"></div>
-    <div class="sparkle-layer">
-      <span class="sparkle cyan" style="top:10%; left:7%; width:16px; height:16px; animation-delay:.2s;"></span>
-      <span class="sparkle pink" style="top:18%; left:88%; width:12px; height:12px; animation-delay:1.1s;"></span>
-      <span class="sparkle gold" style="top:70%; left:10%; width:11px; height:11px; animation-delay:.6s;"></span>
-      <span class="sparkle purple" style="top:80%; left:82%; width:15px; height:15px; animation-delay:1.7s;"></span>
-      <span class="sparkle cyan" style="top:42%; left:94%; width:9px; height:9px; animation-delay:2.2s;"></span>
-      <span class="sparkle pink" style="top:6%; left:45%; width:10px; height:10px; animation-delay:.9s;"></span>
-      <span class="sparkle gold" style="top:55%; left:3%; width:8px; height:8px; animation-delay:1.5s;"></span>
-      <span class="sparkle purple" style="top:88%; left:35%; width:10px; height:10px; animation-delay:.4s;"></span>
-    </div>
     <div class="subtitle">Fim de Jogo</div>
     <h1 id="gameover-name" class="logo" style="font-size:2.6rem;"></h1>
     <div id="gameover-score" class="result-players" style="margin-bottom:0.4rem;"></div>
@@ -792,7 +701,7 @@
         <div class="cheat-option">
           <div class="cheat-option-text">
             <div class="cheat-option-name">Turbo permanente</div>
-            <div class="cheat-option-desc">Velocidade de boost sempre ativa para os dois</div>
+            <div class="cheat-option-desc">Velocidade de boost sempre ativa para todos</div>
           </div>
           <button class="cheat-switch" id="cheat-toggle-turbo" type="button">OFF</button>
         </div>
@@ -801,21 +710,14 @@
             <div class="cheat-option-name">Placar</div>
             <div class="cheat-option-desc">Ajustar pontos da partida atual</div>
           </div>
-          <div class="cheat-score-btns">
-            <button class="btn secondary" id="cheat-p1-plus" type="button">+1 P1</button>
-            <button class="btn secondary" id="cheat-p2-plus" type="button">+1 P2</button>
-            <button class="btn secondary" id="cheat-score-reset" type="button">Zerar</button>
-          </div>
+          <div class="cheat-score-btns" id="cheat-score-btns"></div>
         </div>
         <div class="cheat-option">
           <div class="cheat-option-text">
             <div class="cheat-option-name">Vitória instantânea</div>
             <div class="cheat-option-desc">Encerra a partida com a vitória de um jogador</div>
           </div>
-          <div class="cheat-score-btns">
-            <button class="btn secondary" id="cheat-win-p1" type="button">P1 vence</button>
-            <button class="btn secondary" id="cheat-win-p2" type="button">P2 vence</button>
-          </div>
+          <div class="cheat-score-btns" id="cheat-win-btns"></div>
         </div>
         <div class="cheat-option">
           <div class="cheat-option-text">
@@ -858,60 +760,124 @@
     Object.values(screens).forEach(s => { s.classList.add('hidden'); s.classList.remove('enter'); });
     const target = screens[name];
     target.classList.remove('hidden');
-    // reflow para reiniciar a animação de entrada toda vez que a tela aparece
     void target.offsetWidth;
     target.classList.add('enter');
   }
+
+  const PALETTE = ['#5ef1ff', '#ff6fd8', '#ffe066', '#b98bff', '#5cff9d'];
+  const MIN_PLAYERS = 2, MAX_PLAYERS = 5;
+  let NUM_PLAYERS = 2;
 
   // ================= CELULARES COMO CONTROLE (PeerJS, sem servidor) =================
   const ROOM_CODE = String(Math.floor(1000 + Math.random() * 9000));
   $('room-code').textContent = ROOM_CODE;
 
-  const conns = { 1: null, 2: null };
+  const conns = {}; // slot -> DataConnection
   const peer = new Peer('sf-host-' + ROOM_CODE);
+
+  function broadcastRoomInfo(){
+    const taken = Object.keys(conns).filter(k => conns[k]).map(Number);
+    const msg = { type:'room-info', maxPlayers: NUM_PLAYERS, taken };
+    Object.values(conns).forEach(c => { if (c && c.open) c.send(msg); });
+  }
+
+  function renderConnectRows(){
+    const list = $('connect-status-list');
+    list.innerHTML = '';
+    for (let i = 1; i <= NUM_PLAYERS; i++){
+      const row = document.createElement('div');
+      row.className = 'connect-status-row';
+      row.id = `connect-row-p${i}`;
+      row.style.borderColor = PALETTE[i-1] + '55';
+      row.innerHTML = `
+        <div class="connect-status-dot"></div>
+        <div class="connect-status-name" style="color:${PALETTE[i-1]}">Player ${i}</div>
+        <div class="connect-status-state">aguardando</div>`;
+      list.appendChild(row);
+    }
+    updateContinueBtn();
+  }
 
   function setConnectRow(player, online){
     const row = $(`connect-row-p${player}`);
+    if (!row) return;
     row.classList.toggle('online', online);
     row.querySelector('.connect-status-state').textContent = online ? 'conectado' : 'aguardando';
-    $('btn-connect-continue').disabled = !(conns[1] && conns[2]);
+    updateContinueBtn();
   }
 
-  const PHONE_KEYMAP = {
-    1: { up:'KeyW', down:'KeyS', left:'KeyA', right:'KeyD', power1:'KeyQ', power2:'KeyE' },
-    2: { up:'ArrowUp', down:'ArrowDown', left:'ArrowLeft', right:'ArrowRight', power1:'ShiftLeft', power2:'Enter' }
+  function updateContinueBtn(){
+    let allOnline = true;
+    for (let i = 1; i <= NUM_PLAYERS; i++){ if (!conns[i]) allOnline = false; }
+    $('btn-connect-continue').disabled = !allOnline;
+  }
+
+  $('count-minus').onclick = () => {
+    if (NUM_PLAYERS <= MIN_PLAYERS) return;
+    NUM_PLAYERS--;
+    $('count-val').textContent = NUM_PLAYERS;
+    renderConnectRows();
+    broadcastRoomInfo();
+    rebuildAllSetupUI();
   };
+  $('count-plus').onclick = () => {
+    if (NUM_PLAYERS >= MAX_PLAYERS) return;
+    NUM_PLAYERS++;
+    $('count-val').textContent = NUM_PLAYERS;
+    renderConnectRows();
+    broadcastRoomInfo();
+    rebuildAllSetupUI();
+  };
+  renderConnectRows();
+
+  const PHONE_KEYMAP_ACTIONS = ['up','down','left','right','power1','power2'];
+  const inputVec = {};   // slot -> {x,y} from phone joystick
+  const phonePower = {}; // slot -> {power1:bool, power2:bool}
+  for (let i = 1; i <= MAX_PLAYERS; i++){ inputVec[i] = {x:0,y:0}; phonePower[i] = {power1:false, power2:false}; }
 
   peer.on('connection', (conn) => {
     conn.on('data', (msg) => {
       if (msg.type === 'join'){
         const p = msg.player;
-        if ((p === 1 || p === 2) && !conns[p]){
+        if (p >= 1 && p <= NUM_PLAYERS && !conns[p]){
           conns[p] = conn;
           conn.player = p;
           conn.send({ type:'join-ok' });
           setConnectRow(p, true);
-          conn.on('close', () => { conns[p] = null; setConnectRow(p, false); });
+          broadcastRoomInfo();
+          conn.on('close', () => {
+            conns[p] = null;
+            inputVec[p] = {x:0,y:0};
+            phonePower[p] = {power1:false, power2:false};
+            setConnectRow(p, false);
+            broadcastRoomInfo();
+          });
         } else {
           conn.send({ type:'join-fail' });
         }
+      } else if (msg.type === 'move'){
+        if (conn.player){ inputVec[conn.player] = { x: msg.x||0, y: msg.y||0 }; }
       } else if (msg.type === 'input'){
-        const map = PHONE_KEYMAP[conn.player];
-        const code = map && map[msg.action];
-        if (code) keys[code] = msg.pressed;
+        if (conn.player && (msg.action === 'power1' || msg.action === 'power2')){
+          phonePower[conn.player][msg.action] = !!msg.pressed;
+        }
       }
     });
+    conn.send({ type:'room-info', maxPlayers: NUM_PLAYERS, taken: Object.keys(conns).filter(k=>conns[k]).map(Number) });
   });
 
-  $('btn-connect-continue').onclick = () => show('title');
-  $('btn-connect-skip').onclick = () => show('title');
+  $('btn-connect-continue').onclick = () => { show('title'); updateTitleSub(); };
+  $('btn-connect-skip').onclick = () => { show('title'); updateTitleSub(); };
+  function updateTitleSub(){
+    $('title-players-sub').textContent = `Verdadeiro ou Falso · ${NUM_PLAYERS} Jogadores`;
+  }
 
   $('btn-start').onclick = () => show('settings');
   $('btn-howto').onclick = () => show('howto');
   $('btn-howto-back').onclick = () => show('title');
   $('btn-settings-back').onclick = () => show('title');
   $('btn-menu').onclick = () => show('title');
-  $('btn-play').onclick = () => { setupPlayers(); renderPowerPicker(1); renderPowerPicker(2); show('powers'); };
+  $('btn-play').onclick = () => { setupPlayers(); rebuildPowersCarousel(); show('powers'); };
   $('btn-powers-back').onclick = () => show('settings');
   $('btn-powers-play').onclick = () => { startGame(); };
   $('btn-again').onclick = () => { startGame(); };
@@ -975,128 +941,307 @@
   }
 
   // ---------- PLAYER SETUP ----------
-  let P1 = { name:'Player 1', color:'#5ef1ff', skin:'classic' };
-  let P2 = { name:'Player 2', color:'#ff6fd8', skin:'classic' };
+  const SKINS = [
+    { id:'classic', name:'Clássica' },
+    { id:'falcon', name:'Falcão' },
+    { id:'blade', name:'Lâmina' },
+    { id:'nova', name:'Nova' },
+    { id:'alien', name:'Alienígena' },
+    { id:'saucer', name:'Disco Voador' },
+    { id:'cruiser', name:'Cruzador' },
+    { id:'stealth', name:'Furtiva' },
+  ];
+
+  const PLAYERS_CFG = [];
+  for (let i = 0; i < MAX_PLAYERS; i++){
+    PLAYERS_CFG.push({ name:`Player ${i+1}`, color:PALETTE[i], skin:'classic', skinIndex:0 });
+  }
+  let playerPowerConfig = {}; // slot -> {power1:id|null, power2:id|null}
+  for (let i = 1; i <= MAX_PLAYERS; i++) playerPowerConfig[i] = { power1:null, power2:null };
+
   function setupPlayers(){
-    P1.name = $('p1-name').value.trim() || 'Player 1';
-    P2.name = $('p2-name').value.trim() || 'Player 2';
-    P1.color = $('p1-color').value;
-    P2.color = $('p2-color').value;
-    P1.skin = selectedSkin.p1;
-    P2.skin = selectedSkin.p2;
+    for (let i = 0; i < NUM_PLAYERS; i++){
+      const nameEl = $(`cfg-name-${i}`);
+      const colorEl = $(`cfg-color-${i}`);
+      if (nameEl) PLAYERS_CFG[i].name = nameEl.value.trim() || `Player ${i+1}`;
+      if (colorEl) PLAYERS_CFG[i].color = colorEl.value;
+    }
   }
 
-  // ---------- CANVAS / GAME STATE ----------
-  const canvas = $('game');
-  const ctx = canvas.getContext('2d');
-  function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  function skinPoints(skin, R){
+    switch(skin){
+      case 'falcon': return [[0,-R*1.1],[R*1.15,R*0.75],[R*0.35,R*0.55],[0,R*0.95],[-R*0.35,R*0.55],[-R*1.15,R*0.75]];
+      case 'blade': return [[0,-R*1.3],[R*0.45,R*0.9],[0,R*0.55],[-R*0.45,R*0.9]];
+      case 'nova': return [[0,-R*0.95],[R*0.55,-R*0.1],[R*0.95,R*0.85],[R*0.25,R*0.55],[0,R*0.9],[-R*0.25,R*0.55],[-R*0.95,R*0.85],[-R*0.55,-R*0.1]];
+      case 'alien': return [[0,-R*0.9],[R*0.6,-R*0.2],[R*1.05,R*0.3],[R*0.5,R*0.95],[R*0.15,R*0.55],[-R*0.1,R*1.15],[-R*0.5,R*0.55],[-R*1.0,R*0.35],[-R*0.55,-R*0.25]];
+      case 'cruiser': return [[0,-R*0.9],[R*0.5,-R*0.3],[R*1.05,R*0.2],[R*0.6,R*0.95],[-R*0.6,R*0.95],[-R*1.05,R*0.2],[-R*0.5,-R*0.3]];
+      case 'stealth': return [[0,-R*1.15],[R*1.3,R*0.5],[0,R*0.15],[-R*1.3,R*0.5]];
+      default: return [[0,-R],[R*0.8,R*0.9],[0,R*0.4],[-R*0.8,R*0.9]];
+    }
   }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+  function tracePath(c, skin, R){
+    c.beginPath();
+    if (skin === 'saucer'){
+      c.ellipse(0, R*0.25, R*1.15, R*0.42, 0, 0, Math.PI*2);
+      c.moveTo(R*0.55, -R*0.05);
+      c.ellipse(0, -R*0.05, R*0.55, R*0.4, 0, 0, Math.PI*2);
+      return;
+    }
+    const pts = skinPoints(skin, R);
+    c.moveTo(pts[0][0], pts[0][1]);
+    for (let i=1;i<pts.length;i++) c.lineTo(pts[i][0], pts[i][1]);
+    c.closePath();
+  }
 
-  const keys = {};
-  window.addEventListener('keydown', e => {
-    keys[e.code] = true;
-    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code)) e.preventDefault();
-  });
-  window.addEventListener('keyup', e => { keys[e.code] = false; });
+  // ---------- GENERIC SLIDING CAROUSEL (used for settings & powers) ----------
+  function makeCarousel(trackId, dotsId, prevId, nextId){
+    const track = $(trackId), dotsWrap = $(dotsId);
+    let index = 0, count = 0;
+    function build(n, slideBuilder){
+      count = n;
+      index = Math.min(index, n-1);
+      track.innerHTML = '';
+      dotsWrap.innerHTML = '';
+      for (let i = 0; i < n; i++){
+        const slide = document.createElement('div');
+        slide.className = 'setup-slide';
+        slide.appendChild(slideBuilder(i));
+        track.appendChild(slide);
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'setup-dot' + (i === index ? ' active' : '');
+        dot.style.background = i === index ? PALETTE[i] : '';
+        dot.onclick = () => { index = i; update(); };
+        dotsWrap.appendChild(dot);
+      }
+      update(true);
+    }
+    function update(instant){
+      if (instant) track.classList.add('dragging');
+      track.style.transform = `translateX(${-index*100}%)`;
+      if (instant) requestAnimationFrame(() => track.classList.remove('dragging'));
+      [...dotsWrap.children].forEach((d,i) => {
+        d.classList.toggle('active', i===index);
+        d.style.background = i===index ? PALETTE[i] : '';
+      });
+    }
+    function move(dir){ index = Math.max(0, Math.min(count-1, index+dir)); update(); }
+    $(prevId).onclick = () => move(-1);
+    $(nextId).onclick = () => move(1);
 
-  // ---------- POWER KEY BINDING ----------
-  // Cada jogador escolhe apenas 2 poderes usando teclas fixas:
-  // P1: Q e E (teclas fixas)
-  // P2: Shift e Enter (teclas fixas)
-  const KEY_LABELS = { q:'Q', e:'E', shift:'Shift', enter:'Enter' };
+    let dragging=false, startX=0, deltaX=0, width=1;
+    const vp = track.parentElement;
+    vp.addEventListener('pointerdown', e => {
+      dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
+      track.classList.add('dragging');
+      try { vp.setPointerCapture(e.pointerId); } catch(err){}
+    });
+    vp.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      deltaX = e.clientX-startX;
+      track.style.transform = `translateX(${-index*100 + (deltaX/width*100)}%)`;
+    });
+    function endDrag(){
+      if (!dragging) return;
+      dragging=false;
+      track.classList.remove('dragging');
+      if (deltaX < -width*0.18) move(1);
+      else if (deltaX > width*0.18) move(-1);
+      else update();
+      deltaX=0;
+    }
+    vp.addEventListener('pointerup', endDrag);
+    vp.addEventListener('pointercancel', endDrag);
+    return { build, get index(){ return index; } };
+  }
+
+  const settingsCarousel = makeCarousel('settings-track','settings-dots','settings-prev','settings-next');
+  const powersCarousel = makeCarousel('powers-track','powers-dots','powers-prev','powers-next');
+
+  function buildSettingsSlide(i){
+    const cfg = PLAYERS_CFG[i];
+    const wrap = document.createElement('div');
+    wrap.className = 'player-card corner-frame';
+    wrap.style.setProperty('--frame-color', PALETTE[i]);
+    wrap.style.setProperty('--pcolor-fade', PALETTE[i] + '26');
+    wrap.innerHTML = `
+      <h3 style="color:${PALETTE[i]};">Player ${i+1}</h3>
+      <label>Nome</label>
+      <input type="text" id="cfg-name-${i}" value="${cfg.name}" maxlength="14">
+      <label>Cor da nave</label>
+      <input type="color" id="cfg-color-${i}" value="${cfg.color}">
+      <div class="skin-label">Modelo da nave <span id="cfg-skin-name-${i}" style="color:${PALETTE[i]}; font-weight:700;">${SKINS[cfg.skinIndex].name}</span></div>
+      <div class="ship-carousel">
+        <button type="button" class="carousel-arrow" id="cfg-skin-prev-${i}">‹</button>
+        <div class="carousel-viewport corner-frame" style="--frame-color:${PALETTE[i]};" id="cfg-skin-viewport-${i}">
+          <div class="carousel-track" id="cfg-skin-track-${i}"></div>
+        </div>
+        <button type="button" class="carousel-arrow" id="cfg-skin-next-${i}">›</button>
+      </div>
+      <div class="carousel-dots" id="cfg-skin-dots-${i}"></div>
+      <div class="controls-box"><b>Controle:</b> celular (joystick)${i===0 ? ' — ou teclado (WASD)' : ''}</div>
+    `;
+    return wrap;
+  }
+
+  function paintShipCarousel(i){
+    const track = $(`cfg-skin-track-${i}`);
+    if (!track) return;
+    const color = $(`cfg-color-${i}`).value;
+    [...track.children].forEach((slide, si) => {
+      const cv = slide.querySelector('canvas');
+      const cx = cv.getContext('2d');
+      cx.clearRect(0,0,100,100);
+      cx.save(); cx.translate(50,53);
+      tracePath(cx, SKINS[si].id, 32);
+      cx.fillStyle = color; cx.shadowColor = color; cx.shadowBlur = 18; cx.fill();
+      cx.restore();
+    });
+  }
+  function buildShipCarousel(i){
+    const track = $(`cfg-skin-track-${i}`), dots = $(`cfg-skin-dots-${i}`);
+    track.innerHTML=''; dots.innerHTML='';
+    SKINS.forEach((sk, si) => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      slide.style.animationDelay = (si*0.12)+'s';
+      const cv = document.createElement('canvas'); cv.width=100; cv.height=100;
+      slide.appendChild(cv); track.appendChild(slide);
+      const dot = document.createElement('button');
+      dot.type='button'; dot.className='carousel-dot'+(si===PLAYERS_CFG[i].skinIndex?' active':'');
+      dot.onclick = () => { PLAYERS_CFG[i].skinIndex = si; updateShipCarousel(i, true); };
+      dots.appendChild(dot);
+    });
+    paintShipCarousel(i);
+    updateShipCarousel(i, true);
+  }
+  function updateShipCarousel(i, instant){
+    const idx = PLAYERS_CFG[i].skinIndex;
+    const track = $(`cfg-skin-track-${i}`);
+    if (instant) track.classList.add('dragging');
+    track.style.transform = `translateX(${-idx*100}%)`;
+    if (instant) requestAnimationFrame(()=>track.classList.remove('dragging'));
+    PLAYERS_CFG[i].skin = SKINS[idx].id;
+    $(`cfg-skin-name-${i}`).textContent = SKINS[idx].name;
+    [...$(`cfg-skin-dots-${i}`).children].forEach((d,di)=>d.classList.toggle('active', di===idx));
+  }
+  function moveShipCarousel(i, dir){
+    const len = SKINS.length;
+    PLAYERS_CFG[i].skinIndex = (PLAYERS_CFG[i].skinIndex + dir + len) % len;
+    updateShipCarousel(i);
+  }
+  function enableShipDrag(i){
+    const vp = $(`cfg-skin-viewport-${i}`), track = $(`cfg-skin-track-${i}`);
+    let dragging=false, startX=0, deltaX=0, width=1;
+    vp.addEventListener('pointerdown', e => {
+      dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
+      track.classList.add('dragging');
+      try { vp.setPointerCapture(e.pointerId); } catch(err){}
+    });
+    vp.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      deltaX = e.clientX-startX;
+      track.style.transform = `translateX(${-PLAYERS_CFG[i].skinIndex*100*(vp.clientWidth/vp.clientWidth) }px)`;
+      const base = -PLAYERS_CFG[i].skinIndex*width;
+      track.style.transform = `translateX(${base+deltaX}px)`;
+    });
+    function endDrag(){
+      if (!dragging) return;
+      dragging=false; track.classList.remove('dragging');
+      if (deltaX < -width*0.16) moveShipCarousel(i,1);
+      else if (deltaX > width*0.16) moveShipCarousel(i,-1);
+      else updateShipCarousel(i);
+      deltaX=0;
+    }
+    vp.addEventListener('pointerup', endDrag);
+    vp.addEventListener('pointercancel', endDrag);
+  }
+
+  function rebuildSettingsCarousel(){
+    settingsCarousel.build(NUM_PLAYERS, buildSettingsSlide);
+    for (let i = 0; i < NUM_PLAYERS; i++){
+      buildShipCarousel(i);
+      enableShipDrag(i);
+      $(`cfg-color-${i}`).addEventListener('input', () => paintShipCarousel(i));
+      $(`cfg-skin-prev-${i}`).onclick = () => moveShipCarousel(i,-1);
+      $(`cfg-skin-next-${i}`).onclick = () => moveShipCarousel(i,1);
+    }
+  }
+
   const POWER_DEFS = [
-    { id:'punch', name:'Soco', desc:'rápido, curto alcance' },
+    { id:'punch', name:'Soco', desc:'rápido, curto alcance, atinge o mais próximo' },
     { id:'meteor', name:'Meteoro', desc:'forte, atordoa' },
     { id:'blackhole', name:'Buraco Negro', desc:'puxa e atordoa (só na zona neutra)' },
     { id:'shield', name:'Escudo', desc:'proteção 2s' }
   ];
-  
-  // Configuração de poderes por jogador (qual poder em cada tecla)
-  // Cada jogador escolhe 2 de 3 poderes disponíveis
-  let playerPowerConfig = {
-    p1: { q:'punch', e:'meteor' },  // P1 pode usar Q e E, e escolhe qual poder em cada uma
-    p2: { shift:'punch', enter:'meteor' }  // P2 pode usar Shift e Enter, e escolhe qual poder em cada uma
-  };
-  
-  function isKeyDown(logicalKey){
-    if (logicalKey === 'shift') return !!(keys['ShiftLeft'] || keys['ShiftRight']);
-    if (logicalKey === 'enter') return !!keys['Enter'];
-    return !!keys[logicalKey];
+
+  function buildPowersSlide(i){
+    const slot = i+1;
+    const wrap = document.createElement('div');
+    wrap.className = 'player-card corner-frame';
+    wrap.style.setProperty('--frame-color', PALETTE[i]);
+    wrap.style.setProperty('--pcolor-fade', PALETTE[i] + '26');
+    const h3 = document.createElement('h3');
+    h3.style.color = PALETTE[i];
+    h3.textContent = `Player ${slot}`;
+    const list = document.createElement('div');
+    list.className = 'power-list';
+    list.id = `pw-list-${slot}`;
+    wrap.appendChild(h3);
+    wrap.appendChild(list);
+    renderPowerPicker(slot, list);
+    return wrap;
   }
-  
-  function renderPowerPicker(n){
-    const player = `p${n}`;
-    const list = $(`p${n}-powers`);
+
+  function renderPowerPicker(slot, listEl){
+    const list = listEl || $(`pw-list-${slot}`);
     if (!list) return;
     list.innerHTML = '';
-    
-    const config = playerPowerConfig[player];
-    const keys = n === 1 ? ['q', 'e'] : ['shift', 'enter'];
-    const selectedPowers = new Set(Object.values(config).filter(v => v));
-    const isComplete = selectedPowers.size === 2;
-    
+    const config = playerPowerConfig[slot];
+    const powerSlots = ['power1','power2'];
+    const selectedPowers = new Set(powerSlots.map(k => config[k]).filter(Boolean));
     POWER_DEFS.forEach(pw => {
       const row = document.createElement('div');
       row.className = 'power-row';
-      
       const text = document.createElement('div');
       text.className = 'power-row-text';
-      const name = document.createElement('div');
-      name.className = 'power-name';
-      name.textContent = pw.name;
-      const desc = document.createElement('div');
-      desc.className = 'power-desc';
-      desc.textContent = pw.desc;
-      text.appendChild(name);
-      text.appendChild(desc);
-      
-      // Encontra qual tecla está atribuída a este poder
-      let assignedKey = null;
-      for (let key of keys) {
-        if (config[key] === pw.id) {
-          assignedKey = key;
-          break;
-        }
-      }
-      
+      text.innerHTML = `<div class="power-name">${pw.name}</div><div class="power-desc">${pw.desc}</div>`;
+
+      let assignedSlot = powerSlots.find(k => config[k] === pw.id);
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `btn secondary power-key-btn ${player}`;
-      
-      if (assignedKey) {
-        // Power já selecionado
+      btn.className = 'btn secondary power-key-btn';
+      btn.style.color = PALETTE[slot-1];
+      btn.style.borderColor = PALETTE[slot-1];
+
+      if (assignedSlot){
         row.classList.add('selected');
-        btn.textContent = KEY_LABELS[assignedKey].toUpperCase();
-        btn.onclick = () => {
-          config[assignedKey] = null;
-          renderPowerPicker(n);
-        };
-      } else if (selectedPowers.size < 2) {
-        // Ainda pode selecionar mais
-        const availableKey = keys.find(k => !config[k]);
-        if (availableKey) {
-          btn.textContent = '+ ' + KEY_LABELS[availableKey].toUpperCase();
-          btn.onclick = () => {
-            config[availableKey] = pw.id;
-            renderPowerPicker(n);
-          };
-        }
+        btn.textContent = assignedSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2';
+        btn.onclick = () => { config[assignedSlot] = null; renderPowerPicker(slot); };
+      } else if (selectedPowers.size < 2){
+        const freeSlot = powerSlots.find(k => !config[k]);
+        btn.textContent = '+ ' + (freeSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2');
+        btn.onclick = () => { config[freeSlot] = pw.id; renderPowerPicker(slot); };
       } else {
-        // Já tem 2 selecionados, desabilita
         row.classList.add('disabled');
         btn.textContent = '-';
         btn.disabled = true;
       }
-      
       row.appendChild(text);
       row.appendChild(btn);
       list.appendChild(row);
     });
   }
+
+  function rebuildPowersCarousel(){
+    powersCarousel.build(NUM_PLAYERS, buildPowersSlide);
+  }
+
+  function rebuildAllSetupUI(){
+    rebuildSettingsCarousel();
+    rebuildPowersCarousel();
+  }
+  rebuildAllSetupUI();
 
   const stars = [];
   function initStars(){
@@ -1113,52 +1258,66 @@
     }
   }
 
+  const canvas = $('game');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const keys = {};
+  window.addEventListener('keydown', e => {
+    keys[e.code] = true;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code)) e.preventDefault();
+  });
+  window.addEventListener('keyup', e => { keys[e.code] = false; });
+
   const RADIUS = 22;
   const FRICTION = 0.88;
   const ACCEL = 0.9;
   const MAX_SPEED = 6.5;
 
-  // Soco (punch) - rápido, hitbox e knockback maiores
   const PUNCH_RANGE = 110;
   const PUNCH_PUSH = 55;
   let PUNCH_COOLDOWN = 600;
 
-  // Meteoro - bem mais forte, telegrafado (alvo grande, dá tempo de desviar), atordoa
   const METEOR_RADIUS = 160;
   const METEOR_PUSH = 95;
   const METEOR_DELAY = 1100;
   let METEOR_COOLDOWN = 4200;
-  
-  // Buraco Negro - puxa o adversário e atordoa, só funciona fora da zona de V e F
+
   const BLACKHOLE_RADIUS = 180;
   const BLACKHOLE_RANGE = 300;
   const BLACKHOLE_PUSH = 100;
   let BLACKHOLE_COOLDOWN = 6000;
   const BLACKHOLE_DELAY = 900;
-  
+
   let SHIELD_COOLDOWN = 8000;
   const SHIELD_DURATION = 2000;
   let STUN_DURATION = 900;
 
-  // Turbo (power-up de corrida) - pega e corre muito mais rápido por 1s
   const POWERUP_RADIUS = 22;
   const BOOST_DURATION = 1000;
   const BOOST_SPEED_MULT = 2.3;
   const BOOST_ACCEL_MULT = 1.9;
 
   let players, particles, meteors, trailParticles, punchFx, powerups, blackholes;
-  let round, score, questionSet, currentQ, gamePhase, phaseTimer, answeringAt, resolveAt, punchCd, meteorCd, shieldCd, blackholeCd;
+  let round, score, questionSet, currentQ, gamePhase, phaseTimer, answeringAt, resolveAt;
+  let punchCd = {}, meteorCd = {}, shieldCd = {}, blackholeCd = {};
 
-  function newPlayerState(base, x, isP1){
+  function newPlayerState(cfg, x, slot){
     return {
-      name: base.name, color: base.color, skin: base.skin || 'classic', x, y: canvas.height/2,
-      vx:0, vy:0, isP1, stunUntil:0, boostUntil:0, shieldUntil:0
+      slot, name: cfg.name, color: cfg.color, skin: cfg.skin || 'classic', x, y: canvas.height/2,
+      vx:0, vy:0, stunUntil:0, boostUntil:0, shieldUntil:0, alive:true
     };
   }
 
   function startGame(){
     round = 0;
-    score = { p1:0, p2:0 };
+    score = {};
+    for (let i=1;i<=NUM_PLAYERS;i++) score[i]=0;
     questionSet = shuffle(QUESTIONS.concat(CUSTOM_QUESTIONS)).slice(0,5);
     initStars();
     resetPositions();
@@ -1167,10 +1326,8 @@
     blackholes = [];
     punchFx = [];
     powerups = [];
-    punchCd = { p1:0, p2:0 };
-    meteorCd = { p1:0, p2:0 };
-    blackholeCd = { p1:0, p2:0 };
-    shieldCd = { p1:0, p2:0 };
+    punchCd = {}; meteorCd = {}; blackholeCd = {}; shieldCd = {};
+    for (let i=1;i<=NUM_PLAYERS;i++){ punchCd[i]=0; meteorCd[i]=0; blackholeCd[i]=0; shieldCd[i]=0; }
     show('game');
     resizeCanvas(); initStars();
     updateHud();
@@ -1180,18 +1337,34 @@
   }
 
   function resetPositions(){
-    players = {
-      p1: newPlayerState(P1, canvas.width*0.28, true),
-      p2: newPlayerState(P2, canvas.width*0.72, false)
-    };
+    players = {};
+    const margin = 0.14;
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const t = NUM_PLAYERS===1 ? 0.5 : margin + (1-2*margin) * (i-1)/(NUM_PLAYERS-1);
+      const y = canvas.height * (0.32 + 0.36 * ((i-1) % 2));
+      players[i] = newPlayerState(PLAYERS_CFG[i-1], canvas.width*t, i);
+      players[i].y = canvas.height/2 + ((i % 2 === 0) ? -70 : 70) * (i<=2 ? 0 : 1);
+    }
   }
 
   function updateHud(){
-    $('hud-p1').textContent = `${P1.name}: ${score.p1}`;
-    $('hud-p1').style.borderColor = P1.color;
-    $('hud-p2').textContent = `${P2.name}: ${score.p2}`;
-    $('hud-p2').style.borderColor = P2.color;
-    $('hud-round').textContent = `Pergunta ${Math.min(round,5)} / 5`;
+    const hud = $('hud');
+    hud.innerHTML = '';
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const box = document.createElement('div');
+      box.className = 'score-box corner-frame';
+      box.style.setProperty('--frame-color', PALETTE[i-1]);
+      box.style.borderColor = PALETTE[i-1];
+      box.textContent = `${PLAYERS_CFG[i-1].name}: ${score[i]}`;
+      hud.appendChild(box);
+      if (i === Math.ceil(NUM_PLAYERS/2)){
+        const rb = document.createElement('div');
+        rb.className = 'round-box corner-frame';
+        rb.style.setProperty('--frame-color', '#b98bff');
+        rb.textContent = `Pergunta ${Math.min(round,5)} / 5`;
+        hud.appendChild(rb);
+      }
+    }
   }
 
   const banner = $('question-banner');
@@ -1212,31 +1385,20 @@
     banner.textContent = currentQ.t;
     gamePhase = 'center';
     phaseTimer = performance.now();
-    // Fases críticas (mudar pra 'answering' e resolver a rodada) são checadas
-    // dentro do próprio loop do jogo, sincronizadas com a posição mais atual
-    // das naves — evita a corrida entre o timer e o requestAnimationFrame
-    // que fazia o jogo às vezes não contar quem chegava na área em cima da hora.
     answeringAt = performance.now() + 2900;
     resolveAt = performance.now() + 2900 + 4200;
 
-    setTimeout(() => {
-      banner.classList.add('top');
-    }, 2600);
-
-    setTimeout(() => {
-      spawnPowerup();
-    }, 2900 + 700 + Math.random()*1600);
+    setTimeout(() => { banner.classList.add('top'); }, 2600);
+    setTimeout(() => { spawnPowerup(); }, 2900 + 700 + Math.random()*1600);
   }
 
-  const ZONE_RATIO = 0.22; // cada área ocupa 22% da largura (áreas menores, com faixa neutra no meio)
+  const ZONE_RATIO = 0.22;
   function zoneOf(x){
     const zoneW = canvas.width * ZONE_RATIO;
-    if (x < zoneW) return true;       // Verdadeiro
-    if (x > canvas.width - zoneW) return false; // Falso
-    return null; // faixa neutra, não conta ponto
+    if (x < zoneW) return true;
+    if (x > canvas.width - zoneW) return false;
+    return null;
   }
-  // Versão usada só para pontuar no fim da rodada: conta assim que a borda
-  // da nave já está tocando a área certa, não só quando o centro cruza a linha.
   function zoneOfShip(x){
     const zoneW = canvas.width * ZONE_RATIO;
     if (x - RADIUS < zoneW) return true;
@@ -1246,42 +1408,40 @@
 
   function resolveRound(){
     gamePhase = 'result';
-    const p1Zone = zoneOfShip(players.p1.x);
-    const p2Zone = zoneOfShip(players.p2.x);
-    const p1Correct = p1Zone === currentQ.a;
-    const p2Correct = p2Zone === currentQ.a;
-    if (p1Correct) score.p1++;
-    if (p2Correct) score.p2++;
-    updateHud();
-
     const answerText = currentQ.a ? '✓ VERDADEIRO' : '✕ FALSO';
-    let lines = `<div class="answer-chip ${currentQ.a ? 'true' : 'false'}">${answerText}</div>`;
-    lines += `<div class="result-players">`;
-    lines += `<div class="result-player ${p1Correct ? 'win' : ''}" style="color:${P1.color}">`;
-    lines += `<span class="rp-icon">${p1Correct ? '★' : '–'}</span><span>${P1.name}</span>`;
-    lines += `<span class="rp-point">${p1Correct ? '+1 PONTO' : 'sem ponto'}</span></div>`;
-    lines += `<div class="result-player ${p2Correct ? 'win' : ''}" style="color:${P2.color}">`;
-    lines += `<span class="rp-icon">${p2Correct ? '★' : '–'}</span><span>${P2.name}</span>`;
-    lines += `<span class="rp-point">${p2Correct ? '+1 PONTO' : 'sem ponto'}</span></div>`;
-    lines += `</div>`;
-    resultBanner.innerHTML = lines;
+    let html = `<div class="answer-chip ${currentQ.a ? 'true' : 'false'}">${answerText}</div><div class="result-players">`;
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const zone = zoneOfShip(players[i].x);
+      const correct = zone === currentQ.a;
+      if (correct) score[i]++;
+      html += `<div class="result-player ${correct?'win':''}" style="color:${PLAYERS_CFG[i-1].color}">`;
+      html += `<span class="rp-icon">${correct?'★':'–'}</span><span>${PLAYERS_CFG[i-1].name}</span>`;
+      html += `<span class="rp-point">${correct?'+1 PONTO':'sem ponto'}</span></div>`;
+    }
+    html += `</div>`;
+    updateHud();
+    resultBanner.innerHTML = html;
     resultBanner.classList.remove('hidden');
     banner.classList.add('hidden');
-
     setTimeout(() => { nextRound(); }, 2200);
   }
 
   function endGame(){
     gamePhase = 'over';
-    const p1Win = score.p1 > score.p2, p2Win = score.p2 > score.p1;
+    let maxScore = -1;
+    for (let i=1;i<=NUM_PLAYERS;i++) if (score[i] > maxScore) maxScore = score[i];
+    const winners = [];
+    for (let i=1;i<=NUM_PLAYERS;i++) if (score[i] === maxScore) winners.push(i);
     let title;
-    if (score.p1 === score.p2) title = 'Empate!';
-    else title = `★ ${p1Win ? P1.name : P2.name} venceu!`;
+    if (winners.length > 1) title = 'Empate!';
+    else title = `★ ${PLAYERS_CFG[winners[0]-1].name} venceu!`;
     $('gameover-name').textContent = title;
-    $('gameover-score').innerHTML = `
-      <div class="result-player ${p1Win ? 'win' : ''}" style="color:${P1.color}"><span class="rp-icon">${p1Win ? '★' : '–'}</span><span>${P1.name}</span><span class="rp-point">${score.p1} pts</span></div>
-      <div class="result-player ${p2Win ? 'win' : ''}" style="color:${P2.color}"><span class="rp-icon">${p2Win ? '★' : '–'}</span><span>${P2.name}</span><span class="rp-point">${score.p2} pts</span></div>
-    `;
+    let html = '';
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const win = winners.includes(i);
+      html += `<div class="result-player ${win?'win':''}" style="color:${PLAYERS_CFG[i-1].color}"><span class="rp-icon">${win?'★':'–'}</span><span>${PLAYERS_CFG[i-1].name}</span><span class="rp-point">${score[i]} pts</span></div>`;
+    }
+    $('gameover-score').innerHTML = html;
     setTimeout(() => show('over'), 400);
   }
 
@@ -1310,8 +1470,8 @@
     if (!powerups || !powerups.length) return;
     const now = performance.now();
     powerups = powerups.filter(pu => {
-      for (const key of ['p1','p2']){
-        const p = players[key];
+      for (let i=1;i<=NUM_PLAYERS;i++){
+        const p = players[i];
         if (Math.hypot(p.x-pu.x, p.y-pu.y) < RADIUS+POWERUP_RADIUS){
           p.boostUntil = now + BOOST_DURATION;
           spawnBoostBurst(pu.x, pu.y, p.color);
@@ -1334,6 +1494,25 @@
     particles.push({ x:p.x, y:p.y, vx:-p.vx*0.15+(Math.random()-0.5), vy:-p.vy*0.15+(Math.random()-0.5), life: boosted?0.8:0.6, color: boosted ? '#ffe066' : p.color, small: !boosted });
   }
 
+  function nearestOpponent(slot){
+    let best=null, bestD=Infinity;
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      if (i===slot) continue;
+      const d = Math.hypot(players[i].x-players[slot].x, players[i].y-players[slot].y);
+      if (d < bestD){ bestD=d; best=i; }
+    }
+    return best;
+  }
+
+  function isPowerDown(slot, powerSlot){
+    if (phonePower[slot] && phonePower[slot][powerSlot]) return true;
+    if (slot === 1){
+      if (powerSlot === 'power1') return !!keys['KeyQ'];
+      if (powerSlot === 'power2') return !!keys['KeyE'];
+    }
+    return false;
+  }
+
   function update(dt){
     if (gamePhase === 'over') return;
 
@@ -1347,61 +1526,27 @@
 
     if (CHEATS.turbo && players){
       const boostUntil = nowPhase + 4000;
-      players.p1.boostUntil = boostUntil;
-      players.p2.boostUntil = boostUntil;
+      for (let i=1;i<=NUM_PLAYERS;i++) players[i].boostUntil = boostUntil;
     }
 
     if (canMove){
-      handleMovement(players.p1, 'KeyW','KeyS','KeyA','KeyD');
-      handleMovement(players.p2, 'ArrowUp','ArrowDown','ArrowLeft','ArrowRight');
+      for (let i=1;i<=NUM_PLAYERS;i++) handleMovement(players[i], i);
 
-      // poderes - detectar entrada pelas teclas configuradas
       const now = performance.now();
-      
-      // P1: Q e E
-      if (now >= players.p1.stunUntil){
-        if (isKeyDown('KeyQ')){
-          const power = playerPowerConfig.p1.q;
-          if (power === 'punch' && now - punchCd.p1 > PUNCH_COOLDOWN) tryPunch(players.p1, players.p2, 'p1');
-          if (power === 'meteor' && now - meteorCd.p1 > METEOR_COOLDOWN) tryMeteor(players.p1, players.p2, 'p1');
-          if (power === 'blackhole' && now - blackholeCd.p1 > BLACKHOLE_COOLDOWN) tryBlackhole(players.p1, players.p2, 'p1');
-        }
-        if (isKeyDown('KeyE')){
-          const power = playerPowerConfig.p1.e;
-          if (power === 'punch' && now - punchCd.p1 > PUNCH_COOLDOWN) tryPunch(players.p1, players.p2, 'p1');
-          if (power === 'meteor' && now - meteorCd.p1 > METEOR_COOLDOWN) tryMeteor(players.p1, players.p2, 'p1');
-          if (power === 'blackhole' && now - blackholeCd.p1 > BLACKHOLE_COOLDOWN) tryBlackhole(players.p1, players.p2, 'p1');
-        }
-      }
-      // P1: R - Escudo (se selecionado)
-      if (playerPowerConfig.p1.q === 'shield' && isKeyDown('KeyQ')){
-        if (now - shieldCd.p1 > SHIELD_COOLDOWN) tryShield(players.p1, 'p1');
-      }
-      if (playerPowerConfig.p1.e === 'shield' && isKeyDown('KeyE')){
-        if (now - shieldCd.p1 > SHIELD_COOLDOWN) tryShield(players.p1, 'p1');
-      }
-      
-      // P2: Shift e Enter
-      if (now >= players.p2.stunUntil){
-        if (isKeyDown('shift')){
-          const power = playerPowerConfig.p2.shift;
-          if (power === 'punch' && now - punchCd.p2 > PUNCH_COOLDOWN) tryPunch(players.p2, players.p1, 'p2');
-          if (power === 'meteor' && now - meteorCd.p2 > METEOR_COOLDOWN) tryMeteor(players.p2, players.p1, 'p2');
-          if (power === 'blackhole' && now - blackholeCd.p2 > BLACKHOLE_COOLDOWN) tryBlackhole(players.p2, players.p1, 'p2');
-        }
-        if (isKeyDown('enter')){
-          const power = playerPowerConfig.p2.enter;
-          if (power === 'punch' && now - punchCd.p2 > PUNCH_COOLDOWN) tryPunch(players.p2, players.p1, 'p2');
-          if (power === 'meteor' && now - meteorCd.p2 > METEOR_COOLDOWN) tryMeteor(players.p2, players.p1, 'p2');
-          if (power === 'blackhole' && now - blackholeCd.p2 > BLACKHOLE_COOLDOWN) tryBlackhole(players.p2, players.p1, 'p2');
-        }
-      }
-      // P2: Escudo (se selecionado)
-      if (playerPowerConfig.p2.shift === 'shield' && isKeyDown('shift')){
-        if (now - shieldCd.p2 > SHIELD_COOLDOWN) tryShield(players.p2, 'p2');
-      }
-      if (playerPowerConfig.p2.enter === 'shield' && isKeyDown('enter')){
-        if (now - shieldCd.p2 > SHIELD_COOLDOWN) tryShield(players.p2, 'p2');
+      for (let i=1;i<=NUM_PLAYERS;i++){
+        const p = players[i];
+        if (now < p.stunUntil) continue;
+        const cfg = playerPowerConfig[i];
+        ['power1','power2'].forEach(slotKey => {
+          const power = cfg[slotKey];
+          if (!power || !isPowerDown(i, slotKey)) return;
+          const targetSlot = nearestOpponent(i);
+          if (targetSlot === null) return;
+          if (power === 'punch' && now - punchCd[i] > PUNCH_COOLDOWN) tryPunch(p, players[targetSlot], i);
+          if (power === 'meteor' && now - meteorCd[i] > METEOR_COOLDOWN) tryMeteor(p, players[targetSlot], i);
+          if (power === 'blackhole' && now - blackholeCd[i] > BLACKHOLE_COOLDOWN) tryBlackhole(p, players[targetSlot], i);
+          if (power === 'shield' && now - shieldCd[i] > SHIELD_COOLDOWN) tryShield(p, i);
+        });
       }
 
       updateMeteors();
@@ -1414,7 +1559,8 @@
       punchFx = punchFx.filter(fx => now - fx.start < fx.duration);
     }
 
-    [players.p1, players.p2].forEach(p => {
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const p = players[i];
       p.x += p.vx; p.y += p.vy;
       p.vx *= FRICTION; p.vy *= FRICTION;
       p.x = Math.max(RADIUS, Math.min(canvas.width-RADIUS, p.x));
@@ -1422,17 +1568,22 @@
       const boosted = performance.now() < p.boostUntil;
       if (Math.hypot(p.vx,p.vy) > 0.6 && Math.random() < (boosted ? 0.95 : 0.6)) spawnTrail(p);
       if (boosted && Math.random() < 0.7) spawnTrail(p);
-    });
+    }
 
-    // simple collision separation so they don't overlap completely
-    const dx = players.p2.x - players.p1.x, dy = players.p2.y - players.p1.y;
-    const dist = Math.hypot(dx,dy) || 0.001;
-    const minDist = RADIUS*2;
-    if (dist < minDist){
-      const overlap = (minDist - dist)/2;
-      const nx = dx/dist, ny = dy/dist;
-      players.p1.x -= nx*overlap; players.p1.y -= ny*overlap;
-      players.p2.x += nx*overlap; players.p2.y += ny*overlap;
+    // separação simples entre todos os pares, pra não ficarem sobrepostos
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      for (let j=i+1;j<=NUM_PLAYERS;j++){
+        const a = players[i], b = players[j];
+        const dx = b.x-a.x, dy = b.y-a.y;
+        const dist = Math.hypot(dx,dy) || 0.001;
+        const minDist = RADIUS*2;
+        if (dist < minDist){
+          const overlap = (minDist-dist)/2;
+          const nx = dx/dist, ny = dy/dist;
+          a.x -= nx*overlap; a.y -= ny*overlap;
+          b.x += nx*overlap; b.y += ny*overlap;
+        }
+      }
     }
 
     particles.forEach(pt => { pt.x += pt.vx; pt.y += pt.vy; pt.vx*=0.94; pt.vy*=0.94; pt.life -= pt.small ? 0.04 : 0.03; });
@@ -1440,23 +1591,25 @@
 
     stars.forEach(s => { s.tw += 0.03; s.y += s.s; if (s.y > canvas.height){ s.y = 0; s.x = Math.random()*canvas.width; } });
 
-    // Resolve a rodada só depois de aplicar todo o movimento deste frame,
-    // usando a posição final (mais atual possível) das naves.
     if (gamePhase === 'answering' && performance.now() >= resolveAt){
       resolveRound();
     }
   }
 
-  function handleMovement(p, up, down, left, right){
-    if (performance.now() < p.stunUntil) return; // atordoado, não responde a comandos
+  function handleMovement(p, slot){
+    if (performance.now() < p.stunUntil) return;
     const boosted = performance.now() < p.boostUntil;
     let ax=0, ay=0;
-    if (keys[up]) ay -= 1;
-    if (keys[down]) ay += 1;
-    if (keys[left]) ax -= 1;
-    if (keys[right]) ax += 1;
+    const v = inputVec[slot];
+    if (v && (v.x || v.y)){ ax = v.x; ay = v.y; }
+    if (slot === 1){
+      if (keys['KeyW']) ay -= 1;
+      if (keys['KeyS']) ay += 1;
+      if (keys['KeyA']) ax -= 1;
+      if (keys['KeyD']) ax += 1;
+    }
     const len = Math.hypot(ax,ay);
-    if (len > 0){ ax/=len; ay/=len; }
+    if (len > 1){ ax/=len; ay/=len; }
     const accel = boosted ? ACCEL*BOOST_ACCEL_MULT : ACCEL;
     const maxSpeed = boosted ? MAX_SPEED*BOOST_SPEED_MULT : MAX_SPEED;
     p.vx += ax*accel; p.vy += ay*accel;
@@ -1464,12 +1617,10 @@
     if (spd > maxSpeed){ p.vx = p.vx/spd*maxSpeed; p.vy = p.vy/spd*maxSpeed; }
   }
 
-  // Sempre empurra pra fora da área em que o alvo está (V -> direita, F -> esquerda)
   function outwardKnockDir(targetX, fallbackDx, fallbackDy, fallbackDist){
     const z = zoneOf(targetX);
-    if (z === true) return { x: 1, y: (Math.random()-0.5)*0.5 };   // estava no V, joga pra fora (direita)
-    if (z === false) return { x: -1, y: (Math.random()-0.5)*0.5 }; // estava no F, joga pra fora (esquerda)
-    // na faixa neutra, usa a direção normal do golpe
+    if (z === true) return { x: 1, y: (Math.random()-0.5)*0.5 };
+    if (z === false) return { x: -1, y: (Math.random()-0.5)*0.5 };
     return { x: fallbackDx/(fallbackDist||1), y: fallbackDy/(fallbackDist||1) };
   }
 
@@ -1506,35 +1657,26 @@
     for (let i=0;i<12;i++) {
       const angle = (i/12) * Math.PI * 2;
       particles.push({
-        x: player.x + Math.cos(angle)*8,
-        y: player.y + Math.sin(angle)*8,
-        vx: Math.cos(angle)*2.5,
-        vy: Math.sin(angle)*2.5,
-        life: 0.6,
-        color: '#5ef1ff',
-        small: false
+        x: player.x + Math.cos(angle)*8, y: player.y + Math.sin(angle)*8,
+        vx: Math.cos(angle)*2.5, vy: Math.sin(angle)*2.5,
+        life: 0.6, color: '#5ef1ff', small: false
       });
     }
   }
 
   function tryBlackhole(attacker, target, who){
-    // Verifica se está fora da zona de V ou F (só funciona na zona neutra)
     const zoneW = canvas.width * ZONE_RATIO;
     const isInNeutralZone = attacker.x >= zoneW && attacker.x <= canvas.width - zoneW;
-    
-    if (!isInNeutralZone) return; // Só funciona na zona neutra
-    
+    if (!isInNeutralZone) return;
     blackholeCd[who] = performance.now();
     blackholes.push({
       x: attacker.x, y: attacker.y,
       start: performance.now(), delay: BLACKHOLE_DELAY,
-      target, state:'pulling', ownerColor: attacker.color,
-      attacker
+      target, state:'pulling', ownerColor: attacker.color, attacker
     });
   }
 
   function meteorSkyPos(m, t){
-    // cai do alto do céu até o ponto marcado no chão, com um leve gingado lateral
     const startY = -120;
     const y = startY + (m.y - startY) * t;
     const x = m.x + Math.sin(t*6 + m.rot) * 26 * (1-t);
@@ -1562,16 +1704,7 @@
             m.target.vy += ny*METEOR_PUSH;
             m.target.stunUntil = now + STUN_DURATION;
           } else if (dist < METEOR_RADIUS && now < m.target.shieldUntil){
-            // escudo bloqueou! criar partículas de deflexão
-            for (let i=0;i<8;i++) particles.push({
-              x: m.x + (Math.random()-0.5)*20,
-              y: m.y + (Math.random()-0.5)*20,
-              vx: (Math.random()-0.5)*3,
-              vy: (Math.random()-0.5)*3,
-              life: 0.5,
-              color: '#5ef1ff',
-              small: false
-            });
+            for (let i=0;i<8;i++) particles.push({ x: m.x+(Math.random()-0.5)*20, y: m.y+(Math.random()-0.5)*20, vx:(Math.random()-0.5)*3, vy:(Math.random()-0.5)*3, life:0.5, color:'#5ef1ff', small:false });
           }
           for (let i=0;i<16;i++) spawnPush(m.x, m.y, i%2 ? '#ff8a3d' : '#ffdd55');
         }
@@ -1585,217 +1718,38 @@
     blackholes.forEach(bh => {
       if (bh.state === 'pulling'){
         const t = Math.min((now - bh.start)/bh.delay, 1);
-        
-        // Puxa o alvo em direção ao centro do buraco negro
         const dx = bh.x - bh.target.x, dy = bh.y - bh.target.y;
         const dist = Math.hypot(dx,dy);
-        
         if (dist < BLACKHOLE_RANGE && now >= bh.target.shieldUntil){
-          // Puxa o alvo e reduz velocidade para segurá-lo
           const mag = dist || 1;
-          const pullStrength = (1 - (t-0.3)*1.43) * 0.25; // força de puxão mais forte e duradoura
+          const pullStrength = (1 - (t-0.3)*1.43) * 0.25;
           if (pullStrength > 0){
             bh.target.vx += (dx/mag) * pullStrength * BLACKHOLE_PUSH;
             bh.target.vy += (dy/mag) * pullStrength * BLACKHOLE_PUSH;
-            // Reduz a velocidade do alvo para deixar mais lento (efeito de atração)
-            bh.target.vx *= 0.85;
-            bh.target.vy *= 0.85;
+            bh.target.vx *= 0.85; bh.target.vy *= 0.85;
           }
         }
-        
-        // Partículas giratórias ao redor do buraco
         if (Math.random() < 0.6) {
           const angle = Math.random() * Math.PI * 2;
           const radius = BLACKHOLE_RADIUS * (0.5 + Math.random() * 0.5);
-          particles.push({
-            x: bh.x + Math.cos(angle) * radius,
-            y: bh.y + Math.sin(angle) * radius,
-            vx: -Math.sin(angle) * (2 + t*1),
-            vy: Math.cos(angle) * (2 + t*1),
-            life: 0.7,
-            color: '#7d5aff',
-            small: false
-          });
+          particles.push({ x: bh.x+Math.cos(angle)*radius, y: bh.y+Math.sin(angle)*radius, vx:-Math.sin(angle)*(2+t*1), vy:Math.cos(angle)*(2+t*1), life:0.7, color:'#7d5aff', small:false });
         }
-        
         if (t >= 1){
           bh.state = 'impact';
           bh.impactStart = now;
-          
-          // Aplica apenas stun, sem empurrar para os lados
           const dx = bh.target.x - bh.x, dy = bh.target.y - bh.y;
           const dist = Math.hypot(dx,dy);
-          
           if (dist < BLACKHOLE_RADIUS && now >= bh.target.shieldUntil){
-            // Apenas stun - sem knockback
-            bh.target.vx *= 0.3; // reduz bastante a velocidade
-            bh.target.vy *= 0.3;
+            bh.target.vx *= 0.3; bh.target.vy *= 0.3;
             bh.target.stunUntil = now + STUN_DURATION;
           } else if (dist < BLACKHOLE_RADIUS && now < bh.target.shieldUntil){
-            // escudo bloqueou!
-            for (let i=0;i<8;i++) particles.push({
-              x: bh.x + (Math.random()-0.5)*20,
-              y: bh.y + (Math.random()-0.5)*20,
-              vx: (Math.random()-0.5)*3,
-              vy: (Math.random()-0.5)*3,
-              life: 0.5,
-              color: '#5ef1ff',
-              small: false
-            });
+            for (let i=0;i<8;i++) particles.push({ x: bh.x+(Math.random()-0.5)*20, y: bh.y+(Math.random()-0.5)*20, vx:(Math.random()-0.5)*3, vy:(Math.random()-0.5)*3, life:0.5, color:'#5ef1ff', small:false });
           }
         }
       }
     });
     blackholes = blackholes.filter(bh => bh.state === 'pulling' || now - bh.impactStart < 300);
   }
-
-  // ---------- SKINS (mesmo estilo, silhuetas diferentes) ----------
-  const SKINS = [
-    { id:'classic', name:'Clássica' },
-    { id:'falcon', name:'Falcão' },
-    { id:'blade', name:'Lâmina' },
-    { id:'nova', name:'Nova' },
-    { id:'alien', name:'Alienígena' },
-    { id:'saucer', name:'Disco Voador' },
-    { id:'cruiser', name:'Cruzador' },
-    { id:'stealth', name:'Furtiva' },
-  ];
-  function skinPoints(skin, R){
-    switch(skin){
-      case 'falcon': return [[0,-R*1.1],[R*1.15,R*0.75],[R*0.35,R*0.55],[0,R*0.95],[-R*0.35,R*0.55],[-R*1.15,R*0.75]];
-      case 'blade': return [[0,-R*1.3],[R*0.45,R*0.9],[0,R*0.55],[-R*0.45,R*0.9]];
-      case 'nova': return [[0,-R*0.95],[R*0.55,-R*0.1],[R*0.95,R*0.85],[R*0.25,R*0.55],[0,R*0.9],[-R*0.25,R*0.55],[-R*0.95,R*0.85],[-R*0.55,-R*0.1]];
-      case 'alien': return [[0,-R*0.9],[R*0.6,-R*0.2],[R*1.05,R*0.3],[R*0.5,R*0.95],[R*0.15,R*0.55],[-R*0.1,R*1.15],[-R*0.5,R*0.55],[-R*1.0,R*0.35],[-R*0.55,-R*0.25]];
-      case 'cruiser': return [[0,-R*0.9],[R*0.5,-R*0.3],[R*1.05,R*0.2],[R*0.6,R*0.95],[-R*0.6,R*0.95],[-R*1.05,R*0.2],[-R*0.5,-R*0.3]];
-      case 'stealth': return [[0,-R*1.15],[R*1.3,R*0.5],[0,R*0.15],[-R*1.3,R*0.5]];
-      default: return [[0,-R],[R*0.8,R*0.9],[0,R*0.4],[-R*0.8,R*0.9]];
-    }
-  }
-  function tracePath(c, skin, R){
-    c.beginPath();
-    if (skin === 'saucer'){
-      c.ellipse(0, R*0.25, R*1.15, R*0.42, 0, 0, Math.PI*2);
-      c.moveTo(R*0.55, -R*0.05);
-      c.ellipse(0, -R*0.05, R*0.55, R*0.4, 0, 0, Math.PI*2);
-      return;
-    }
-    const pts = skinPoints(skin, R);
-    c.moveTo(pts[0][0], pts[0][1]);
-    for (let i=1;i<pts.length;i++) c.lineTo(pts[i][0], pts[i][1]);
-    c.closePath();
-  }
-
-  // ---------- SHIP CAROUSEL (deslizar pra escolher a nave) ----------
-  const selectedSkin = { p1:'classic', p2:'classic' };
-  const carouselIndex = { p1:0, p2:0 };
-
-  function buildCarousel(n){
-    const track = $(`p${n}-track`);
-    const dotsWrap = $(`p${n}-dots`);
-    if (!track || !dotsWrap) return;
-    track.innerHTML = '';
-    dotsWrap.innerHTML = '';
-    SKINS.forEach((sk, i) => {
-      const slide = document.createElement('div');
-      slide.className = 'carousel-slide';
-      slide.style.animationDelay = (i * 0.12) + 's';
-      const cv = document.createElement('canvas');
-      cv.width = 100; cv.height = 100;
-      slide.appendChild(cv);
-      track.appendChild(slide);
-
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'carousel-dot' + (i === carouselIndex[`p${n}`] ? ' active' : '');
-      dot.setAttribute('aria-label', sk.name);
-      dot.onclick = () => { carouselIndex[`p${n}`] = i; updateCarousel(n); };
-      dotsWrap.appendChild(dot);
-    });
-    paintCarouselShips(n);
-    updateCarousel(n, true);
-  }
-
-  function paintCarouselShips(n){
-    const color = $(`p${n}-color`).value;
-    const track = $(`p${n}-track`);
-    if (!track) return;
-    [...track.children].forEach((slide, i) => {
-      const cv = slide.querySelector('canvas');
-      const cx = cv.getContext('2d');
-      cx.clearRect(0, 0, 100, 100);
-      cx.save();
-      cx.translate(50, 53);
-      tracePath(cx, SKINS[i].id, 32);
-      cx.fillStyle = color;
-      cx.shadowColor = color;
-      cx.shadowBlur = 18;
-      cx.fill();
-      cx.restore();
-    });
-  }
-
-  function updateCarousel(n, instant){
-    const idx = carouselIndex[`p${n}`];
-    const track = $(`p${n}-track`);
-    if (!track) return;
-    if (instant) track.classList.add('dragging');
-    track.style.transform = `translateX(${-idx * 100}%)`;
-    if (instant) requestAnimationFrame(() => track.classList.remove('dragging'));
-    selectedSkin[`p${n}`] = SKINS[idx].id;
-    const nameEl = $(`p${n}-skin-name`);
-    if (nameEl) nameEl.textContent = SKINS[idx].name;
-    [...$(`p${n}-dots`).children].forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
-
-  function moveCarousel(n, dir){
-    const len = SKINS.length;
-    carouselIndex[`p${n}`] = (carouselIndex[`p${n}`] + dir + len) % len;
-    updateCarousel(n);
-  }
-
-  function enableCarouselDrag(n){
-    const vp = $(`p${n}-viewport`);
-    const track = $(`p${n}-track`);
-    if (!vp || !track) return;
-    let dragging = false, startX = 0, deltaX = 0, width = 1;
-    const onDown = (x) => {
-      dragging = true; startX = x; deltaX = 0;
-      width = vp.clientWidth || 1;
-      track.classList.add('dragging');
-    };
-    const onMove = (x) => {
-      if (!dragging) return;
-      deltaX = x - startX;
-      const base = -carouselIndex[`p${n}`] * width;
-      track.style.transform = `translateX(${base + deltaX}px)`;
-    };
-    const onUp = () => {
-      if (!dragging) return;
-      dragging = false;
-      track.classList.remove('dragging');
-      if (deltaX < -width * 0.16) moveCarousel(n, 1);
-      else if (deltaX > width * 0.16) moveCarousel(n, -1);
-      else updateCarousel(n);
-      deltaX = 0;
-    };
-    vp.addEventListener('pointerdown', e => { vp.setPointerCapture(e.pointerId); onDown(e.clientX); });
-    vp.addEventListener('pointermove', e => onMove(e.clientX));
-    vp.addEventListener('pointerup', onUp);
-    vp.addEventListener('pointercancel', onUp);
-    vp.addEventListener('pointerleave', () => { if (dragging) onUp(); });
-  }
-
-  $('p1-prev').onclick = () => moveCarousel(1, -1);
-  $('p1-next').onclick = () => moveCarousel(1, 1);
-  $('p2-prev').onclick = () => moveCarousel(2, -1);
-  $('p2-next').onclick = () => moveCarousel(2, 1);
-
-  buildCarousel(1);
-  buildCarousel(2);
-  enableCarouselDrag(1);
-  enableCarouselDrag(2);
-  $('p1-color').addEventListener('input', () => paintCarouselShips(1));
-  $('p2-color').addEventListener('input', () => paintCarouselShips(2));
 
   function drawShip(p){
     const now = performance.now();
@@ -1804,7 +1758,6 @@
     const boosted = now < p.boostUntil;
 
     if (boosted){
-      // rastro fantasma (afterimages) na direção contrária ao movimento
       const spd = Math.hypot(p.vx,p.vy) || 0.001;
       const dirx = p.vx/spd, diry = p.vy/spd;
       for (let i=4; i>=1; i--){
@@ -1884,7 +1837,6 @@
 
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    // bg gradient
     const g = ctx.createLinearGradient(0,0,0,canvas.height);
     g.addColorStop(0,'#07050f'); g.addColorStop(0.55,'#130c30'); g.addColorStop(1,'#2a1456');
     ctx.fillStyle = g;
@@ -1897,7 +1849,6 @@
     });
     ctx.globalAlpha = 1;
 
-    // zones (menores, com faixa neutra no meio)
     if (gamePhase && gamePhase !== 'over'){
       const zoneW = canvas.width * ZONE_RATIO;
       const isResult = gamePhase === 'result';
@@ -1921,14 +1872,11 @@
       ctx.fillText(falseIsCorrect ? '✓ F' : 'F', canvas.width-zoneW/2, canvas.height/2);
     }
 
-    // meteoros: alvo no chão + rocha caindo do espaço + onda de choque
     if (meteors){
       meteors.forEach(m => {
         if (m.state === 'falling'){
           const t = Math.min((performance.now()-m.start)/m.delay, 1);
           const pulse = 0.5+0.5*Math.sin(performance.now()*0.02);
-
-          // alvo no chão (telegraph)
           ctx.beginPath();
           ctx.arc(m.x, m.y, METEOR_RADIUS*(0.85+0.1*pulse), 0, Math.PI*2);
           ctx.strokeStyle = `rgba(255,90,50,${0.35+0.45*t})`;
@@ -1941,7 +1889,6 @@
           ctx.textAlign = "center";
           ctx.fillText("METEORO", m.x, m.y - METEOR_RADIUS - 8);
 
-          // rocha caindo
           const pos = meteorSkyPos(m, t);
           const size = 10 + t*22;
           ctx.save();
@@ -2001,8 +1948,7 @@
     drawPowerups();
 
     if (players){
-      drawShip(players.p1);
-      drawShip(players.p2);
+      for (let i=1;i<=NUM_PLAYERS;i++) drawShip(players[i]);
     }
   }
 
@@ -2011,12 +1957,8 @@
     const now = performance.now();
     blackholes.forEach(bh => {
       ctx.save();
-      
-      // Draw spiral/swirl effect
       const spin = (now * 0.003) % (Math.PI * 2);
       ctx.globalAlpha = 0.8;
-      
-      // Círculos concêntricos
       for (let i = 3; i > 0; i--){
         const radius = BLACKHOLE_RADIUS * (i/3);
         const alpha = 0.3 * (1 - (i/3));
@@ -2026,8 +1968,6 @@
         ctx.arc(bh.x, bh.y, radius, 0, Math.PI*2);
         ctx.stroke();
       }
-      
-      // Triângulos giratórios ao redor
       ctx.strokeStyle = 'rgba(125,90,255,0.7)';
       ctx.lineWidth = 2;
       for (let i = 0; i < 3; i++){
@@ -2038,13 +1978,10 @@
         ctx.arc(x, y, 6, 0, Math.PI*2);
         ctx.stroke();
       }
-      
-      // Label
       ctx.font = "700 13px Orbitron";
       ctx.fillStyle = "#7d5aff";
       ctx.textAlign = "center";
       ctx.fillText("⭘", bh.x, bh.y - BLACKHOLE_RADIUS - 8);
-      
       ctx.globalAlpha = 1;
       ctx.restore();
     });
@@ -2114,6 +2051,35 @@
     setSwitch('cheat-toggle-invincible', CHEATS.invincible);
     setSwitch('cheat-toggle-nocd', CHEATS.noCooldown);
     setSwitch('cheat-toggle-turbo', CHEATS.turbo);
+    const scoreWrap = $('cheat-score-btns');
+    const winWrap = $('cheat-win-btns');
+    scoreWrap.innerHTML = '';
+    winWrap.innerHTML = '';
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const b = document.createElement('button');
+      b.className = 'btn secondary'; b.type='button';
+      b.textContent = `+1 P${i}`;
+      b.onclick = () => { if (!inGame()) return; score[i]++; updateHud(); };
+      scoreWrap.appendChild(b);
+
+      const wb = document.createElement('button');
+      wb.className = 'btn secondary'; wb.type='button';
+      wb.textContent = `P${i} vence`;
+      wb.onclick = () => {
+        if (!inGame()) return;
+        let maxOther = 0;
+        for (let k=1;k<=NUM_PLAYERS;k++) if (k!==i) maxOther = Math.max(maxOther, score[k]);
+        score[i] = Math.max(score[i], maxOther) + 5;
+        cheatMenuModal.classList.add('hidden');
+        endGame();
+      };
+      winWrap.appendChild(wb);
+    }
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'btn secondary'; resetBtn.type='button';
+    resetBtn.textContent = 'Zerar';
+    resetBtn.onclick = () => { if (!inGame()) return; for (let i=1;i<=NUM_PLAYERS;i++) score[i]=0; updateHud(); };
+    scoreWrap.appendChild(resetBtn);
   }
 
   function makeToggle(id, key){
@@ -2128,23 +2094,6 @@
   makeToggle('cheat-toggle-turbo', 'turbo');
 
   function inGame(){ return !!score && !screens.game.classList.contains('hidden'); }
-
-  $('cheat-p1-plus').onclick = () => { if (!inGame()) return; score.p1++; updateHud(); };
-  $('cheat-p2-plus').onclick = () => { if (!inGame()) return; score.p2++; updateHud(); };
-  $('cheat-score-reset').onclick = () => { if (!inGame()) return; score.p1 = 0; score.p2 = 0; updateHud(); };
-
-  $('cheat-win-p1').onclick = () => {
-    if (!inGame()) return;
-    score.p1 = Math.max(score.p1, score.p2) + 5;
-    cheatMenuModal.classList.add('hidden');
-    endGame();
-  };
-  $('cheat-win-p2').onclick = () => {
-    if (!inGame()) return;
-    score.p2 = Math.max(score.p1, score.p2) + 5;
-    cheatMenuModal.classList.add('hidden');
-    endGame();
-  };
 
   $('cheat-skip').onclick = () => {
     if (!inGame()) return;
@@ -2188,7 +2137,6 @@
     renderCustomQuestions();
   };
 
-  // tabs
   document.querySelectorAll('.cheat-tab').forEach(tab => {
     tab.onclick = () => {
       document.querySelectorAll('.cheat-tab').forEach(t => t.classList.remove('active'));
@@ -2198,7 +2146,6 @@
     };
   });
 
-  // code modal + menu
   const cheatFab = $('btn-cheat-toggle');
   const cheatCodeModal = $('cheat-code-modal');
   const cheatMenuModal = $('cheat-menu-modal');
