@@ -773,7 +773,16 @@
   $('room-code').textContent = ROOM_CODE;
 
   const conns = {}; // slot -> DataConnection
-  const peer = new Peer('sf-host-' + ROOM_CODE);
+  const peer = new Peer('sf-host-' + ROOM_CODE, {
+    config: {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+        { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+        { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+      ]
+    }
+  });
 
   function broadcastRoomInfo(){
     const taken = Object.keys(conns).filter(k => conns[k]).map(Number);
