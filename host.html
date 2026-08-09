@@ -863,7 +863,9 @@
         }
       }
     });
-    conn.send({ type:'room-info', maxPlayers: NUM_PLAYERS, taken: Object.keys(conns).filter(k=>conns[k]).map(Number) });
+    conn.on('open', () => {
+      conn.send({ type:'room-info', maxPlayers: NUM_PLAYERS, taken: Object.keys(conns).filter(k=>conns[k]).map(Number) });
+    });
   });
 
   $('btn-connect-continue').onclick = () => { show('title'); updateTitleSub(); };
