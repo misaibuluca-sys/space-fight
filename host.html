@@ -821,10 +821,22 @@
     $('btn-connect-continue').disabled = !allOnline;
   }
 
+  function kickPlayersAboveLimit(){
+    for (let p = NUM_PLAYERS+1; p <= MAX_PLAYERS; p++){
+      if (conns[p]){
+        const conn = conns[p];
+        try { conn.send({ type:'kicked' }); } catch(e){}
+        conn.player = null;
+        releaseSlot(p);
+      }
+    }
+  }
+
   $('count-minus').onclick = () => {
     if (NUM_PLAYERS <= MIN_PLAYERS) return;
     NUM_PLAYERS--;
     $('count-val').textContent = NUM_PLAYERS;
+    kickPlayersAboveLimit();
     renderConnectRows();
     broadcastRoomInfo();
     rebuildAllSetupUI();
@@ -844,7 +856,21 @@
   const phonePower = {}; // slot -> {power1:bool, power2:bool}
   for (let i = 1; i <= MAX_PLAYERS; i++){ inputVec[i] = {x:0,y:0}; phonePower[i] = {power1:false, power2:false}; }
 
+  function releaseSlot(p){
+    conns[p] = null;
+    inputVec[p] = {x:0,y:0};
+    phonePower[p] = {power1:false, power2:false};
+    setConnectRow(p, false);
+  }
+
   peer.on('connection', (conn) => {
+    conn.on('close', () => {
+      if (conn.player){
+        releaseSlot(conn.player);
+        conn.player = null;
+        broadcastRoomInfo();
+      }
+    });
     conn.on('data', (msg) => {
       if (msg.type === 'join'){
         const p = msg.player;
@@ -854,15 +880,14 @@
           conn.send({ type:'join-ok' });
           setConnectRow(p, true);
           broadcastRoomInfo();
-          conn.on('close', () => {
-            conns[p] = null;
-            inputVec[p] = {x:0,y:0};
-            phonePower[p] = {power1:false, power2:false};
-            setConnectRow(p, false);
-            broadcastRoomInfo();
-          });
         } else {
           conn.send({ type:'join-fail' });
+        }
+      } else if (msg.type === 'leave'){
+        if (conn.player){
+          releaseSlot(conn.player);
+          conn.player = null;
+          broadcastRoomInfo();
         }
       } else if (msg.type === 'move'){
         if (conn.player){ inputVec[conn.player] = { x: msg.x||0, y: msg.y||0 }; }
@@ -1043,6 +1068,7 @@
     let dragging=false, startX=0, deltaX=0, width=1;
     const vp = track.parentElement;
     vp.addEventListener('pointerdown', e => {
+      if (e.target.closest('button, input, canvas')) return;
       dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
       track.classList.add('dragging');
       try { vp.setPointerCapture(e.pointerId); } catch(err){}
@@ -1145,6 +1171,7 @@
     const vp = $(`cfg-skin-viewport-${i}`), track = $(`cfg-skin-track-${i}`);
     let dragging=false, startX=0, deltaX=0, width=1;
     vp.addEventListener('pointerdown', e => {
+      if (e.target.closest('button, input')) return;
       dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
       track.classList.add('dragging');
       try { vp.setPointerCapture(e.pointerId); } catch(err){}

@@ -218,6 +218,13 @@
         } else if (msg.type === 'join-fail'){
           $('pick-msg').textContent = 'Esse jogador já está ocupado. Escolha outro.';
           myPlayer = null;
+        } else if (msg.type === 'kicked'){
+          myPlayer = null;
+          $('screen-controller').classList.add('hidden');
+          $('screen-controller').classList.remove('showing');
+          $('screen-pick').classList.remove('hidden');
+          $('pick-msg').textContent = 'O número de jogadores mudou e essa vaga não existe mais. Escolha outra.';
+          buildPickButtons();
         }
       });
       dataConn.on('close', () => {
@@ -249,6 +256,9 @@
   }
 
   $('btn-leave').onclick = () => {
+    if (dataConn && dataConn.open && myPlayer){
+      try { dataConn.send({ type:'leave' }); } catch(e){}
+    }
     myPlayer = null;
     $('screen-controller').classList.add('hidden');
     $('screen-controller').classList.remove('showing');
