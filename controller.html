@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Space Fight — Controle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none; touch-action:none; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#05040d; color:#e8ecff; font-family:'Rajdhani', sans-serif; }
+  #app { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .hidden { display:none !important; }
+
+  h1 { font-family:'Orbitron'; font-size:1.5rem; letter-spacing:0.06em; background:linear-gradient(90deg,#5ef1ff,#b98bff 40%,#ff6fd8 72%); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:0.4rem; }
+  .sub { font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; color:#8fa3ff; opacity:0.75; margin-bottom:1.4rem; }
+
+  /* ---- room code entry ---- */
+  #screen-room { display:flex; flex-direction:column; align-items:center; gap:1rem; width:100%; padding:1.5rem; }
+  #room-input {
+    width:min(240px, 60vw); text-align:center; letter-spacing:0.5em;
+    font-family:'Orbitron'; font-size:1.6rem; padding:0.7rem;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
+    border-radius:10px; color:#ffe066;
+  }
+  .big-btn {
+    width:min(280px, 75vw); padding:1rem; border-radius:14px; font-family:'Orbitron'; font-size:1rem; letter-spacing:0.05em;
+    border:2px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); color:#fff; text-transform:uppercase;
+  }
+  #room-msg { font-size:0.85rem; color:#ff6f8b; min-height:1.2em; }
+
+  /* ---- pick screen ---- */
+  #screen-pick { display:flex; flex-direction:column; align-items:center; gap:1rem; width:100%; padding:1.5rem; }
+  .pick-btn {
+    width:min(340px, 80vw); padding:1.4rem; border-radius:16px; font-family:'Orbitron'; font-size:1.2rem; letter-spacing:0.05em;
+    border:2px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:#fff; text-transform:uppercase;
+  }
+  .pick-btn.p1 { border-color:rgba(94,241,255,0.6); color:#5ef1ff; box-shadow:0 0 20px rgba(94,241,255,0.15); }
+  .pick-btn.p2 { border-color:rgba(255,111,216,0.6); color:#ff6fd8; box-shadow:0 0 20px rgba(255,111,216,0.15); }
+  .pick-btn:disabled { opacity:0.35; }
+  #pick-msg { font-size:0.85rem; color:#ff6f8b; min-height:1.2em; }
+
+  /* ---- controller screen ---- */
+  #screen-controller { display:flex; flex-direction:column; width:100%; height:100%; padding:0.8rem; }
+  .ctrl-header { display:flex; justify-content:space-between; align-items:center; padding:0.2rem 0.4rem 0.6rem; }
+  .ctrl-player-tag { font-family:'Orbitron'; font-size:0.95rem; letter-spacing:0.05em; }
+  .ctrl-player-tag.p1 { color:#5ef1ff; }
+  .ctrl-player-tag.p2 { color:#ff6fd8; }
+  .ctrl-leave { font-size:0.75rem; color:#8890b8; border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:0.35rem 0.8rem; background:rgba(255,255,255,0.04); }
+
+  .ctrl-body { flex:1; display:flex; align-items:center; justify-content:space-between; gap:0.6rem; }
+
+  .dpad { position:relative; width:min(46vw, 220px); height:min(46vw, 220px); }
+  .dpad-btn {
+    position:absolute; width:34%; height:34%; border-radius:14px;
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18);
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:#dfe4ff;
+  }
+  .dpad-btn.active { background:rgba(255,255,255,0.22); border-color:rgba(255,255,255,0.5); }
+  .dpad-up { top:0; left:33%; }
+  .dpad-down { bottom:0; left:33%; }
+  .dpad-left { top:33%; left:0; }
+  .dpad-right { top:33%; right:0; }
+
+  .powers { display:flex; flex-direction:column; gap:0.9rem; }
+  .power-btn {
+    width:min(28vw, 110px); height:min(28vw, 110px); border-radius:50%;
+    font-family:'Orbitron'; font-size:0.85rem; letter-spacing:0.03em;
+    border:2px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); color:#fff;
+  }
+  .power-btn.active { transform:scale(0.94); }
+  .power-btn.pw1.p1 { border-color:#5ef1ff; color:#5ef1ff; }
+  .power-btn.pw2.p1 { border-color:#b98bff; color:#b98bff; }
+  .power-btn.pw1.p2 { border-color:#ff6fd8; color:#ff6fd8; }
+  .power-btn.pw2.p2 { border-color:#ffe066; color:#ffe066; }
+  .power-btn.active.pw1.p1, .power-btn.active.pw2.p1 { background:rgba(94,241,255,0.22); }
+  .power-btn.active.pw1.p2, .power-btn.active.pw2.p2 { background:rgba(255,111,216,0.22); }
+
+  #conn-banner {
+    position:fixed; top:0; left:0; right:0; text-align:center; font-size:0.75rem; padding:0.35rem;
+    background:#ff3b5c; color:#fff; letter-spacing:0.05em; text-transform:uppercase; z-index:10;
+  }
+</style>
+</head>
+<body>
+<div id="conn-banner" class="hidden">Conectando…</div>
+<div id="app">
+
+  <div id="screen-room">
+    <h1>SPACE FIGHT</h1>
+    <div class="sub">Controle pelo celular</div>
+    <div style="font-size:0.85rem; color:#9aa3d9;">Digite o código mostrado no telão:</div>
+    <input id="room-input" inputmode="numeric" maxlength="4" placeholder="0000">
+    <button class="big-btn" id="btn-room-join">Entrar</button>
+    <div id="room-msg"></div>
+  </div>
+
+  <div id="screen-pick" class="hidden">
+    <h1>SPACE FIGHT</h1>
+    <div class="sub">Escolha seu jogador</div>
+    <button class="pick-btn p1" id="pick-p1">Player 1</button>
+    <button class="pick-btn p2" id="pick-p2">Player 2</button>
+    <div id="pick-msg"></div>
+  </div>
+
+  <div id="screen-controller" class="hidden">
+    <div class="ctrl-header">
+      <div class="ctrl-player-tag" id="ctrl-player-tag">Player 1</div>
+      <button class="ctrl-leave" id="btn-leave">trocar</button>
+    </div>
+    <div class="ctrl-body">
+      <div class="dpad">
+        <button class="dpad-btn dpad-up" data-action="up">▲</button>
+        <button class="dpad-btn dpad-left" data-action="left">◀</button>
+        <button class="dpad-btn dpad-right" data-action="right">▶</button>
+        <button class="dpad-btn dpad-down" data-action="down">▼</button>
+      </div>
+      <div class="powers">
+        <button class="power-btn pw1" data-action="power1">PODER 1</button>
+        <button class="power-btn pw2" data-action="power2">PODER 2</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  let peer = null;
+  let dataConn = null;
+  let myPlayer = null;
+
+  function showBanner(text){ const b = $('conn-banner'); b.textContent = text; b.classList.remove('hidden'); }
+  function hideBanner(){ $('conn-banner').classList.add('hidden'); }
+
+  $('room-input').addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+  });
+
+  function connectToRoom(code){
+    $('room-msg').textContent = '';
+    showBanner('Conectando…');
+    if (peer) { try { peer.destroy(); } catch(e){} }
+    peer = new Peer();
+    peer.on('open', () => {
+      dataConn = peer.connect('sf-host-' + code, { reliable: true });
+      dataConn.on('open', () => {
+        hideBanner();
+        $('screen-room').classList.add('hidden');
+        $('screen-pick').classList.remove('hidden');
+      });
+      dataConn.on('data', (msg) => {
+        if (msg.type === 'join-ok'){
+          $('screen-pick').classList.add('hidden');
+          $('screen-controller').classList.remove('hidden');
+          const tag = $('ctrl-player-tag');
+          tag.textContent = 'Player ' + myPlayer;
+          tag.className = 'ctrl-player-tag p' + myPlayer;
+          document.querySelectorAll('.power-btn').forEach(btn => {
+            btn.classList.remove('p1','p2');
+            btn.classList.add('p' + myPlayer);
+          });
+        } else if (msg.type === 'join-fail'){
+          $('pick-msg').textContent = 'Esse jogador já está ocupado. Escolha outro.';
+          myPlayer = null;
+        }
+      });
+      dataConn.on('close', () => {
+        showBanner('Conexão perdida — tentando reconectar…');
+        setTimeout(() => connectToRoom(code), 1500);
+      });
+      dataConn.on('error', () => {
+        $('room-msg').textContent = 'Não foi possível conectar. Confira o código e tente de novo.';
+        hideBanner();
+      });
+    });
+    peer.on('error', (err) => {
+      $('room-msg').textContent = 'Não foi possível conectar. Confira o código e tente de novo.';
+      hideBanner();
+    });
+  }
+
+  $('btn-room-join').onclick = () => {
+    const code = $('room-input').value.trim();
+    if (code.length !== 4) { $('room-msg').textContent = 'Digite o código de 4 dígitos.'; return; }
+    connectToRoom(code);
+  };
+
+  function pick(player){
+    if (!dataConn || !dataConn.open) return;
+    myPlayer = player;
+    $('pick-msg').textContent = '';
+    dataConn.send({ type:'join', player });
+  }
+  $('pick-p1').onclick = () => pick(1);
+  $('pick-p2').onclick = () => pick(2);
+
+  $('btn-leave').onclick = () => {
+    myPlayer = null;
+    $('screen-controller').classList.add('hidden');
+    $('screen-pick').classList.remove('hidden');
+  };
+
+  function sendInput(action, pressed){
+    if (!myPlayer || !dataConn || !dataConn.open) return;
+    dataConn.send({ type:'input', action, pressed });
+  }
+
+  function bindHold(el, action){
+    const press = (e) => { e.preventDefault(); el.classList.add('active'); sendInput(action, true); };
+    const release = (e) => { e.preventDefault(); el.classList.remove('active'); sendInput(action, false); };
+    el.addEventListener('pointerdown', press);
+    el.addEventListener('pointerup', release);
+    el.addEventListener('pointercancel', release);
+    el.addEventListener('pointerleave', release);
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  }
+  document.querySelectorAll('.dpad-btn, .power-btn').forEach(el => bindHold(el, el.dataset.action));
+
+  document.addEventListener('touchmove', e => e.preventDefault(), { passive:false });
+  document.addEventListener('gesturestart', e => e.preventDefault());
+
+})();
+</script>
+</body>
+</html>
