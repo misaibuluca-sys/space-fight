@@ -128,7 +128,7 @@
   .setup-viewport { position:relative; flex:1; overflow:hidden; border-radius:16px; touch-action:pan-y; }
   .setup-track { display:flex; width:100%; transition:transform .4s cubic-bezier(.2,.85,.25,1); will-change:transform; }
   .setup-track.dragging { transition:none; }
-  .setup-slide { flex:0 0 100%; padding:0 0.2rem; }
+  .setup-slide { flex:0 0 100%; min-width:0; padding:0 0.2rem; }
   .setup-dots { display:flex; gap:0.5rem; justify-content:center; }
   .setup-dot { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.2); border:none; cursor:pointer; padding:0; transition:all .2s ease; }
   .setup-dot.active { background:#ffe066; box-shadow:0 0 8px rgba(255,224,102,0.8); transform:scale(1.4); }
@@ -163,6 +163,7 @@
   }
   .controls-box { font-size:0.85rem; color:#c7ccf0; text-align:left; line-height:1.5; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.8rem; }
   .controls-box b { color:#fff; }
+  .skin-label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; text-align:left; margin-top:0.2rem; display:flex; align-items:center; justify-content:space-between; }
 
   /* ---------- CHEATS ---------- */
   .cheat-fab {
@@ -366,7 +367,7 @@
   .carousel-track { display:flex; height:100%; width:100%; transition:transform .4s cubic-bezier(.2,.85,.25,1); will-change:transform; }
   .carousel-track.dragging { transition:none; }
   .carousel-slide {
-    flex:0 0 100%; display:flex; align-items:center; justify-content:center;
+    flex:0 0 100%; min-width:0; display:flex; align-items:center; justify-content:center;
     animation:shipHover 2.6s ease-in-out infinite;
   }
   @keyframes shipHover { 0%,100%{ transform:translateY(0) rotate(-2deg);} 50%{ transform:translateY(-6px) rotate(2deg);} }
