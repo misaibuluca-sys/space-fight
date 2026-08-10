@@ -803,26 +803,35 @@
     return out;
   }
 
+  // arredonda pra reduzir o tamanho do payload — sem isso o relé TURN (rede fraca)
+  // não dá conta do fluxo de ~15-20 mensagens/seg e o controle fica com a tela preta
+  const r1 = v => Math.round(v * 10) / 10;
+  const r2 = v => Math.round(v * 100) / 100;
+
   function broadcastGameState(){
     if (currentScreenName() !== 'game') return;
+    const players = serializePlayers();
+    for (const k in players){
+      const p = players[k];
+      p.x = r1(p.x); p.y = r1(p.y); p.vx = r2(p.vx); p.vy = r2(p.vy);
+    }
     const msg = {
       type:'state',
       canvasW: canvas.width, canvasH: canvas.height,
       numPlayers: NUM_PLAYERS,
-      players: serializePlayers(),
-      particles: (particles||[]).map(pt => ({ x:pt.x, y:pt.y, life:pt.life, color:pt.color, small:!!pt.small })),
-      meteors: (meteors||[]).map(m => ({ x:m.x, y:m.y, start:m.start, delay:m.delay, state:m.state, rot:m.rot, impactStart:m.impactStart })),
-      blackholes: (blackholes||[]).map(bh => ({ x:bh.x, y:bh.y })),
-      punchFx: (punchFx||[]).map(fx => ({ px:fx.p.x, py:fx.p.y, dirx:fx.dirx, diry:fx.diry, start:fx.start, duration:fx.duration, color:fx.color })),
-      powerups: (powerups||[]).map(pu => ({ x:pu.x, y:pu.y, seed:pu.seed })),
+      players,
+      particles: (particles||[]).map(pt => ({ x:r1(pt.x), y:r1(pt.y), life:r2(pt.life), color:pt.color, small:!!pt.small })),
+      meteors: (meteors||[]).map(m => ({ x:r1(m.x), y:r1(m.y), start:m.start, delay:m.delay, state:m.state, rot:r2(m.rot), impactStart:m.impactStart })),
+      blackholes: (blackholes||[]).map(bh => ({ x:r1(bh.x), y:r1(bh.y) })),
+      punchFx: (punchFx||[]).map(fx => ({ px:r1(fx.p.x), py:r1(fx.p.y), dirx:r2(fx.dirx), diry:r2(fx.diry), start:fx.start, duration:fx.duration, color:fx.color })),
+      powerups: (powerups||[]).map(pu => ({ x:r1(pu.x), y:r1(pu.y), seed:pu.seed })),
       gamePhase, round, score,
       currentQ: currentQ ? { t: currentQ.t, a: currentQ.a } : null,
-      hudHTML: $('hud').innerHTML,
       bannerHidden: banner.classList.contains('hidden'),
       bannerTop: banner.classList.contains('top'),
       bannerText: banner.textContent,
       resultHidden: resultBanner.classList.contains('hidden'),
-      resultHTML: resultBanner.innerHTML
+      resultData: lastResultData
     };
     sendToAll(msg);
   }
@@ -1237,6 +1246,7 @@
 
   let players, particles, meteors, trailParticles, punchFx, powerups, blackholes;
   let round, score, questionSet, currentQ, gamePhase, phaseTimer, answeringAt, resolveAt;
+  let lastResultData = null; // {a, correct:{slot:bool}} — snapshot pra mandar pro controle sem HTML
   let punchCd = {}, meteorCd = {}, shieldCd = {}, blackholeCd = {};
 
   function newPlayerState(cfg, x, slot){
@@ -1326,6 +1336,7 @@
     punchFx = [];
     powerups = [];
     resultBanner.classList.add('hidden');
+    lastResultData = null;
     banner.classList.remove('top');
     banner.classList.remove('hidden');
     banner.textContent = currentQ.t;
@@ -1356,15 +1367,18 @@
     gamePhase = 'result';
     const answerText = currentQ.a ? '✓ VERDADEIRO' : '✕ FALSO';
     let html = `<div class="answer-chip ${currentQ.a ? 'true' : 'false'}">${answerText}</div><div class="result-players">`;
+    const resultCorrect = {};
     for (let i=1;i<=NUM_PLAYERS;i++){
       const zone = zoneOfShip(players[i].x);
       const correct = zone === currentQ.a;
+      resultCorrect[i] = correct;
       if (correct) score[i]++;
       html += `<div class="result-player ${correct?'win':''}" style="color:${PLAYERS_CFG[i-1].color}">`;
       html += `<span class="rp-icon">${correct?'★':'–'}</span><span>${PLAYERS_CFG[i-1].name}</span>`;
       html += `<span class="rp-point">${correct?'+1 PONTO':'sem ponto'}</span></div>`;
     }
     html += `</div>`;
+    lastResultData = { a: currentQ.a, correct: resultCorrect };
     updateHud();
     resultBanner.innerHTML = html;
     resultBanner.classList.remove('hidden');
@@ -1963,7 +1977,7 @@
   let lastTime = performance.now();
   let rafId = null;
   let lastMirrorSend = 0;
-  const MIRROR_INTERVAL = 50; // ~20x por segundo, leve o suficiente pra wifi de escola
+  const MIRROR_INTERVAL = 66; // ~15x por segundo — payload já reduzido, dá folga extra pro relé TURN
   function loop(now){
     const dt = now - lastTime; lastTime = now;
     update(dt);

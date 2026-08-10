@@ -582,6 +582,12 @@
   #mirror-waiting .sub2 { font-size:0.85rem; color:#9aa3d9; }
   #mirror-waiting-extra { max-width:320px; width:100%; }
   #mirror-waiting-extra .connect-status-list { display:flex; flex-direction:column; gap:0.4rem; }
+  #mirror-stale-badge {
+    position:absolute; top:8px; right:8px; z-index:20;
+    font-family:'Orbitron'; font-size:0.68rem; letter-spacing:0.05em; text-transform:uppercase;
+    background:rgba(255,90,90,0.88); color:#fff; padding:0.3rem 0.6rem; border-radius:6px;
+    box-shadow:0 0 12px rgba(255,90,90,0.4);
+  }
 
   .ctrl-body { flex:0 0 auto; }
 </style>
@@ -652,6 +658,7 @@
         <div id="question-banner" class="hidden"></div>
         <div id="result-banner" class="hidden"></div>
       </div>
+      <div id="mirror-stale-badge" class="hidden">Sincronizando…</div>
       <div id="mirror-waiting">
         <h2 id="mirror-waiting-title">SPACE FIGHT</h2>
         <div class="sub2" id="mirror-waiting-sub">Conectando à sala...</div>
@@ -1378,6 +1385,10 @@
   let NUM_PLAYERS = 2;
   let players = {}, particles = [], meteors = [], blackholes = [], punchFx = [], powerups = [];
   let gamePhase = null, currentQ = null;
+  let gameRound = 0, gameScore = {};
+  let lastHudSig = '';
+  let lastResultShown = true;
+  let lastStateAt = 0; // performance.now() da última mensagem 'state' recebida — usado pra detectar travamento
 
   const stars = [];
   function initStars(){
@@ -1444,7 +1455,49 @@
     }
   }
 
+  // Reconstrói o HUD localmente (nomes/cores já vêm em `players`) — evita mandar HTML pronto pela rede.
+  function renderHud(){
+    const hud = $('hud');
+    hud.innerHTML = '';
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const p = players[i];
+      if (!p) continue;
+      const box = document.createElement('div');
+      box.className = 'score-box corner-frame';
+      box.style.setProperty('--frame-color', p.color);
+      box.style.borderColor = p.color;
+      box.textContent = `${p.name}: ${gameScore[i] || 0}`;
+      hud.appendChild(box);
+      if (i === Math.ceil(NUM_PLAYERS/2)){
+        const rbEl = document.createElement('div');
+        rbEl.className = 'round-box corner-frame';
+        rbEl.style.setProperty('--frame-color', '#b98bff');
+        rbEl.textContent = `Pergunta ${Math.min(gameRound,5)} / 5`;
+        hud.appendChild(rbEl);
+      }
+    }
+  }
+
+  // Mesma lógica do host (resolveRound), só que a partir de dados compactos em vez de HTML pronto.
+  function renderResult(data){
+    const rb = $('result-banner');
+    if (!data){ rb.innerHTML = ''; return; }
+    const answerText = data.a ? '✓ VERDADEIRO' : '✕ FALSO';
+    let html = `<div class="answer-chip ${data.a ? 'true' : 'false'}">${answerText}</div><div class="result-players">`;
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const p = players[i];
+      if (!p) continue;
+      const correct = !!(data.correct && data.correct[i]);
+      html += `<div class="result-player ${correct?'win':''}" style="color:${p.color}">`;
+      html += `<span class="rp-icon">${correct?'★':'–'}</span><span>${p.name}</span>`;
+      html += `<span class="rp-point">${correct?'+1 PONTO':'sem ponto'}</span></div>`;
+    }
+    html += `</div>`;
+    rb.innerHTML = html;
+  }
+
   function handleStateMsg(msg){
+    lastStateAt = performance.now();
     if (msg.canvasW !== stageW || msg.canvasH !== stageH){
       stageW = msg.canvasW; stageH = msg.canvasH;
       layoutStage();
@@ -1459,15 +1512,26 @@
     powerups = msg.powerups || [];
     gamePhase = msg.gamePhase;
     currentQ = msg.currentQ;
+    gameRound = msg.round || 0;
+    gameScore = msg.score || {};
 
-    $('hud').innerHTML = msg.hudHTML || '';
+    const hudSig = gameRound + '|' + NUM_PLAYERS + '|' + JSON.stringify(gameScore);
+    if (hudSig !== lastHudSig){
+      lastHudSig = hudSig;
+      renderHud();
+    }
+
     const qb = $('question-banner');
     qb.textContent = msg.bannerText || '';
     qb.classList.toggle('hidden', !!msg.bannerHidden);
     qb.classList.toggle('top', !!msg.bannerTop);
-    const rb = $('result-banner');
-    rb.innerHTML = msg.resultHTML || '';
-    rb.classList.toggle('hidden', !!msg.resultHidden);
+
+    const resultShown = !msg.resultHidden;
+    if (resultShown && !lastResultShown){
+      renderResult(msg.resultData);
+    }
+    lastResultShown = resultShown;
+    $('result-banner').classList.toggle('hidden', !resultShown);
   }
 
   function skinPoints(skin, R){
@@ -1763,10 +1827,17 @@
     ctx.textBaseline = "alphabetic";
   }
 
+  const STALE_AFTER_MS = 1500;
   let renderStarted = false;
   function renderLoop(){
     updateStars();
-    if (mirrorActive) draw();
+    if (mirrorActive){
+      draw();
+      const stale = (performance.now() - lastStateAt) > STALE_AFTER_MS;
+      $('mirror-stale-badge').classList.toggle('hidden', !stale);
+    } else {
+      $('mirror-stale-badge').classList.add('hidden');
+    }
     requestAnimationFrame(renderLoop);
   }
   if (!renderStarted){ renderStarted = true; requestAnimationFrame(renderLoop); }
