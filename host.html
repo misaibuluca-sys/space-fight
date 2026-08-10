@@ -493,6 +493,10 @@
   .connect-status-name { font-family:'Orbitron'; font-size:0.95rem; }
   .connect-status-state { margin-left:auto; font-size:0.8rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.05em; }
   .connect-status-row.online .connect-status-state { color:#5cff9d; }
+  .connect-status-keyset {
+    font-size:0.68rem; color:#7d86bf; text-transform:uppercase; letter-spacing:0.06em;
+    border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.1rem 0.4rem;
+  }
 </style>
 </head>
 <body>
@@ -515,11 +519,11 @@
 
     <div style="font-size:0.9rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.1em;">Código da sala</div>
     <div class="room-code-box" id="room-code">----</div>
-    <div style="font-size:0.9rem; color:#cfd3ff;">Peça pros jogadores abrirem a página de controle no celular e digitarem esse código.</div>
+    <div style="font-size:0.9rem; color:#cfd3ff;">Peça pros jogadores abrirem a página de controle no Chromebook e digitarem esse código.</div>
     <div class="connect-status-list" id="connect-status-list"></div>
     <div class="btn-row" style="margin-top:1rem;">
       <button class="btn" id="btn-connect-continue" disabled>▶ Continuar</button>
-      <button class="btn secondary" id="btn-connect-skip">Jogar sem celular (teclado)</button>
+      <button class="btn secondary" id="btn-connect-skip">Jogar sem Chromebook (teclado)</button>
     </div>
   </div>
 
@@ -569,8 +573,8 @@
         <p style="margin-bottom:0.9rem;">Uma pergunta de <b>Verdadeiro ou Falso</b> aparece na tela. Cada jogador (de 2 a 5) precisa pilotar sua nave até o lado correto da arena antes do tempo acabar. Quem estiver na área certa quando o tempo esgota ganha <b>+1 ponto</b>. Vence quem tiver mais pontos após <b>5 perguntas</b>.</p>
 
         <h4>Controles</h4>
-        <p style="margin-bottom:0.6rem;">Cada jogador controla sua nave pelo <b>celular</b>: um joystick pra mover e dois botões de poder. Abra <code>controller.html</code> no celular, digite o código da sala e escolha seu jogador.</p>
-        <p style="margin-top:0.4rem; font-size:0.95rem; color:#b8c1ff;"><b>Nota:</b> escolha 2 poderes na tela de configuração — eles ficam nos dois botões de poder do celular. Sem celular, o Player 1 pode jogar pelo teclado (WASD + Q/E).</p>
+        <p style="margin-bottom:0.6rem;">Cada jogador controla sua nave pelo <b>Chromebook</b>: teclado pra mover (WASD, Setas ou IJKL, à sua escolha) e dois botões de poder na tela. Abra <code>controller.html</code> no Chromebook, digite o código da sala e escolha seu jogador.</p>
+        <p style="margin-top:0.4rem; font-size:0.95rem; color:#b8c1ff;"><b>Nota:</b> escolha 2 poderes na tela de configuração — eles ficam nos dois botões de poder do Chromebook. Sem Chromebook, o Player 1 pode jogar pelo teclado do computador do host (WASD + Q/E).</p>
 
         <h4>Poderes Disponíveis</h4>
         <div class="atk-row">
@@ -598,44 +602,6 @@
       </div>
     </div>
     <button class="btn secondary" id="btn-howto-back">Voltar</button>
-  </div>
-
-  <!-- SETTINGS -->
-  <div id="screen-settings" class="screen title-bg hidden">
-    <div class="grid-overlay"></div>
-    <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Configurações</h1>
-    <div style="font-size:0.85rem; color:#9aa3d9;" id="settings-hint">Deslize para configurar cada jogador</div>
-    <div class="setup-carousel">
-      <button type="button" class="setup-arrow" id="settings-prev">‹</button>
-      <div class="setup-viewport">
-        <div class="setup-track" id="settings-track"></div>
-      </div>
-      <button type="button" class="setup-arrow" id="settings-next">›</button>
-    </div>
-    <div class="setup-dots" id="settings-dots"></div>
-    <div class="btn-row">
-      <button class="btn secondary" id="btn-settings-back">Voltar</button>
-      <button class="btn" id="btn-play">▶ Próximo: Poderes</button>
-    </div>
-  </div>
-
-  <!-- POWERS -->
-  <div id="screen-powers" class="screen title-bg hidden">
-    <div class="grid-overlay"></div>
-    <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Escolha seus Poderes</h1>
-    <div class="power-hint" style="font-size:0.85rem; color:#9aa3d9; max-width:420px;">Escolha 2 poderes para cada jogador. Deslize entre os jogadores. Cada poder vai para um dos 2 botões do celular.</div>
-    <div class="setup-carousel">
-      <button type="button" class="setup-arrow" id="powers-prev">‹</button>
-      <div class="setup-viewport">
-        <div class="setup-track" id="powers-track"></div>
-      </div>
-      <button type="button" class="setup-arrow" id="powers-next">›</button>
-    </div>
-    <div class="setup-dots" id="powers-dots"></div>
-    <div class="btn-row">
-      <button class="btn secondary" id="btn-powers-back">Voltar</button>
-      <button class="btn" id="btn-powers-play">▶ Jogar</button>
-    </div>
   </div>
 
   <!-- GAME -->
@@ -755,7 +721,7 @@
   const $ = id => document.getElementById(id);
   const screens = {
     connect: $('screen-connect'), title: $('screen-title'), howto: $('screen-howto'),
-    settings: $('screen-settings'), powers: $('screen-powers'), game: $('screen-game'), over: $('screen-over')
+    game: $('screen-game'), over: $('screen-over')
   };
   function show(name){
     Object.values(screens).forEach(s => { s.classList.add('hidden'); s.classList.remove('enter'); });
@@ -763,13 +729,21 @@
     target.classList.remove('hidden');
     void target.offsetWidth;
     target.classList.add('enter');
+    broadcastScreenState();
   }
 
   const PALETTE = ['#5ef1ff', '#ff6fd8', '#ffe066', '#b98bff', '#5cff9d'];
   const MIN_PLAYERS = 2, MAX_PLAYERS = 5;
   let NUM_PLAYERS = 2;
 
-  // ================= CELULARES COMO CONTROLE (PeerJS, sem servidor) =================
+  const PLAYERS_CFG = [];
+  for (let i = 0; i < MAX_PLAYERS; i++){
+    PLAYERS_CFG.push({ name:`Player ${i+1}`, color:PALETTE[i], skin:'classic', skinIndex:0, keyset:'wasd' });
+  }
+  let playerPowerConfig = {}; // slot -> {power1:id|null, power2:id|null}
+  for (let i = 1; i <= MAX_PLAYERS; i++) playerPowerConfig[i] = { power1:null, power2:null };
+
+  // ================= CHROMEBOOKS COMO CONTROLE (PeerJS, sem servidor) =================
   const ROOM_CODE = String(Math.floor(1000 + Math.random() * 9000));
   $('room-code').textContent = ROOM_CODE;
 
@@ -791,6 +765,84 @@
     Object.values(conns).forEach(c => { if (c && c.open) c.send(msg); });
   }
 
+  // ================= MIRROR: manda o que está na tela do host pros controles =================
+  function sendToAll(msg){
+    Object.values(conns).forEach(c => { if (c && c.open){ try { c.send(msg); } catch(e){} } });
+  }
+  function sendTo(conn, msg){ if (conn && conn.open){ try { conn.send(msg); } catch(e){} } }
+
+  function currentScreenName(){
+    for (const k in screens){ if (!screens[k].classList.contains('hidden')) return k; }
+    return null;
+  }
+
+  function broadcastScreenState(){
+    const name = currentScreenName();
+    if (!name) return;
+    const msg = { type:'screen', screen: name };
+    if (name === 'connect'){
+      msg.roomCode = $('room-code').textContent;
+      msg.connectListHTML = $('connect-status-list').innerHTML;
+    } else if (name === 'title'){
+      msg.titleSub = $('title-players-sub').textContent;
+    } else if (name === 'over'){
+      msg.gameoverName = $('gameover-name').textContent;
+      msg.gameoverScoreHTML = $('gameover-score').innerHTML;
+    }
+    sendToAll(msg);
+  }
+
+  function serializePlayers(){
+    const out = {};
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const p = players && players[i];
+      if (!p) continue;
+      out[i] = { x:p.x, y:p.y, vx:p.vx, vy:p.vy, name:p.name, color:p.color, skin:p.skin,
+        stunUntil:p.stunUntil, boostUntil:p.boostUntil, shieldUntil:p.shieldUntil };
+    }
+    return out;
+  }
+
+  function broadcastGameState(){
+    if (currentScreenName() !== 'game') return;
+    const msg = {
+      type:'state',
+      canvasW: canvas.width, canvasH: canvas.height,
+      numPlayers: NUM_PLAYERS,
+      players: serializePlayers(),
+      particles: (particles||[]).map(pt => ({ x:pt.x, y:pt.y, life:pt.life, color:pt.color, small:!!pt.small })),
+      meteors: (meteors||[]).map(m => ({ x:m.x, y:m.y, start:m.start, delay:m.delay, state:m.state, rot:m.rot, impactStart:m.impactStart })),
+      blackholes: (blackholes||[]).map(bh => ({ x:bh.x, y:bh.y })),
+      punchFx: (punchFx||[]).map(fx => ({ px:fx.p.x, py:fx.p.y, dirx:fx.dirx, diry:fx.diry, start:fx.start, duration:fx.duration, color:fx.color })),
+      powerups: (powerups||[]).map(pu => ({ x:pu.x, y:pu.y, seed:pu.seed })),
+      gamePhase, round, score,
+      currentQ: currentQ ? { t: currentQ.t, a: currentQ.a } : null,
+      hudHTML: $('hud').innerHTML,
+      bannerHidden: banner.classList.contains('hidden'),
+      bannerTop: banner.classList.contains('top'),
+      bannerText: banner.textContent,
+      resultHidden: resultBanner.classList.contains('hidden'),
+      resultHTML: resultBanner.innerHTML
+    };
+    sendToAll(msg);
+  }
+
+  function sendInitialSyncTo(conn){
+    const name = currentScreenName();
+    if (!name) return;
+    const msg = { type:'screen', screen: name };
+    if (name === 'connect'){
+      msg.roomCode = $('room-code').textContent;
+      msg.connectListHTML = $('connect-status-list').innerHTML;
+    } else if (name === 'title'){
+      msg.titleSub = $('title-players-sub').textContent;
+    } else if (name === 'over'){
+      msg.gameoverName = $('gameover-name').textContent;
+      msg.gameoverScoreHTML = $('gameover-score').innerHTML;
+    }
+    sendTo(conn, msg);
+  }
+
   function renderConnectRows(){
     const list = $('connect-status-list');
     list.innerHTML = '';
@@ -802,10 +854,13 @@
       row.innerHTML = `
         <div class="connect-status-dot"></div>
         <div class="connect-status-name" style="color:${PALETTE[i-1]}">Player ${i}</div>
+        <div class="connect-status-keyset" id="connect-row-p${i}-keyset"></div>
         <div class="connect-status-state">aguardando</div>`;
       list.appendChild(row);
+      updateConnectRowPreview(i);
     }
     updateContinueBtn();
+    broadcastScreenState();
   }
 
   function setConnectRow(player, online){
@@ -814,6 +869,21 @@
     row.classList.toggle('online', online);
     row.querySelector('.connect-status-state').textContent = online ? 'conectado' : 'aguardando';
     updateContinueBtn();
+    broadcastScreenState();
+  }
+
+  // Reflete nome/cor escolhidos no Chromebook na linha de status do jogador, sem mexer no estado online/aguardando.
+  const KEYSET_LABELS = { wasd:'WASD', arrows:'SETAS', ijkl:'IJKL' };
+  function updateConnectRowPreview(slot){
+    const row = $(`connect-row-p${slot}`);
+    if (!row) return;
+    const cfg = PLAYERS_CFG[slot-1];
+    const nameEl = row.querySelector('.connect-status-name');
+    nameEl.textContent = cfg.name;
+    nameEl.style.color = cfg.color;
+    row.style.borderColor = cfg.color + '55';
+    const ksEl = $(`connect-row-p${slot}-keyset`);
+    if (ksEl) ksEl.textContent = KEYSET_LABELS[cfg.keyset] || '';
   }
 
   function updateContinueBtn(){
@@ -829,6 +899,7 @@
         try { conn.send({ type:'kicked' }); } catch(e){}
         conn.player = null;
         releaseSlot(p);
+        resetPlayerSlotConfig(p);
       }
     }
   }
@@ -840,7 +911,6 @@
     kickPlayersAboveLimit();
     renderConnectRows();
     broadcastRoomInfo();
-    rebuildAllSetupUI();
   };
   $('count-plus').onclick = () => {
     if (NUM_PLAYERS >= MAX_PLAYERS) return;
@@ -848,7 +918,6 @@
     $('count-val').textContent = NUM_PLAYERS;
     renderConnectRows();
     broadcastRoomInfo();
-    rebuildAllSetupUI();
   };
   renderConnectRows();
 
@@ -878,7 +947,8 @@
         if (p >= 1 && p <= NUM_PLAYERS && !conns[p]){
           conns[p] = conn;
           conn.player = p;
-          conn.send({ type:'join-ok' });
+          const cfg = PLAYERS_CFG[p-1];
+          conn.send({ type:'join-ok', config: { name: cfg.name, color: cfg.color, skinId: cfg.skin, keyset: cfg.keyset }, powers: playerPowerConfig[p] });
           setConnectRow(p, true);
           broadcastRoomInfo();
         } else {
@@ -886,8 +956,10 @@
         }
       } else if (msg.type === 'leave'){
         if (conn.player){
-          releaseSlot(conn.player);
+          const p = conn.player;
+          releaseSlot(p);
           conn.player = null;
+          resetPlayerSlotConfig(p);
           broadcastRoomInfo();
         }
       } else if (msg.type === 'move'){
@@ -896,10 +968,30 @@
         if (conn.player && (msg.action === 'power1' || msg.action === 'power2')){
           phonePower[conn.player][msg.action] = !!msg.pressed;
         }
+      } else if (msg.type === 'config'){
+        if (conn.player) applyPlayerConfig(conn.player, msg);
+      } else if (msg.type === 'powers'){
+        if (conn.player) applyPlayerPowers(conn.player, msg);
+      } else if (msg.type === 'keyset'){
+        if (conn.player) applyPlayerKeyset(conn.player, msg);
+      } else if (msg.type === 'cheat-toggle'){
+        if (msg.key) toggleCheat(msg.key);
+      } else if (msg.type === 'cheat-score'){
+        addScore(msg.slot, msg.delta || 1);
+      } else if (msg.type === 'cheat-win'){
+        forceWin(msg.slot);
+      } else if (msg.type === 'cheat-skip'){
+        skipCurrentQuestion();
+      } else if (msg.type === 'cheat-question-add'){
+        addCustomQuestion(msg.text, !!msg.answer);
+      } else if (msg.type === 'cheat-question-del'){
+        delCustomQuestion(msg.index);
       }
     });
     conn.on('open', () => {
       conn.send({ type:'room-info', maxPlayers: NUM_PLAYERS, taken: Object.keys(conns).filter(k=>conns[k]).map(Number) });
+      sendInitialSyncTo(conn);
+      sendTo(conn, { type:'cheat-state', cheats: CHEATS, questions: CUSTOM_QUESTIONS, numPlayers: NUM_PLAYERS, score: inGame() ? score : null, inGame: inGame() });
     });
   });
 
@@ -907,16 +999,13 @@
   $('btn-connect-skip').onclick = () => { show('title'); updateTitleSub(); };
   function updateTitleSub(){
     $('title-players-sub').textContent = `Verdadeiro ou Falso · ${NUM_PLAYERS} Jogadores`;
+    broadcastScreenState();
   }
 
-  $('btn-start').onclick = () => show('settings');
+  $('btn-start').onclick = () => { startGame(); };
   $('btn-howto').onclick = () => show('howto');
   $('btn-howto-back').onclick = () => show('title');
-  $('btn-settings-back').onclick = () => show('title');
   $('btn-menu').onclick = () => show('title');
-  $('btn-play').onclick = () => { setupPlayers(); rebuildPowersCarousel(); show('powers'); };
-  $('btn-powers-back').onclick = () => show('settings');
-  $('btn-powers-play').onclick = () => { startGame(); };
   $('btn-again').onclick = () => { startGame(); };
 
   const QUESTIONS = [
@@ -989,20 +1078,68 @@
     { id:'stealth', name:'Furtiva' },
   ];
 
-  const PLAYERS_CFG = [];
-  for (let i = 0; i < MAX_PLAYERS; i++){
-    PLAYERS_CFG.push({ name:`Player ${i+1}`, color:PALETTE[i], skin:'classic', skinIndex:0 });
-  }
-  let playerPowerConfig = {}; // slot -> {power1:id|null, power2:id|null}
-  for (let i = 1; i <= MAX_PLAYERS; i++) playerPowerConfig[i] = { power1:null, power2:null };
+  // Config agora chega dos Chromebooks (ver applyPlayerConfig/applyPlayerPowers), não mais de inputs do host.
 
-  function setupPlayers(){
-    for (let i = 0; i < NUM_PLAYERS; i++){
-      const nameEl = $(`cfg-name-${i}`);
-      const colorEl = $(`cfg-color-${i}`);
-      if (nameEl) PLAYERS_CFG[i].name = nameEl.value.trim() || `Player ${i+1}`;
-      if (colorEl) PLAYERS_CFG[i].color = colorEl.value;
+  const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+  // Chamado quando uma vaga é liberada de propósito (leave explícito ou kick por mudança de contagem) —
+  // reseta pro default pra não vazar nome/cor/skin de um jogador antigo pro próximo que pegar essa vaga.
+  // Uma desconexão inesperada (conn 'close') NÃO passa por aqui, propositalmente: assim o jogador pode
+  // reconectar na mesma vaga e recuperar a configuração sem precisar refazer tudo.
+  function resetPlayerSlotConfig(p){
+    const i = p - 1;
+    if (i < 0 || i >= MAX_PLAYERS) return;
+    PLAYERS_CFG[i] = { name:`Player ${p}`, color:PALETTE[i], skin:'classic', skinIndex:0, keyset:'wasd' };
+    playerPowerConfig[p] = { power1:null, power2:null };
+    updateConnectRowPreview(p);
+    broadcastPlayerConfigs();
+  }
+
+  function applyPlayerConfig(slot, msg){
+    const i = slot - 1;
+    if (i < 0 || i >= MAX_PLAYERS) return;
+    const cfg = PLAYERS_CFG[i];
+    if (typeof msg.name === 'string'){
+      const clean = msg.name.trim().slice(0, 14);
+      cfg.name = clean || `Player ${slot}`;
     }
+    if (typeof msg.color === 'string' && HEX_RE.test(msg.color)){
+      cfg.color = msg.color;
+    }
+    if (typeof msg.skinId === 'string'){
+      const idx = SKINS.findIndex(s => s.id === msg.skinId);
+      if (idx >= 0){ cfg.skinIndex = idx; cfg.skin = SKINS[idx].id; }
+    }
+    updateConnectRowPreview(slot);
+    broadcastPlayerConfigs();
+  }
+
+  function applyPlayerPowers(slot, msg){
+    const config = playerPowerConfig[slot];
+    if (!config) return;
+    const valid = id => id === null || POWER_DEFS.some(p => p.id === id);
+    if ('power1' in msg && valid(msg.power1)) config.power1 = msg.power1;
+    if ('power2' in msg && valid(msg.power2)) config.power2 = msg.power2;
+    if (config.power1 && config.power1 === config.power2) config.power2 = null;
+    broadcastPlayerConfigs();
+  }
+
+  // 'keyset' é só cosmético/log no host (mostrado no preview da tela de conexão) — o movimento em si
+  // sempre chega via mensagens 'move', independente de qual conjunto de teclas o jogador escolheu.
+  function applyPlayerKeyset(slot, msg){
+    const i = slot - 1;
+    if (i < 0 || i >= MAX_PLAYERS) return;
+    if (!KEYSET_LABELS[msg.keyset]) return;
+    PLAYERS_CFG[i].keyset = msg.keyset;
+    updateConnectRowPreview(slot);
+  }
+
+  function broadcastPlayerConfigs(){
+    const out = {};
+    for (let i = 1; i <= NUM_PLAYERS; i++){
+      out[i] = { name: PLAYERS_CFG[i-1].name, color: PLAYERS_CFG[i-1].color, skin: PLAYERS_CFG[i-1].skin, powers: playerPowerConfig[i] };
+    }
+    sendToAll({ type:'player-configs', configs: out });
   }
 
   function skinPoints(skin, R){
@@ -1030,183 +1167,6 @@
     c.closePath();
   }
 
-  // ---------- GENERIC SLIDING CAROUSEL (used for settings & powers) ----------
-  function makeCarousel(trackId, dotsId, prevId, nextId){
-    const track = $(trackId), dotsWrap = $(dotsId);
-    let index = 0, count = 0;
-    function build(n, slideBuilder){
-      count = n;
-      index = Math.min(index, n-1);
-      track.innerHTML = '';
-      dotsWrap.innerHTML = '';
-      for (let i = 0; i < n; i++){
-        const slide = document.createElement('div');
-        slide.className = 'setup-slide';
-        slide.appendChild(slideBuilder(i));
-        track.appendChild(slide);
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'setup-dot' + (i === index ? ' active' : '');
-        dot.style.background = i === index ? PALETTE[i] : '';
-        dot.onclick = () => { index = i; update(); };
-        dotsWrap.appendChild(dot);
-      }
-      update(true);
-    }
-    function update(instant){
-      if (instant) track.classList.add('dragging');
-      track.style.transform = `translateX(${-index*100}%)`;
-      if (instant) requestAnimationFrame(() => track.classList.remove('dragging'));
-      [...dotsWrap.children].forEach((d,i) => {
-        d.classList.toggle('active', i===index);
-        d.style.background = i===index ? PALETTE[i] : '';
-      });
-    }
-    function move(dir){ index = Math.max(0, Math.min(count-1, index+dir)); update(); }
-    $(prevId).onclick = () => move(-1);
-    $(nextId).onclick = () => move(1);
-
-    let dragging=false, startX=0, deltaX=0, width=1;
-    const vp = track.parentElement;
-    vp.addEventListener('pointerdown', e => {
-      if (e.target.closest('button, input, canvas')) return;
-      dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
-      track.classList.add('dragging');
-      try { vp.setPointerCapture(e.pointerId); } catch(err){}
-    });
-    vp.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      deltaX = e.clientX-startX;
-      track.style.transform = `translateX(${-index*100 + (deltaX/width*100)}%)`;
-    });
-    function endDrag(){
-      if (!dragging) return;
-      dragging=false;
-      track.classList.remove('dragging');
-      if (deltaX < -width*0.18) move(1);
-      else if (deltaX > width*0.18) move(-1);
-      else update();
-      deltaX=0;
-    }
-    vp.addEventListener('pointerup', endDrag);
-    vp.addEventListener('pointercancel', endDrag);
-    return { build, get index(){ return index; } };
-  }
-
-  const settingsCarousel = makeCarousel('settings-track','settings-dots','settings-prev','settings-next');
-  const powersCarousel = makeCarousel('powers-track','powers-dots','powers-prev','powers-next');
-
-  function buildSettingsSlide(i){
-    const cfg = PLAYERS_CFG[i];
-    const wrap = document.createElement('div');
-    wrap.className = 'player-card corner-frame';
-    wrap.style.setProperty('--frame-color', PALETTE[i]);
-    wrap.style.setProperty('--pcolor-fade', PALETTE[i] + '26');
-    wrap.innerHTML = `
-      <h3 style="color:${PALETTE[i]};">Player ${i+1}</h3>
-      <label>Nome</label>
-      <input type="text" id="cfg-name-${i}" value="${cfg.name}" maxlength="14">
-      <label>Cor da nave</label>
-      <input type="color" id="cfg-color-${i}" value="${cfg.color}">
-      <div class="skin-label">Modelo da nave <span id="cfg-skin-name-${i}" style="color:${PALETTE[i]}; font-weight:700;">${SKINS[cfg.skinIndex].name}</span></div>
-      <div class="ship-carousel">
-        <button type="button" class="carousel-arrow" id="cfg-skin-prev-${i}">‹</button>
-        <div class="carousel-viewport corner-frame" style="--frame-color:${PALETTE[i]};" id="cfg-skin-viewport-${i}">
-          <div class="carousel-track" id="cfg-skin-track-${i}"></div>
-        </div>
-        <button type="button" class="carousel-arrow" id="cfg-skin-next-${i}">›</button>
-      </div>
-      <div class="carousel-dots" id="cfg-skin-dots-${i}"></div>
-      <div class="controls-box"><b>Controle:</b> celular (joystick)${i===0 ? ' — ou teclado (WASD)' : ''}</div>
-    `;
-    return wrap;
-  }
-
-  function paintShipCarousel(i){
-    const track = $(`cfg-skin-track-${i}`);
-    if (!track) return;
-    const color = $(`cfg-color-${i}`).value;
-    [...track.children].forEach((slide, si) => {
-      const cv = slide.querySelector('canvas');
-      const cx = cv.getContext('2d');
-      cx.clearRect(0,0,100,100);
-      cx.save(); cx.translate(50,53);
-      tracePath(cx, SKINS[si].id, 32);
-      cx.fillStyle = color; cx.shadowColor = color; cx.shadowBlur = 18; cx.fill();
-      cx.restore();
-    });
-  }
-  function buildShipCarousel(i){
-    const track = $(`cfg-skin-track-${i}`), dots = $(`cfg-skin-dots-${i}`);
-    track.innerHTML=''; dots.innerHTML='';
-    SKINS.forEach((sk, si) => {
-      const slide = document.createElement('div');
-      slide.className = 'carousel-slide';
-      slide.style.animationDelay = (si*0.12)+'s';
-      const cv = document.createElement('canvas'); cv.width=100; cv.height=100;
-      slide.appendChild(cv); track.appendChild(slide);
-      const dot = document.createElement('button');
-      dot.type='button'; dot.className='carousel-dot'+(si===PLAYERS_CFG[i].skinIndex?' active':'');
-      dot.onclick = () => { PLAYERS_CFG[i].skinIndex = si; updateShipCarousel(i, true); };
-      dots.appendChild(dot);
-    });
-    paintShipCarousel(i);
-    updateShipCarousel(i, true);
-  }
-  function updateShipCarousel(i, instant){
-    const idx = PLAYERS_CFG[i].skinIndex;
-    const track = $(`cfg-skin-track-${i}`);
-    if (instant) track.classList.add('dragging');
-    track.style.transform = `translateX(${-idx*100}%)`;
-    if (instant) requestAnimationFrame(()=>track.classList.remove('dragging'));
-    PLAYERS_CFG[i].skin = SKINS[idx].id;
-    $(`cfg-skin-name-${i}`).textContent = SKINS[idx].name;
-    [...$(`cfg-skin-dots-${i}`).children].forEach((d,di)=>d.classList.toggle('active', di===idx));
-  }
-  function moveShipCarousel(i, dir){
-    const len = SKINS.length;
-    PLAYERS_CFG[i].skinIndex = (PLAYERS_CFG[i].skinIndex + dir + len) % len;
-    updateShipCarousel(i);
-  }
-  function enableShipDrag(i){
-    const vp = $(`cfg-skin-viewport-${i}`), track = $(`cfg-skin-track-${i}`);
-    let dragging=false, startX=0, deltaX=0, width=1;
-    vp.addEventListener('pointerdown', e => {
-      if (e.target.closest('button, input')) return;
-      dragging=true; startX=e.clientX; deltaX=0; width=vp.clientWidth||1;
-      track.classList.add('dragging');
-      try { vp.setPointerCapture(e.pointerId); } catch(err){}
-    });
-    vp.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      deltaX = e.clientX-startX;
-      track.style.transform = `translateX(${-PLAYERS_CFG[i].skinIndex*100*(vp.clientWidth/vp.clientWidth) }px)`;
-      const base = -PLAYERS_CFG[i].skinIndex*width;
-      track.style.transform = `translateX(${base+deltaX}px)`;
-    });
-    function endDrag(){
-      if (!dragging) return;
-      dragging=false; track.classList.remove('dragging');
-      if (deltaX < -width*0.16) moveShipCarousel(i,1);
-      else if (deltaX > width*0.16) moveShipCarousel(i,-1);
-      else updateShipCarousel(i);
-      deltaX=0;
-    }
-    vp.addEventListener('pointerup', endDrag);
-    vp.addEventListener('pointercancel', endDrag);
-  }
-
-  function rebuildSettingsCarousel(){
-    settingsCarousel.build(NUM_PLAYERS, buildSettingsSlide);
-    for (let i = 0; i < NUM_PLAYERS; i++){
-      buildShipCarousel(i);
-      enableShipDrag(i);
-      $(`cfg-color-${i}`).addEventListener('input', () => paintShipCarousel(i));
-      $(`cfg-skin-prev-${i}`).onclick = () => moveShipCarousel(i,-1);
-      $(`cfg-skin-next-${i}`).onclick = () => moveShipCarousel(i,1);
-    }
-  }
-
   const POWER_DEFS = [
     { id:'punch', name:'Soco', desc:'rápido, curto alcance, atinge o mais próximo' },
     { id:'meteor', name:'Meteoro', desc:'forte, atordoa' },
@@ -1214,73 +1174,6 @@
     { id:'shield', name:'Escudo', desc:'proteção 2s' }
   ];
 
-  function buildPowersSlide(i){
-    const slot = i+1;
-    const wrap = document.createElement('div');
-    wrap.className = 'player-card corner-frame';
-    wrap.style.setProperty('--frame-color', PALETTE[i]);
-    wrap.style.setProperty('--pcolor-fade', PALETTE[i] + '26');
-    const h3 = document.createElement('h3');
-    h3.style.color = PALETTE[i];
-    h3.textContent = `Player ${slot}`;
-    const list = document.createElement('div');
-    list.className = 'power-list';
-    list.id = `pw-list-${slot}`;
-    wrap.appendChild(h3);
-    wrap.appendChild(list);
-    renderPowerPicker(slot, list);
-    return wrap;
-  }
-
-  function renderPowerPicker(slot, listEl){
-    const list = listEl || $(`pw-list-${slot}`);
-    if (!list) return;
-    list.innerHTML = '';
-    const config = playerPowerConfig[slot];
-    const powerSlots = ['power1','power2'];
-    const selectedPowers = new Set(powerSlots.map(k => config[k]).filter(Boolean));
-    POWER_DEFS.forEach(pw => {
-      const row = document.createElement('div');
-      row.className = 'power-row';
-      const text = document.createElement('div');
-      text.className = 'power-row-text';
-      text.innerHTML = `<div class="power-name">${pw.name}</div><div class="power-desc">${pw.desc}</div>`;
-
-      let assignedSlot = powerSlots.find(k => config[k] === pw.id);
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn secondary power-key-btn';
-      btn.style.color = PALETTE[slot-1];
-      btn.style.borderColor = PALETTE[slot-1];
-
-      if (assignedSlot){
-        row.classList.add('selected');
-        btn.textContent = assignedSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2';
-        btn.onclick = () => { config[assignedSlot] = null; renderPowerPicker(slot); };
-      } else if (selectedPowers.size < 2){
-        const freeSlot = powerSlots.find(k => !config[k]);
-        btn.textContent = '+ ' + (freeSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2');
-        btn.onclick = () => { config[freeSlot] = pw.id; renderPowerPicker(slot); };
-      } else {
-        row.classList.add('disabled');
-        btn.textContent = '-';
-        btn.disabled = true;
-      }
-      row.appendChild(text);
-      row.appendChild(btn);
-      list.appendChild(row);
-    });
-  }
-
-  function rebuildPowersCarousel(){
-    powersCarousel.build(NUM_PLAYERS, buildPowersSlide);
-  }
-
-  function rebuildAllSetupUI(){
-    rebuildSettingsCarousel();
-    rebuildPowersCarousel();
-  }
-  rebuildAllSetupUI();
 
   const stars = [];
   function initStars(){
@@ -1353,7 +1246,21 @@
     };
   }
 
+  // Jogador que nunca abriu a tela de config no Chromebook fica com power1/power2 null — sem isso ele
+  // entraria na partida sem nenhum ataque, então garantimos um default sensato aqui.
+  function ensureDefaultPowers(){
+    for (let i=1;i<=NUM_PLAYERS;i++){
+      const cfg = playerPowerConfig[i];
+      if (cfg && !cfg.power1 && !cfg.power2){
+        cfg.power1 = 'punch';
+        cfg.power2 = 'shield';
+      }
+    }
+    broadcastPlayerConfigs();
+  }
+
   function startGame(){
+    ensureDefaultPowers();
     round = 0;
     score = {};
     for (let i=1;i<=NUM_PLAYERS;i++) score[i]=0;
@@ -2055,10 +1962,16 @@
 
   let lastTime = performance.now();
   let rafId = null;
+  let lastMirrorSend = 0;
+  const MIRROR_INTERVAL = 50; // ~20x por segundo, leve o suficiente pra wifi de escola
   function loop(now){
     const dt = now - lastTime; lastTime = now;
     update(dt);
     draw();
+    if (now - lastMirrorSend >= MIRROR_INTERVAL){
+      lastMirrorSend = now;
+      broadcastGameState();
+    }
     if (gamePhase !== 'over' || !screens.game.classList.contains('hidden')){
       rafId = requestAnimationFrame(loop);
     } else {
@@ -2082,10 +1995,67 @@
 
   function setSwitch(id, on){
     const el = $(id);
+    if (!el) return;
     el.textContent = on ? 'ON' : 'OFF';
     el.classList.toggle('on', on);
   }
 
+  // ---- Ações de cheat: chamadas tanto pelos botões do host quanto por mensagens vindas dos Chromebooks ----
+  function inGame(){ return !!score && !screens.game.classList.contains('hidden'); }
+
+  function toggleCheat(key){
+    if (!(key in CHEATS)) return;
+    CHEATS[key] = !CHEATS[key];
+    applyCheatEffects();
+    broadcastCheatState();
+  }
+
+  function addScore(slot, delta){
+    if (!inGame() || !slot) return;
+    score[slot] = (score[slot] || 0) + delta;
+    updateHud();
+    broadcastCheatState();
+  }
+
+  function resetScores(){
+    if (!inGame()) return;
+    for (let i=1;i<=NUM_PLAYERS;i++) score[i]=0;
+    updateHud();
+    broadcastCheatState();
+  }
+
+  function forceWin(slot){
+    if (!inGame() || !slot) return;
+    let maxOther = 0;
+    for (let k=1;k<=NUM_PLAYERS;k++) if (k!==slot) maxOther = Math.max(maxOther, score[k]);
+    score[slot] = Math.max(score[slot], maxOther) + 5;
+    cheatMenuModal.classList.add('hidden');
+    endGame();
+  }
+
+  function skipCurrentQuestion(){
+    if (!inGame()) return;
+    if (gamePhase === 'center' || gamePhase === 'answering'){
+      cheatMenuModal.classList.add('hidden');
+      resolveRound();
+    }
+  }
+
+  function addCustomQuestion(text, isTrue){
+    const clean = (text || '').trim().slice(0, 220);
+    if (!clean) return;
+    CUSTOM_QUESTIONS.push({ t:clean, a:!!isTrue });
+    broadcastCheatState();
+  }
+
+  function delCustomQuestion(index){
+    if (index >= 0 && index < CUSTOM_QUESTIONS.length){
+      CUSTOM_QUESTIONS.splice(index, 1);
+      broadcastCheatState();
+    }
+  }
+
+  // ---- UI do host (dentro do modal de cheats) ----
   function refreshCheatUI(){
     setSwitch('cheat-toggle-invincible', CHEATS.invincible);
     setSwitch('cheat-toggle-nocd', CHEATS.noCooldown);
@@ -2098,49 +2068,30 @@
       const b = document.createElement('button');
       b.className = 'btn secondary'; b.type='button';
       b.textContent = `+1 P${i}`;
-      b.onclick = () => { if (!inGame()) return; score[i]++; updateHud(); };
+      b.onclick = () => addScore(i, 1);
       scoreWrap.appendChild(b);
 
       const wb = document.createElement('button');
       wb.className = 'btn secondary'; wb.type='button';
       wb.textContent = `P${i} vence`;
-      wb.onclick = () => {
-        if (!inGame()) return;
-        let maxOther = 0;
-        for (let k=1;k<=NUM_PLAYERS;k++) if (k!==i) maxOther = Math.max(maxOther, score[k]);
-        score[i] = Math.max(score[i], maxOther) + 5;
-        cheatMenuModal.classList.add('hidden');
-        endGame();
-      };
+      wb.onclick = () => forceWin(i);
       winWrap.appendChild(wb);
     }
     const resetBtn = document.createElement('button');
     resetBtn.className = 'btn secondary'; resetBtn.type='button';
     resetBtn.textContent = 'Zerar';
-    resetBtn.onclick = () => { if (!inGame()) return; for (let i=1;i<=NUM_PLAYERS;i++) score[i]=0; updateHud(); };
+    resetBtn.onclick = resetScores;
     scoreWrap.appendChild(resetBtn);
   }
 
   function makeToggle(id, key){
-    $(id).onclick = () => {
-      CHEATS[key] = !CHEATS[key];
-      applyCheatEffects();
-      refreshCheatUI();
-    };
+    $(id).onclick = () => toggleCheat(key);
   }
   makeToggle('cheat-toggle-invincible', 'invincible');
   makeToggle('cheat-toggle-nocd', 'noCooldown');
   makeToggle('cheat-toggle-turbo', 'turbo');
 
-  function inGame(){ return !!score && !screens.game.classList.contains('hidden'); }
-
-  $('cheat-skip').onclick = () => {
-    if (!inGame()) return;
-    if (gamePhase === 'center' || gamePhase === 'answering'){
-      cheatMenuModal.classList.add('hidden');
-      resolveRound();
-    }
-  };
+  $('cheat-skip').onclick = skipCurrentQuestion;
 
   function renderCustomQuestions(){
     const list = $('cheat-questions-list');
@@ -2159,7 +2110,7 @@
       del.type = 'button';
       del.className = 'btn secondary cheat-q-del';
       del.textContent = '✕';
-      del.onclick = () => { CUSTOM_QUESTIONS.splice(i,1); renderCustomQuestions(); };
+      del.onclick = () => delCustomQuestion(i);
       row.appendChild(txt);
       row.appendChild(del);
       list.appendChild(row);
@@ -2168,13 +2119,26 @@
 
   $('cheat-add-question').onclick = () => {
     const input = $('cheat-q-input');
-    const text = input.value.trim();
-    if (!text) return;
     const isTrue = $('cheat-q-answer').value === 'true';
-    CUSTOM_QUESTIONS.push({ t:text, a:isTrue });
+    addCustomQuestion(input.value, isTrue);
     input.value = '';
-    renderCustomQuestions();
   };
+
+  // ---- Sincroniza o estado dos cheats com o host (se o modal estiver aberto) e com todos os Chromebooks ----
+  function broadcastCheatState(){
+    if (!cheatMenuModal.classList.contains('hidden')){
+      refreshCheatUI();
+      renderCustomQuestions();
+    }
+    sendToAll({
+      type:'cheat-state',
+      cheats: CHEATS,
+      questions: CUSTOM_QUESTIONS,
+      numPlayers: NUM_PLAYERS,
+      score: inGame() ? score : null,
+      inGame: inGame()
+    });
+  }
 
   document.querySelectorAll('.cheat-tab').forEach(tab => {
     tab.onclick = () => {
