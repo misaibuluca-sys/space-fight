@@ -529,43 +529,16 @@
   .ctrl-player-tag { font-family:'Orbitron'; font-size:0.95rem; letter-spacing:0.05em; }
   .ctrl-leave { font-size:0.75rem; color:#8890b8; border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:0.35rem 0.8rem; background:rgba(255,255,255,0.04); }
 
-  .ctrl-body { display:flex; align-items:center; justify-content:space-between; gap:0.6rem; min-height:0; }
-
-  .keyboard-hint {
-    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem;
-    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); border-radius:14px;
-    padding:0.8rem; min-height:min(24vh, 26vw, 108px);
-  }
-  .keyboard-hint-label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; }
-  .keyboard-hint-keys { display:flex; flex-direction:column; align-items:center; gap:0.25rem; }
-  .keyboard-hint-keys .krow { display:flex; gap:0.3rem; }
-  .keyboard-hint-keys .kkey {
-    font-family:'Orbitron'; font-size:0.8rem; min-width:1.8rem; text-align:center;
-    padding:0.3rem 0.4rem; border-radius:5px; border:1px solid rgba(255,255,255,0.25);
-    background:rgba(255,255,255,0.06); color:#e8ecff; transition:all .1s ease;
-  }
-  .keyboard-hint-keys .kkey.active { background:rgba(94,241,255,0.35); border-color:#5ef1ff; color:#5ef1ff; }
-
-
-  .powers { display:flex; flex-direction:column; gap:0.8rem; flex-shrink:0; }
-  .power-btn {
-    width:min(24vh, 26vw, 108px); height:min(24vh, 26vw, 108px); border-radius:50%;
-    font-family:'Orbitron'; font-size:0.8rem; letter-spacing:0.03em;
-    border:2px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); color:#fff;
-  }
-  .power-btn.active { transform:scale(0.94); }
-
   #conn-banner {
     position:fixed; top:0; left:0; right:0; text-align:center; font-size:0.75rem; padding:0.35rem;
     background:#ff3b5c; color:#fff; letter-spacing:0.05em; text-transform:uppercase; z-index:10;
   }
 
   /* ================= MIRROR: tela do jogo espelhada no Chromebook ================= */
-  #screen-controller { display:flex; flex-direction:column; width:100%; height:100%; padding:0.6rem 1rem; }
+  #screen-controller { display:flex; flex-direction:column; width:100%; height:100%; }
   #mirror-viewport {
     position:relative; flex:1 1 auto; min-height:0; overflow:hidden;
-    background:#05040d; border-radius:12px; border:1px solid rgba(160,150,255,0.25);
-    margin-bottom:0.6rem;
+    background:#05040d;
   }
   #mirror-stage { position:absolute; top:0; left:0; transform-origin:0 0; }
   #mirror-stage canvas#game { display:block; background:#05040d; }
@@ -589,7 +562,6 @@
     box-shadow:0 0 12px rgba(255,90,90,0.4);
   }
 
-  .ctrl-body { flex:0 0 auto; }
 </style>
 </head>
 <body>
@@ -646,11 +618,6 @@
   </div>
 
   <div id="screen-controller" class="hidden">
-    <div class="ctrl-header">
-      <div class="ctrl-player-tag" id="ctrl-player-tag">Player 1</div>
-      <button class="ctrl-leave" id="btn-leave">trocar</button>
-    </div>
-
     <div id="mirror-viewport">
       <div id="mirror-stage">
         <canvas id="game"></canvas>
@@ -663,17 +630,6 @@
         <h2 id="mirror-waiting-title">SPACE FIGHT</h2>
         <div class="sub2" id="mirror-waiting-sub">Conectando à sala...</div>
         <div id="mirror-waiting-extra"></div>
-      </div>
-    </div>
-
-    <div class="ctrl-body">
-      <div class="keyboard-hint" id="keyboard-hint">
-        <div class="keyboard-hint-label">Movimento</div>
-        <div class="keyboard-hint-keys" id="keyboard-hint-keys"></div>
-      </div>
-      <div class="powers">
-        <button class="power-btn" id="btn-power1" data-action="power1">PODER 1</button>
-        <button class="power-btn" id="btn-power2" data-action="power2">PODER 2</button>
       </div>
     </div>
   </div>
@@ -858,9 +814,6 @@
           const color = PALETTE[myPlayer-1];
           $('cfg-player-tag').textContent = 'Player ' + myPlayer;
           $('cfg-player-tag').style.color = color;
-          $('ctrl-player-tag').textContent = 'Player ' + myPlayer;
-          $('ctrl-player-tag').style.color = color;
-          [$('btn-power1'), $('btn-power2')].forEach(el => { el.style.borderColor = color; el.style.color = color; });
           initConfigFromServer(msg.config || {}, msg.powers || {});
           if (hostScreen === 'connect' || hostScreen === null){
             showConfigScreen();
@@ -915,16 +868,6 @@
     dataConn.send({ type:'join', player });
   }
 
-  $('btn-leave').onclick = () => {
-    if (dataConn && dataConn.open && myPlayer){
-      try { dataConn.send({ type:'leave' }); } catch(e){}
-    }
-    myPlayer = null;
-    $('screen-controller').classList.add('hidden');
-    $('screen-pick').classList.remove('hidden');
-    buildPickButtons();
-  };
-
   function sendInput(action, pressed){
     if (!myPlayer || !dataConn || !dataConn.open) return;
     dataConn.send({ type:'input', action, pressed });
@@ -933,18 +876,6 @@
     if (!myPlayer || !dataConn || !dataConn.open) return;
     dataConn.send({ type:'move', x, y });
   }
-
-  function bindHold(el, action){
-    const press = (e) => { e.preventDefault(); el.classList.add('active'); sendInput(action, true); };
-    const release = (e) => { e.preventDefault(); el.classList.remove('active'); sendInput(action, false); };
-    el.addEventListener('pointerdown', press);
-    el.addEventListener('pointerup', release);
-    el.addEventListener('pointercancel', release);
-    el.addEventListener('pointerleave', release);
-    el.addEventListener('contextmenu', e => e.preventDefault());
-  }
-  bindHold($('btn-power1'), 'power1');
-  bindHold($('btn-power2'), 'power2');
 
   // ---- movimento por teclado ----
   const KEYSETS = {
@@ -956,25 +887,6 @@
   const heldDirs = { up:false, down:false, left:false, right:false };
   let lastSentX = 0, lastSentY = 0;
 
-  function renderKeyboardHint(){
-    const ks = KEYSETS[myKeyset];
-    const wrap = $('keyboard-hint-keys');
-    wrap.innerHTML = `
-      <div class="krow"><span class="kkey" data-dir="up">${ks.labels.up}</span></div>
-      <div class="krow">
-        <span class="kkey" data-dir="left">${ks.labels.left}</span>
-        <span class="kkey" data-dir="down">${ks.labels.down}</span>
-        <span class="kkey" data-dir="right">${ks.labels.right}</span>
-      </div>`;
-  }
-
-  function updateKeyHintActive(){
-    ['up','down','left','right'].forEach(dir => {
-      const el = $('keyboard-hint-keys').querySelector(`[data-dir="${dir}"]`);
-      if (el) el.classList.toggle('active', heldDirs[dir]);
-    });
-  }
-
   function recomputeAndSendMove(){
     let x = (heldDirs.right ? 1 : 0) - (heldDirs.left ? 1 : 0);
     let y = (heldDirs.down ? 1 : 0) - (heldDirs.up ? 1 : 0);
@@ -983,12 +895,15 @@
       lastSentX = x; lastSentY = y;
       sendMove(x, y);
     }
-    updateKeyHintActive();
   }
 
   function isTypingTarget(el){
     return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT');
   }
+
+  // Poderes acionados via teclado: Q = Poder 1, E = Poder 2
+  const POWER_KEYS = { power1:'KeyQ', power2:'KeyE' };
+  const heldPowers = { power1:false, power2:false };
 
   window.addEventListener('keydown', (e) => {
     if (isTypingTarget(document.activeElement)) return;
@@ -999,6 +914,13 @@
       if (e.code === ks[dir]){ heldDirs[dir] = true; matched = true; }
     }
     if (matched){ e.preventDefault(); recomputeAndSendMove(); }
+    for (const action in POWER_KEYS){
+      if (e.code === POWER_KEYS[action] && !heldPowers[action]){
+        heldPowers[action] = true;
+        e.preventDefault();
+        sendInput(action, true);
+      }
+    }
   });
   window.addEventListener('keyup', (e) => {
     const ks = KEYSETS[myKeyset];
@@ -1007,20 +929,28 @@
       if (e.code === ks[dir]){ heldDirs[dir] = false; matched = true; }
     }
     if (matched){ e.preventDefault(); recomputeAndSendMove(); }
+    for (const action in POWER_KEYS){
+      if (e.code === POWER_KEYS[action] && heldPowers[action]){
+        heldPowers[action] = false;
+        e.preventDefault();
+        sendInput(action, false);
+      }
+    }
   });
   window.addEventListener('blur', () => {
     heldDirs.up = heldDirs.down = heldDirs.left = heldDirs.right = false;
     recomputeAndSendMove();
+    for (const action in heldPowers){
+      if (heldPowers[action]){ heldPowers[action] = false; sendInput(action, false); }
+    }
   });
 
   $('cfg-keyset').addEventListener('change', (e) => {
     myKeyset = e.target.value;
     heldDirs.up = heldDirs.down = heldDirs.left = heldDirs.right = false;
     recomputeAndSendMove();
-    renderKeyboardHint();
     sendKeyset();
   });
-  renderKeyboardHint();
 
   // ---- tela de configuração (nome, cor, skin, poderes) ----
   const SKINS = [
@@ -1071,7 +1001,6 @@
     if (KEYSETS[cfg.keyset]){
       myKeyset = cfg.keyset;
       $('cfg-keyset').value = myKeyset;
-      renderKeyboardHint();
     }
 
     $('cfg-name').value = myConfig.name;
@@ -1761,7 +1690,21 @@
     drawPowerups();
 
     if (players){
-      for (let i=1;i<=NUM_PLAYERS;i++) drawShip(players[i]);
+      const now = performance.now();
+      const FRAME_MS = 1000/60; // host avança p.x/p.y em unidades de vx/vy por frame de ~60fps
+      const MAX_EXTRAP_MS = 120; // não extrapola além disso p/ não "voar" longe em caso de lag
+      const elapsedFrames = Math.min(now - lastStateAt, MAX_EXTRAP_MS) / FRAME_MS;
+      for (let i=1;i<=NUM_PLAYERS;i++){
+        const p = players[i];
+        if (!p) continue;
+        const ex = p.x + (p.vx||0)*elapsedFrames;
+        const ey = p.y + (p.vy||0)*elapsedFrames;
+        drawShip({
+          ...p,
+          x: Math.max(RADIUS, Math.min(canvas.width-RADIUS, ex)),
+          y: Math.max(RADIUS, Math.min(canvas.height-RADIUS, ey))
+        });
+      }
     }
   }
 
