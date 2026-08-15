@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Space Fight</title>
+<title>Guerra das Marés</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
   * { box-sizing: border-box; margin:0; padding:0; }
   html, body {
     width:100%; height:100%; overflow:hidden;
-    background:#05040d;
-    font-family:'Rajdhani', sans-serif;
-    color:#e8ecff;
+    background:#0a3436;
+    font-family:'Quicksand', sans-serif;
+    color:#e3faf5;
   }
   #app { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }
 
@@ -29,16 +29,16 @@
     background:
       radial-gradient(1px 1px at 20% 30%, #fff, transparent),
       radial-gradient(1px 1px at 80% 60%, #fff, transparent),
-      radial-gradient(2px 2px at 50% 80%, #cdaaff, transparent),
+      radial-gradient(2px 2px at 50% 80%, #bdf0e8, transparent),
       radial-gradient(1px 1px at 30% 90%, #fff, transparent),
       radial-gradient(1px 1px at 70% 15%, #fff, transparent),
       radial-gradient(1px 1px at 45% 45%, #fff, transparent),
       radial-gradient(1px 1px at 92% 30%, #fff, transparent),
-      radial-gradient(1px 1px at 10% 65%, #ffb3ec, transparent),
-      radial-gradient(ellipse 55% 42% at 12% 18%, rgba(139,90,255,0.28), transparent 70%),
-      radial-gradient(ellipse 50% 40% at 92% 78%, rgba(255,111,216,0.20), transparent 70%),
+      radial-gradient(1px 1px at 10% 65%, #a0f0e1, transparent),
+      radial-gradient(ellipse 55% 42% at 12% 18%, rgba(47,166,163,0.28), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 92% 78%, rgba(90,220,200,0.20), transparent 70%),
       radial-gradient(ellipse 65% 45% at 55% 105%, rgba(94,241,255,0.14), transparent 70%),
-      linear-gradient(180deg, #07050f 0%, #0d0a24 38%, #1c0f42 72%, #2a1456 100%);
+      linear-gradient(180deg, #08292c 0%, #0f4448 38%, #186a6e 72%, #2fa6a3 100%);
     background-attachment: fixed;
   }
   .title-bg::before {
@@ -49,57 +49,57 @@
   @keyframes starTwinkle { 0%,100%{ opacity:.3; } 50%{ opacity:.9; } }
 
   h1.logo {
-    font-family:'Orbitron', sans-serif;
+    font-family:'Comfortaa', sans-serif;
     font-weight:900;
     font-size:clamp(2.6rem, 8vw, 5.5rem);
     letter-spacing:0.08em;
-    background:linear-gradient(90deg,#5ef1ff,#b98bff 40%,#ff6fd8 72%,#ffe066);
+    background:linear-gradient(90deg,#5ef1ff,#4fd1c5 40%,#7fe8d4 72%,#ffe066);
     background-size:200% auto;
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
-    text-shadow:0 0 70px rgba(180,140,255,0.45);
+    text-shadow:0 0 70px rgba(94,241,255,0.4);
     animation: floaty 4s ease-in-out infinite, hueSlide 6s ease-in-out infinite;
   }
   @keyframes floaty { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
   @keyframes hueSlide { 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
 
-  .subtitle { font-size:1rem; letter-spacing:0.35em; color:#8fa3ff; text-transform:uppercase; opacity:0.8; }
+  .subtitle { font-size:1rem; letter-spacing:0.35em; color:#bdf0e8; text-transform:uppercase; opacity:0.8; }
 
   .btn {
-    font-family:'Orbitron', sans-serif;
+    font-family:'Comfortaa', sans-serif;
     font-size:1rem;
     letter-spacing:0.06em;
     padding:0.9rem 2.4rem;
-    background:linear-gradient(180deg, rgba(120,180,255,0.55), rgba(70,50,190,0.4) 60%, rgba(40,25,110,0.55));
+    background:linear-gradient(180deg, rgba(110,220,210,0.55), rgba(20,100,105,0.4) 60%, rgba(10,55,60,0.55));
     border:1px solid rgba(160,220,255,0.75);
     color:#eafcff;
     border-radius:8px;
     cursor:pointer;
     text-transform:uppercase;
     transition:transform .12s ease, box-shadow .2s ease, background .2s ease;
-    box-shadow:0 4px 0 rgba(10,6,30,0.7), inset 0 1px 0 rgba(255,255,255,0.35), 0 0 22px rgba(94,150,255,0.25);
+    box-shadow:0 4px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.35), 0 0 22px rgba(94,220,255,0.25);
   }
-  .btn:hover { background:linear-gradient(180deg, rgba(140,200,255,0.7), rgba(100,70,230,0.5) 60%, rgba(50,30,130,0.6)); box-shadow:0 4px 0 rgba(10,6,30,0.7), inset 0 1px 0 rgba(255,255,255,0.45), 0 0 34px rgba(120,170,255,0.5); transform:translateY(-2px); }
-  .btn:active { transform:translateY(2px); box-shadow:0 1px 0 rgba(10,6,30,0.7), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 16px rgba(120,170,255,0.35); }
-  .btn.secondary { border-color:rgba(200,180,255,0.4); background:linear-gradient(180deg, rgba(155,139,255,0.28), rgba(70,55,140,0.22) 60%, rgba(30,20,70,0.4)); color:#e4dcff; box-shadow:0 4px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 14px rgba(155,139,255,0.15); }
-  .btn.secondary:hover { box-shadow:0 4px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 24px rgba(185,150,255,0.35); }
-  .btn.secondary:active { box-shadow:0 1px 0 rgba(10,6,30,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 12px rgba(185,150,255,0.2); }
+  .btn:hover { background:linear-gradient(180deg, rgba(140,230,215,0.7), rgba(30,130,125,0.5) 60%, rgba(15,70,70,0.6)); box-shadow:0 4px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.45), 0 0 34px rgba(110,230,220,0.5); transform:translateY(-2px); }
+  .btn:active { transform:translateY(2px); box-shadow:0 1px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 16px rgba(110,230,220,0.35); }
+  .btn.secondary { border-color:rgba(150,235,220,0.4); background:linear-gradient(180deg, rgba(90,210,195,0.28), rgba(15,75,75,0.22) 60%, rgba(8,45,48,0.4)); color:#dff5f0; box-shadow:0 4px 0 rgba(4,22,24,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 14px rgba(90,210,195,0.15); }
+  .btn.secondary:hover { box-shadow:0 4px 0 rgba(4,22,24,0.6), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 24px rgba(120,225,205,0.35); }
+  .btn.secondary:active { box-shadow:0 1px 0 rgba(4,22,24,0.6), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 12px rgba(120,225,205,0.2); }
   .btn.tiny { padding:0.5rem 0.9rem; font-size:0.8rem; }
 
   .btn-row { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
 
   .panel {
     background:
-      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(139,90,255,0.16), transparent 65%),
-      radial-gradient(ellipse 55% 45% at 90% 90%, rgba(255,111,216,0.12), transparent 65%),
-      rgba(13,11,32,0.82);
-    border:1px solid rgba(160,150,255,0.35);
+      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(47,166,163,0.16), transparent 65%),
+      radial-gradient(ellipse 55% 45% at 90% 90%, rgba(90,220,200,0.12), transparent 65%),
+      rgba(8,42,45,0.82);
+    border:1px solid rgba(120,210,200,0.35);
     border-radius:14px;
     padding:2rem 2.4rem;
     max-width:640px;
     backdrop-filter:blur(6px);
-    box-shadow:0 0 40px rgba(90,60,200,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+    box-shadow:0 0 40px rgba(20,110,110,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
   }
 
   /* Como Jogar: precisa rolar em telas menores, senão o conteúdo fica cortado fora da tela */
@@ -111,17 +111,17 @@
   }
   #screen-howto .panel { margin-top:1rem; }
 
-  .howto-text { font-size:1.15rem; line-height:1.7; text-align:left; color:#cfd3ff; }
+  .howto-text { font-size:1.15rem; line-height:1.7; text-align:left; color:#d3f3ee; }
   .howto-text b { color:#5ef1ff; }
 
   /* ---------- Player-count stepper (connect screen) ---------- */
   .count-stepper { display:flex; align-items:center; gap:1rem; }
   .count-stepper-btn {
-    width:2.6rem; height:2.6rem; border-radius:50%; font-family:'Orbitron'; font-size:1.3rem;
+    width:2.6rem; height:2.6rem; border-radius:50%; font-family:'Comfortaa'; font-size:1.3rem;
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25); color:#fff; cursor:pointer;
   }
   .count-stepper-btn:disabled { opacity:0.3; cursor:not-allowed; }
-  .count-stepper-val { font-family:'Orbitron'; font-size:1.6rem; min-width:2.2rem; color:#ffe066; }
+  .count-stepper-val { font-family:'Comfortaa'; font-size:1.6rem; min-width:2.2rem; color:#ffe066; }
 
   /* ---------- Sliding setup carousel (settings / powers screens) ---------- */
   .setup-carousel { display:flex; align-items:center; gap:1rem; width:min(94vw, 420px); }
@@ -135,7 +135,7 @@
   .setup-arrow {
     flex-shrink:0; width:2.4rem; height:2.4rem; border-radius:50%;
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
-    color:#e8ecff; font-size:1.3rem; line-height:1; cursor:pointer;
+    color:#e3faf5; font-size:1.3rem; line-height:1; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
   }
   .setup-arrow:hover { background:rgba(94,241,255,0.22); border-color:#5ef1ff; }
@@ -144,32 +144,32 @@
     width:100%;
     background:
       radial-gradient(ellipse 65% 50% at 15% 0%, var(--pcolor-fade,rgba(94,241,255,0.14)), transparent 65%),
-      radial-gradient(ellipse 60% 50% at 95% 100%, rgba(139,90,255,0.14), transparent 65%),
-      rgba(13,11,32,0.85);
-    border:1px solid rgba(160,150,255,0.35);
+      radial-gradient(ellipse 60% 50% at 95% 100%, rgba(47,166,163,0.14), transparent 65%),
+      rgba(8,42,45,0.85);
+    border:1px solid rgba(120,210,200,0.35);
     border-radius:14px;
     padding:1.4rem;
     display:flex; flex-direction:column; gap:0.8rem;
-    box-shadow:0 0 30px rgba(90,60,200,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
+    box-shadow:0 0 30px rgba(20,110,110,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
   }
-  .player-card h3 { font-family:'Orbitron'; font-size:1rem; letter-spacing:0.05em; }
-  .player-card label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; text-align:left; }
+  .player-card h3 { font-family:'Comfortaa'; font-size:1rem; letter-spacing:0.05em; }
+  .player-card label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#8fcfc5; text-align:left; }
   .player-card input[type="text"] {
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
-    color:#fff; padding:0.5rem 0.7rem; border-radius:6px; font-family:'Rajdhani'; font-size:1rem;
+    color:#fff; padding:0.5rem 0.7rem; border-radius:6px; font-family:'Quicksand'; font-size:1rem;
   }
   .player-card input[type="color"] {
     width:100%; height:2.4rem; border:none; border-radius:6px; background:none; cursor:pointer;
   }
-  .controls-box { font-size:0.85rem; color:#c7ccf0; text-align:left; line-height:1.5; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.8rem; }
+  .controls-box { font-size:0.85rem; color:#bfe9e2; text-align:left; line-height:1.5; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.8rem; }
   .controls-box b { color:#fff; }
-  .skin-label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#9aa3d9; text-align:left; margin-top:0.2rem; display:flex; align-items:center; justify-content:space-between; }
+  .skin-label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#8fcfc5; text-align:left; margin-top:0.2rem; display:flex; align-items:center; justify-content:space-between; }
 
   /* ---------- CHEATS ---------- */
   .cheat-fab {
     position:fixed; right:clamp(10px,2vw,20px); bottom:clamp(10px,2vh,20px);
     width:clamp(30px,4vw,38px); height:clamp(30px,4vw,38px);
-    border-radius:50%; border:1px solid rgba(160,150,255,0.35);
+    border-radius:50%; border:1px solid rgba(120,210,200,0.35);
     background:rgba(20,16,45,0.55); color:#8f97c9; font-size:1rem;
     cursor:pointer; z-index:500; opacity:0.35; transition:opacity .2s ease, transform .2s ease;
     display:flex; align-items:center; justify-content:center; line-height:1;
@@ -187,25 +187,25 @@
     width:min(92vw, 420px);
     max-height:90vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
     background:
-      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(139,90,255,0.18), transparent 65%),
-      radial-gradient(ellipse 55% 45% at 90% 90%, rgba(255,111,216,0.12), transparent 65%),
-      rgba(11,9,28,0.95);
-    border:1px solid rgba(160,150,255,0.35);
+      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(47,166,163,0.18), transparent 65%),
+      radial-gradient(ellipse 55% 45% at 90% 90%, rgba(90,220,200,0.12), transparent 65%),
+      rgba(7,38,41,0.95);
+    border:1px solid rgba(120,210,200,0.35);
     border-radius:14px;
     padding:clamp(1.1rem,3vw,1.8rem);
-    box-shadow:0 0 50px rgba(90,60,200,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+    box-shadow:0 0 50px rgba(20,110,110,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
     display:flex; flex-direction:column; gap:0.9rem;
   }
   .cheat-box-wide { width:min(94vw, 560px); }
   .cheat-box h3 {
-    font-family:'Orbitron'; font-size:clamp(1rem,3vw,1.2rem); letter-spacing:0.05em;
+    font-family:'Comfortaa'; font-size:clamp(1rem,3vw,1.2rem); letter-spacing:0.05em;
     color:#ffe066; text-align:center; text-transform:uppercase;
   }
-  .cheat-box p.cheat-sub { font-size:0.85rem; color:#9aa3d9; text-align:center; margin-top:-0.4rem; }
+  .cheat-box p.cheat-sub { font-size:0.85rem; color:#8fcfc5; text-align:center; margin-top:-0.4rem; }
 
   #cheat-code-input {
     width:100%; text-align:center; letter-spacing:0.5em;
-    font-family:'Orbitron'; font-size:1.4rem; padding:0.7rem;
+    font-family:'Comfortaa'; font-size:1.4rem; padding:0.7rem;
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18);
     border-radius:8px; color:#fff;
   }
@@ -213,9 +213,9 @@
 
   .cheat-tabs { display:flex; gap:0.5rem; }
   .cheat-tab {
-    flex:1; font-family:'Orbitron'; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
+    flex:1; font-family:'Comfortaa'; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
     padding:0.6rem 0.4rem; border-radius:8px; border:1px solid rgba(255,255,255,0.15);
-    background:rgba(255,255,255,0.04); color:#c7ccf0; cursor:pointer; transition:all .15s ease;
+    background:rgba(255,255,255,0.04); color:#bfe9e2; cursor:pointer; transition:all .15s ease;
   }
   .cheat-tab.active { background:rgba(94,241,255,0.16); border-color:rgba(94,241,255,0.5); color:#5ef1ff; }
   .cheat-tab-content { display:flex; flex-direction:column; gap:0.7rem; }
@@ -227,32 +227,32 @@
   }
   .cheat-option-text { flex:1; min-width:140px; text-align:left; }
   .cheat-option-name { font-size:0.92rem; font-weight:700; color:#fff; }
-  .cheat-option-desc { font-size:0.7rem; color:#9aa3d9; line-height:1.3; margin-top:0.15rem; }
+  .cheat-option-desc { font-size:0.7rem; color:#8fcfc5; line-height:1.3; margin-top:0.15rem; }
   .cheat-score-btns { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; }
   .cheat-score-btns .btn.secondary, .cheat-option .btn.secondary { padding:0.45rem 0.8rem; font-size:0.7rem; }
 
   .cheat-switch {
-    font-family:'Orbitron'; font-size:0.72rem; letter-spacing:0.05em; padding:0.5rem 1rem;
+    font-family:'Comfortaa'; font-size:0.72rem; letter-spacing:0.05em; padding:0.5rem 1rem;
     border-radius:20px; border:1px solid rgba(255,255,255,0.25); cursor:pointer;
-    background:rgba(255,255,255,0.06); color:#c7ccf0; transition:all .15s ease; min-width:56px;
+    background:rgba(255,255,255,0.06); color:#bfe9e2; transition:all .15s ease; min-width:56px;
   }
   .cheat-switch.on { background:rgba(94,241,255,0.22); border-color:#5ef1ff; color:#5ef1ff; box-shadow:0 0 14px rgba(94,241,255,0.3); }
 
   .cheat-q-form { display:flex; flex-direction:column; gap:0.5rem; background:rgba(255,255,255,0.04); border-radius:10px; padding:0.8rem; border:1px solid rgba(255,255,255,0.08); }
   .cheat-q-form textarea {
-    width:100%; min-height:3.2rem; resize:vertical; font-family:'Rajdhani'; font-size:0.95rem;
+    width:100%; min-height:3.2rem; resize:vertical; font-family:'Quicksand'; font-size:0.95rem;
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); border-radius:8px; color:#fff; padding:0.6rem;
   }
   .cheat-q-form-row { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
   .cheat-q-form-row select {
-    font-family:'Rajdhani'; font-size:0.9rem; background:rgba(255,255,255,0.06); color:#fff;
+    font-family:'Quicksand'; font-size:0.9rem; background:rgba(255,255,255,0.06); color:#fff;
     border:1px solid rgba(255,255,255,0.18); border-radius:8px; padding:0.5rem 0.6rem;
   }
   .cheat-q-list { display:flex; flex-direction:column; gap:0.4rem; max-height:26vh; overflow-y:auto; }
   .cheat-q-row { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.5rem 0.7rem; }
-  .cheat-q-text { font-size:0.8rem; color:#e4dcff; text-align:left; line-height:1.3; }
+  .cheat-q-text { font-size:0.8rem; color:#dff5f0; text-align:left; line-height:1.3; }
   .cheat-q-del { padding:0.3rem 0.6rem !important; font-size:0.7rem !important; flex-shrink:0; }
-  .cheat-empty { font-size:0.8rem; color:#7178a3; text-align:center; padding:0.6rem; }
+  .cheat-empty { font-size:0.8rem; color:#5f9b93; text-align:center; padding:0.6rem; }
 
   .power-list { display:flex; flex-direction:column; gap:0.6rem; }
   .power-row { display:flex; justify-content:space-between; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.04); border-radius:8px; padding:0.55rem 0.8rem; cursor:pointer; transition:all 0.15s ease; border:1px solid transparent; }
@@ -261,7 +261,7 @@
   .power-row.disabled { opacity:0.5; cursor:not-allowed; }
   .power-row-text { text-align:left; flex:1; }
   .power-name { font-size:0.95rem; color:#fff; font-weight:700; }
-  .power-desc { font-size:0.72rem; color:#9aa3d9; line-height:1.3; }
+  .power-desc { font-size:0.72rem; color:#8fcfc5; line-height:1.3; }
   .power-key-btn { min-width:60px; padding:0.5rem 0.7rem; font-size:0.85rem; flex-shrink:0; background:rgba(120,220,255,0.2); border:1px solid rgba(120,220,255,0.5); border-radius:4px; font-weight:700; }
 
   /* ============ SCI-FI CORNER FRAME (reusable HUD-style corner brackets) ============ */
@@ -299,7 +299,7 @@
   .grid-overlay::before {
     content:''; position:absolute; inset:-50px;
     background-image:
-      linear-gradient(rgba(139,90,255,0.08) 1px, transparent 1px),
+      linear-gradient(rgba(47,166,163,0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(94,241,255,0.07) 1px, transparent 1px);
     background-size: 44px 44px;
     -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 38%, #000 35%, transparent 88%);
@@ -309,27 +309,28 @@
   @keyframes gridDrift { 0%{ transform:translate(0,0); } 100%{ transform:translate(44px,44px); } }
   .grid-overlay::after {
     content:''; position:absolute; left:0; right:0; height:2px;
-    background:linear-gradient(90deg, transparent, rgba(255,111,216,0.55), rgba(94,241,255,0.55), transparent);
-    box-shadow:0 0 14px 2px rgba(150,180,255,0.5);
+    background:linear-gradient(90deg, transparent, rgba(90,220,200,0.55), rgba(94,241,255,0.55), transparent);
+    box-shadow:0 0 14px 2px rgba(120,235,220,0.5);
     animation: scanline 5s linear infinite;
   }
   @keyframes scanline { 0%{ top:-5%; opacity:0; } 8%{ opacity:.9; } 92%{ opacity:.9; } 100%{ top:105%; opacity:0; } }
 
-  /* ============ SPARKLES (estilo Canva/Moon) ============ */
+  /* ============ BOLHAS flutuantes (fundo) ============ */
   .sparkle-layer { position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
   .sparkle {
     position:absolute;
-    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
-    animation: sparkleTwinkle 3.2s ease-in-out infinite;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.35);
+    animation: sparkleTwinkle 3.6s ease-in-out infinite;
   }
   @keyframes sparkleTwinkle {
-    0%,100% { opacity:.12; transform:scale(.45) rotate(0deg); }
-    50% { opacity:1; transform:scale(1.15) rotate(25deg); }
+    0%,100% { opacity:.18; transform:translateY(0) scale(.7); }
+    50% { opacity:.85; transform:translateY(-14px) scale(1.08); }
   }
-  .sparkle.cyan { background:radial-gradient(circle,#eafeff,#5ef1ff 55%,transparent 72%); box-shadow:0 0 12px #5ef1ff; }
-  .sparkle.pink { background:radial-gradient(circle,#ffe9f9,#ff6fd8 55%,transparent 72%); box-shadow:0 0 12px #ff6fd8; }
-  .sparkle.gold { background:radial-gradient(circle,#fff9e2,#ffe066 55%,transparent 72%); box-shadow:0 0 12px #ffe066; }
-  .sparkle.purple { background:radial-gradient(circle,#f2eaff,#b98bff 55%,transparent 72%); box-shadow:0 0 12px #b98bff; }
+  .sparkle.cyan { background:radial-gradient(circle at 32% 28%,#eafeff,#5ef1ff 55%,transparent 75%); box-shadow:0 0 12px rgba(94,241,255,0.5); }
+  .sparkle.pink { background:radial-gradient(circle at 32% 28%,#f0fffb,#7fe8d4 55%,transparent 75%); box-shadow:0 0 12px rgba(127,232,212,0.5); }
+  .sparkle.gold { background:radial-gradient(circle at 32% 28%,#fff9e2,#ffe066 55%,transparent 75%); box-shadow:0 0 12px rgba(255,224,102,0.4); }
+  .sparkle.purple { background:radial-gradient(circle at 32% 28%,#eafffc,#4fd1c5 55%,transparent 75%); box-shadow:0 0 12px rgba(79,209,197,0.5); }
 
   /* screen enter animation */
   .screen.enter { animation: screenIn 0.5s cubic-bezier(.2,.8,.2,1); }
@@ -351,9 +352,9 @@
   .carousel-arrow {
     flex-shrink:0; width:2.1rem; height:2.1rem; border-radius:50%;
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
-    color:#e8ecff; font-size:1.2rem; line-height:1; cursor:pointer;
+    color:#e3faf5; font-size:1.2rem; line-height:1; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    transition:all .15s ease; font-family:'Orbitron';
+    transition:all .15s ease; font-family:'Comfortaa';
   }
   .carousel-arrow:hover { background:rgba(94,241,255,0.22); border-color:#5ef1ff; box-shadow:0 0 12px rgba(94,241,255,0.4); transform:scale(1.12); }
   .carousel-arrow:active { transform:scale(0.95); }
@@ -381,7 +382,7 @@
   .carousel-dot.active { background:#ffe066; box-shadow:0 0 8px rgba(255,224,102,0.8); transform:scale(1.35); }
 
   /* How-to visuals */
-  .howto-text h4 { font-family:'Orbitron'; font-size:0.85rem; color:#ffe066; letter-spacing:0.06em; text-transform:uppercase; margin:1rem 0 0.5rem; }
+  .howto-text h4 { font-family:'Comfortaa'; font-size:0.85rem; color:#ffe066; letter-spacing:0.06em; text-transform:uppercase; margin:1rem 0 0.5rem; }
   .howto-text h4:first-child { margin-top:0; }
   .icon-row { display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; }
   .action-chip {
@@ -390,44 +391,44 @@
     border-radius:20px; padding:0.3rem 0.8rem; font-size:0.9rem;
   }
   .atk-row { display:flex; align-items:flex-start; gap:0.8rem; margin-bottom:0.7rem; }
-  .atk-row .action-chip { margin-top:0.1rem; font-family:'Orbitron'; font-size:0.7rem; letter-spacing:0.04em; }
+  .atk-row .action-chip { margin-top:0.1rem; font-family:'Comfortaa'; font-size:0.7rem; letter-spacing:0.04em; }
   .atk-row .atk-punch { color:#5ef1ff; border-color:rgba(94,241,255,0.4); }
-  .atk-row .atk-meteor { color:#ffb37a; border-color:rgba(255,138,61,0.4); }
+  .atk-row .atk-meteor { color:#7ad9ff; border-color:rgba(40,180,255,0.4); }
   .atk-desc { flex:1; font-size:1rem; }
   .tip-line { border-top:1px solid rgba(255,255,255,0.12); padding-top:0.8rem; margin-top:0.2rem; }
   .zone-diagram {
     display:flex; height:60px; border-radius:8px; overflow:hidden;
     border:1px solid rgba(255,255,255,0.2); margin:0 0 1rem;
   }
-  .zone-diagram > div { flex:1; display:flex; align-items:center; justify-content:center; font-family:'Orbitron'; font-weight:900; font-size:1.3rem; }
+  .zone-diagram > div { flex:1; display:flex; align-items:center; justify-content:center; font-family:'Comfortaa'; font-weight:900; font-size:1.3rem; }
   .zone-diagram .zv { background:rgba(80,255,160,0.16); color:#7dffb0; }
   .zone-diagram .zn { background:rgba(255,255,255,0.03); color:#7a7fa0; font-size:0.7rem; font-weight:600; letter-spacing:0.05em; }
   .zone-diagram .zf { background:rgba(255,90,90,0.16); color:#ff7d7d; }
 
   /* Game canvas */
-  canvas#game { display:block; background:#05040d; }
+  canvas#game { display:block; background:#0a3436; }
 
   #hud {
     position:absolute; top:16px; left:0; right:0;
     display:flex; justify-content:center; align-items:flex-start; gap:0.6rem; flex-wrap:wrap;
     padding:0 24px;
-    font-family:'Orbitron'; pointer-events:none;
+    font-family:'Comfortaa'; pointer-events:none;
   }
-  .score-box { font-size:clamp(0.7rem,1.6vw,1.05rem); padding:0.35rem 0.85rem; border-radius:8px; background:linear-gradient(180deg, rgba(30,26,70,0.85), rgba(12,10,28,0.85)); border:1px solid rgba(150,170,255,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(94,150,255,0.15); }
-  .round-box { font-size:0.9rem; padding:0.4rem 1rem; border-radius:8px; background:linear-gradient(180deg, rgba(70,45,140,0.7), rgba(12,10,28,0.85)); border:1px solid rgba(190,160,255,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(139,90,255,0.18); }
+  .score-box { font-size:clamp(0.7rem,1.6vw,1.05rem); padding:0.35rem 0.85rem; border-radius:8px; background:linear-gradient(180deg, rgba(14,70,74,0.85), rgba(6,38,40,0.85)); border:1px solid rgba(120,225,215,0.4); box-shadow:0 3px 0 rgba(4,20,21,0.6), 0 0 16px rgba(94,220,255,0.15); }
+  .round-box { font-size:0.9rem; padding:0.4rem 1rem; border-radius:8px; background:linear-gradient(180deg, rgba(30,140,135,0.7), rgba(6,38,40,0.85)); border:1px solid rgba(130,230,215,0.4); box-shadow:0 3px 0 rgba(5,4,15,0.6), 0 0 16px rgba(47,166,163,0.18); }
 
   #question-banner {
     position:absolute; left:50%; transform:translate(-50%,-50%);
     top:50%;
-    font-family:'Orbitron';
+    font-family:'Comfortaa';
     font-size:clamp(1.3rem,3vw,2rem);
-    background:linear-gradient(180deg, rgba(40,25,90,0.8), rgba(10,8,28,0.85));
-    border:1px solid rgba(180,160,255,0.45);
+    background:linear-gradient(180deg, rgba(15,80,85,0.8), rgba(5,32,34,0.85));
+    border:1px solid rgba(120,230,215,0.45);
     padding:1.2rem 2.2rem;
     border-radius:12px;
     text-align:center;
     max-width:80%;
-    box-shadow:0 0 40px rgba(139,90,255,0.3);
+    box-shadow:0 0 40px rgba(47,166,163,0.3);
     transition: top 0.9s cubic-bezier(.4,0,.2,1), transform 0.9s cubic-bezier(.4,0,.2,1), font-size 0.9s ease;
     z-index:5;
   }
@@ -440,17 +441,17 @@
 
   #result-banner {
     position:absolute; left:50%; top:38%; transform:translate(-50%,-50%);
-    font-family:'Orbitron'; font-size:1.6rem; text-align:center;
-    background:linear-gradient(180deg, rgba(45,28,100,0.92), rgba(10,8,28,0.95)); border:1px solid rgba(180,160,255,0.45);
+    font-family:'Comfortaa'; font-size:1.6rem; text-align:center;
+    background:linear-gradient(180deg, rgba(20,100,100,0.92), rgba(5,32,34,0.95)); border:1px solid rgba(120,230,215,0.45);
     padding:1.6rem 2.4rem; border-radius:14px; z-index:6;
-    box-shadow:0 0 50px rgba(139,90,255,0.35);
+    box-shadow:0 0 50px rgba(47,166,163,0.35);
     animation: popin 0.35s cubic-bezier(.2,1.4,.4,1);
     max-width:92vw;
   }
   @keyframes popin { 0%{ transform:translate(-50%,-50%) scale(0.6); opacity:0; } 100%{ transform:translate(-50%,-50%) scale(1); opacity:1; } }
   .answer-chip {
     display:inline-flex; align-items:center; gap:0.5rem;
-    font-family:'Orbitron'; font-weight:900; font-size:1.5rem;
+    font-family:'Comfortaa'; font-weight:900; font-size:1.5rem;
     padding:0.5rem 1.2rem; border-radius:10px; margin-bottom:0.9rem;
   }
   .answer-chip.true { background:rgba(80,255,160,0.15); color:#7dffb0; border:1px solid rgba(120,255,170,0.5); }
@@ -463,21 +464,21 @@
   }
   .result-player.win { background:rgba(255,224,102,0.12); border-color:rgba(255,224,102,0.55); box-shadow:0 0 20px rgba(255,224,102,0.25); }
   .result-player .rp-icon { font-size:1.6rem; line-height:1; }
-  .result-player .rp-point { font-family:'Orbitron'; font-size:0.85rem; font-weight:700; }
+  .result-player .rp-point { font-family:'Comfortaa'; font-size:0.85rem; font-weight:700; }
 
   .zone-label {
     position:absolute; top:50%; transform:translateY(-50%);
-    font-family:'Orbitron'; font-weight:900; font-size:clamp(2rem,6vw,4rem);
+    font-family:'Comfortaa'; font-weight:900; font-size:clamp(2rem,6vw,4rem);
     letter-spacing:0.05em; opacity:0.16; pointer-events:none;
   }
 
-  #gameover-name { font-family:'Orbitron'; font-size:2.2rem; }
+  #gameover-name { font-family:'Comfortaa'; font-size:2.2rem; }
 
   /* ---------- CONNECT SCREEN ---------- */
   .btn:disabled { opacity:0.35; cursor:not-allowed; filter:grayscale(0.4); }
   .btn:disabled:hover { transform:none; }
   .room-code-box {
-    font-family:'Orbitron'; font-weight:900; font-size:clamp(2.4rem,8vw,4rem); letter-spacing:0.2em;
+    font-family:'Comfortaa'; font-weight:900; font-size:clamp(2.4rem,8vw,4rem); letter-spacing:0.2em;
     color:#ffe066; text-shadow:0 0 30px rgba(255,224,102,0.5);
     background:rgba(255,255,255,0.05); border:1px solid rgba(255,224,102,0.35);
     border-radius:14px; padding:0.6rem 1.4rem; margin:0.4rem 0 0.8rem;
@@ -490,11 +491,11 @@
   }
   .connect-status-dot { width:14px; height:14px; border-radius:50%; background:#5a5a7a; box-shadow:0 0 8px rgba(0,0,0,0.4); flex-shrink:0; transition:all .2s ease; }
   .connect-status-row.online .connect-status-dot { background:#5cff9d; box-shadow:0 0 10px #5cff9d; }
-  .connect-status-name { font-family:'Orbitron'; font-size:0.95rem; }
-  .connect-status-state { margin-left:auto; font-size:0.8rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.05em; }
+  .connect-status-name { font-family:'Comfortaa'; font-size:0.95rem; }
+  .connect-status-state { margin-left:auto; font-size:0.8rem; color:#8fcfc5; text-transform:uppercase; letter-spacing:0.05em; }
   .connect-status-row.online .connect-status-state { color:#5cff9d; }
   .connect-status-keyset {
-    font-size:0.68rem; color:#7d86bf; text-transform:uppercase; letter-spacing:0.06em;
+    font-size:0.68rem; color:#5f9b93; text-transform:uppercase; letter-spacing:0.06em;
     border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.1rem 0.4rem;
   }
 </style>
@@ -505,11 +506,11 @@
   <!-- CONNECT -->
   <div id="screen-connect" class="screen title-bg">
     <div class="grid-overlay"></div>
-    <div class="subtitle">Space Fight</div>
+    <div class="subtitle">Guerra das Marés</div>
     <h1 class="logo" style="font-size:clamp(1.8rem,5vw,2.6rem);">Conectar Jogadores</h1>
 
     <div id="connect-count-picker">
-      <div style="font-size:0.9rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.6rem;">Quantos jogadores?</div>
+      <div style="font-size:0.9rem; color:#8fcfc5; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.6rem;">Quantos jogadores?</div>
       <div class="count-stepper">
         <button class="count-stepper-btn" id="count-minus" type="button">−</button>
         <div class="count-stepper-val" id="count-val">2</div>
@@ -517,13 +518,29 @@
       </div>
     </div>
 
-    <div style="font-size:0.9rem; color:#9aa3d9; text-transform:uppercase; letter-spacing:0.1em;">Código da sala</div>
+    <div style="font-size:0.9rem; color:#8fcfc5; text-transform:uppercase; letter-spacing:0.1em;">Código da sala</div>
     <div class="room-code-box" id="room-code">----</div>
-    <div style="font-size:0.9rem; color:#cfd3ff;">Peça pros jogadores abrirem a página de controle no Chromebook e digitarem esse código.</div>
+    <div style="font-size:0.9rem; color:#d3f3ee;">Peça pros jogadores abrirem a página de controle no Chromebook e digitarem esse código.</div>
     <div class="connect-status-list" id="connect-status-list"></div>
     <div class="btn-row" style="margin-top:1rem;">
       <button class="btn" id="btn-connect-continue" disabled>▶ Continuar</button>
       <button class="btn secondary" id="btn-connect-skip">Jogar sem Chromebook (teclado)</button>
+    </div>
+  </div>
+
+  <!-- LOCAL SETUP: até 2 jogadores no teclado do host ajustam nome, cor, formato e poderes -->
+  <div id="screen-localsetup" class="screen title-bg hidden" style="overflow-y:auto; padding:3vh 1rem 3vh; -webkit-overflow-scrolling:touch;">
+    <div class="grid-overlay"></div>
+    <div class="subtitle">Guerra das Marés</div>
+    <h1 class="logo" style="font-size:clamp(1.5rem,4vw,2.1rem);">Configurar Jogadores</h1>
+    <div style="font-size:0.85rem; color:#d3f3ee; max-width:560px; line-height:1.6;">
+      <b>Jogador 1:</b> mover com WASD, atacar com Q e E.<br>
+      <b>Jogador 2:</b> mover com as Setas, atacar com Enter e Shift.
+    </div>
+    <div id="localsetup-cards" style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; max-width:960px; margin-top:0.6rem;"></div>
+    <div class="btn-row" style="margin-top:0.6rem;">
+      <button class="btn" id="btn-localsetup-continue">▶ Continuar</button>
+      <button class="btn secondary" id="btn-localsetup-back">Voltar</button>
     </div>
   </div>
 
@@ -540,8 +557,8 @@
       <span class="sparkle gold" style="top:55%; left:3%; width:8px; height:8px; animation-delay:1.5s;"></span>
       <span class="sparkle purple" style="top:88%; left:35%; width:10px; height:10px; animation-delay:.4s;"></span>
     </div>
-    <div class="subtitle">Batalha Orbital</div>
-    <h1 class="logo">SPACE FIGHT</h1>
+    <div class="subtitle">Batalha nas Marés</div>
+    <h1 class="logo">GUERRA DAS MARÉS</h1>
     <div class="subtitle" style="letter-spacing:0.15em; opacity:0.6; font-size:0.8rem;" id="title-players-sub">Verdadeiro ou Falso · 2 Jogadores</div>
     <div class="btn-row" style="margin-top:0.6rem;">
       <button class="btn" id="btn-start">▶ Começar</button>
@@ -570,10 +587,10 @@
           <div class="zn">zona neutra</div>
           <div class="zf">✕ F</div>
         </div>
-        <p style="margin-bottom:0.9rem;">Uma pergunta de <b>Verdadeiro ou Falso</b> aparece na tela. Cada jogador (de 2 a 5) precisa pilotar sua nave até o lado correto da arena antes do tempo acabar. Quem estiver na área certa quando o tempo esgota ganha <b>+1 ponto</b>. Vence quem tiver mais pontos após <b>5 perguntas</b>.</p>
+        <p style="margin-bottom:0.9rem;">Uma pergunta de <b>Verdadeiro ou Falso</b> aparece na tela. Cada jogador (de 2 a 5) precisa nadar até o lado correto da arena antes do tempo acabar. Quem estiver na área certa quando o tempo esgota ganha <b>+1 ponto</b>. Vence quem tiver mais pontos após <b>5 perguntas</b>.</p>
 
         <h4>Controles</h4>
-        <p style="margin-bottom:0.6rem;">Cada jogador controla sua nave pelo <b>Chromebook</b>: teclado pra mover (WASD, Setas ou IJKL, à sua escolha) e dois botões de poder na tela. Abra <code>controller.html</code> no Chromebook, digite o código da sala e escolha seu jogador.</p>
+        <p style="margin-bottom:0.6rem;">Cada jogador controla seu personagem pelo <b>Chromebook</b>: teclado pra mover (WASD, Setas ou IJKL, à sua escolha) e dois botões de poder na tela. Abra <code>controller.html</code> no Chromebook, digite o código da sala e escolha seu jogador.</p>
         <p style="margin-top:0.4rem; font-size:0.95rem; color:#b8c1ff;"><b>Nota:</b> escolha 2 poderes na tela de configuração — eles ficam nos dois botões de poder do Chromebook. Sem Chromebook, o Player 1 pode jogar pelo teclado do computador do host (WASD + Q/E).</p>
 
         <h4>Poderes Disponíveis</h4>
@@ -582,16 +599,16 @@
           <span class="atk-desc">rápido, curto alcance, empurrão médio, recarrega rápido. Acerta o adversário mais próximo.</span>
         </div>
         <div class="atk-row">
-          <span class="action-chip atk-meteor">METEORO</span>
-          <span class="atk-desc">muito mais forte, empurrão gigante e atordoa quem for atingido por um instante. Cai um alvo grande no chão e demora quase 1 segundo pra explodir, dando tempo do adversário desviar. Recarrega mais devagar.</span>
+          <span class="action-chip atk-meteor">ONDA</span>
+          <span class="atk-desc">muito mais forte, empurrão gigante e atordoa quem for atingido por um instante. Uma marca grande aparece na água e demora quase 1 segundo até a onda quebrar, dando tempo do adversário desviar. Recarrega mais devagar.</span>
         </div>
         <div class="atk-row">
           <span class="action-chip" style="color:#5ef1ff; border-color:rgba(94,241,255,0.4);">ESCUDO</span>
           <span class="atk-desc">proteção temporária que absorve um ataque. Dura 2 segundos e recarrega lentamente. Muito útil para escapar de perigos.</span>
         </div>
         <div class="atk-row">
-          <span class="action-chip" style="color:#7d5aff; border-color:rgba(125,90,255,0.4);">BURACO NEGRO</span>
-          <span class="atk-desc">puxa o adversário mais próximo para dentro e o atordoa, similar ao meteoro. Só pode ser usado FORA da zona de V ou F (na zona neutra). Recarrega muito devagar.</span>
+          <span class="action-chip" style="color:#1a8f96; border-color:rgba(20,170,180,0.4);">REDEMOINHO</span>
+          <span class="atk-desc">puxa o adversário mais próximo para dentro e o atordoa, similar à onda. Só pode ser usado FORA da zona de V ou F (na zona neutra). Recarrega muito devagar.</span>
         </div>
         <h4>Power-up</h4>
         <div class="atk-row">
@@ -654,14 +671,14 @@
         <div class="cheat-option">
           <div class="cheat-option-text">
             <div class="cheat-option-name">Invencibilidade</div>
-            <div class="cheat-option-desc">Naves não ficam atordoadas por golpes</div>
+            <div class="cheat-option-desc">Personagens não ficam atordoados por golpes</div>
           </div>
           <button class="cheat-switch" id="cheat-toggle-invincible" type="button">OFF</button>
         </div>
         <div class="cheat-option">
           <div class="cheat-option-text">
             <div class="cheat-option-name">Poderes sem recarga</div>
-            <div class="cheat-option-desc">Soco, meteoro, escudo e buraco negro sem cooldown</div>
+            <div class="cheat-option-desc">Soco, onda, escudo e redemoinho sem cooldown</div>
           </div>
           <button class="cheat-switch" id="cheat-toggle-nocd" type="button">OFF</button>
         </div>
@@ -720,7 +737,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const screens = {
-    connect: $('screen-connect'), title: $('screen-title'), howto: $('screen-howto'),
+    connect: $('screen-connect'), localsetup: $('screen-localsetup'), title: $('screen-title'), howto: $('screen-howto'),
     game: $('screen-game'), over: $('screen-over')
   };
   function show(name){
@@ -732,7 +749,7 @@
     broadcastScreenState();
   }
 
-  const PALETTE = ['#5ef1ff', '#ff6fd8', '#ffe066', '#b98bff', '#5cff9d'];
+  const PALETTE = ['#5ef1ff', '#7fe8d4', '#ffe066', '#4fd1c5', '#5cff9d'];
   const MIN_PLAYERS = 2, MAX_PLAYERS = 5;
   let NUM_PLAYERS = 2;
 
@@ -1005,7 +1022,9 @@
   });
 
   $('btn-connect-continue').onclick = () => { show('title'); updateTitleSub(); };
-  $('btn-connect-skip').onclick = () => { show('title'); updateTitleSub(); };
+  $('btn-connect-skip').onclick = () => { show('localsetup'); renderLocalSetup(); };
+  $('btn-localsetup-back').onclick = () => show('connect');
+  $('btn-localsetup-continue').onclick = () => { show('title'); updateTitleSub(); };
   function updateTitleSub(){
     $('title-players-sub').textContent = `Verdadeiro ou Falso · ${NUM_PLAYERS} Jogadores`;
     broadcastScreenState();
@@ -1018,56 +1037,51 @@
   $('btn-again').onclick = () => { startGame(); };
 
   const QUESTIONS = [
-    { t:"A corrida espacial foi uma disputa entre Estados Unidos e União Soviética durante a Guerra Fria.", a:true },
-    { t:"O Sputnik 1, lançado em 1957, foi o primeiro satélite artificial a orbitar a Terra.", a:true },
-    { t:"Yuri Gagarin foi o primeiro ser humano a viajar ao espaço, em 1961.", a:true },
-    { t:"Neil Armstrong foi o primeiro ser humano a pisar na Lua, em 1969.", a:true },
-    { t:"A missão Apollo 11 foi a primeira a levar astronautas até a Lua.", a:true },
-    { t:"Valentina Tereshkova foi a primeira mulher a ir ao espaço.", a:true },
-    { t:"A cadela Laika foi o primeiro ser vivo a orbitar a Terra, a bordo do Sputnik 2.", a:true },
-    { t:"A NASA foi criada antes do lançamento do Sputnik 1.", a:false },
-    { t:"A Apollo 13 conseguiu pousar na Lua normalmente, sem nenhum problema.", a:false },
-    { t:"Alexei Leonov foi o primeiro ser humano a realizar uma caminhada espacial.", a:true },
-    { t:"O Projeto Mercury foi o primeiro programa espacial tripulado dos Estados Unidos.", a:true },
-    { t:"A corrida espacial começou oficialmente antes da Segunda Guerra Mundial.", a:false },
-    { t:"Peggy Whitson é uma astronauta norte-americana e bioquímica.", a:true },
-    { t:"Peggy Whitson foi a primeira mulher a comandar a Estação Espacial Internacional.", a:true },
-    { t:"Peggy Whitson já deteve o recorde de mais tempo acumulado no espaço entre os astronautas dos Estados Unidos.", a:true },
-    { t:"Peggy Whitson nunca foi ao espaço.", a:false },
-    { t:"Katherine Bouman ajudou a desenvolver o algoritmo usado para criar a primeira imagem de um buraco negro.", a:true },
-    { t:"Katherine Bouman participou do projeto Event Horizon Telescope.", a:true },
-    { t:"Katherine Bouman trabalhou sozinha, sem nenhuma equipe, na primeira imagem de um buraco negro.", a:false },
-    { t:"Katherine Bouman é cientista da computação e trabalha com processamento de imagens.", a:true },
-    { t:"Wernher von Braun foi engenheiro-chefe do programa Apollo que trabalhou para os Estados Unidos.", a:true },
-    { t:"O Modulo Lunar da Apollo 11 se chama Eagle.", a:true },
-    { t:"Buzz Aldrin foi o segundo ser humano a pisar na Lua.", a:true },
-    { t:"Sergei Korolev foi o designer-chefe do programa espacial soviético.", a:true },
-    { t:"A Sonda Vostok 1 completou uma órbita ao redor da Terra em aproximadamente 108 minutos.", a:true },
-    { t:"O Projeto Gemini foi desenvolvido para testar técnicas de acoplamento e caminhada espacial antes da Apollo.", a:true },
-    { t:"Nenhum astronauta americano pisou na Lua após a missão Apollo 11.", a:false },
-    { t:"Alan Shepard foi o primeiro americano a viajar ao espaço, em 1961.", a:true },
-    { t:"A estação espacial Mir foi um projeto exclusivamente americano.", a:false },
-    { t:"Cosmonautas soviéticos realizaram a primeira caminhada espacial antes dos americanos.", a:true },
-    { t:"John Glenn orbitou a Terra 3 vezes durante sua missão no Projeto Mercury.", a:true },
-    { t:"O computador da Apollo 11 tinha menos poder de processamento que um smartphone moderno.", a:true },
-    { t:"Gagarin completou sua órbita em torno da Terra em menos de 2 horas.", a:true },
-    { t:"A URSS foi a primeira nação a enviar um satélite para orbitar Marte com sucesso.", a:false },
-    { t:"O Sputnik 2 transportava o cao Laika com sistemas de suporte à vida e transmissao telemetrica.", a:true },
-    { t:"Valentina Tereshkova permaneceu no espaço por aproximadamente 71 horas.", a:true },
-    { t:"A União Soviética foi a primeira a enviar uma sonda não tripulada para a Lua.", a:true },
-    { t:"A NASA alcançou com sucesso um pouso tripulado em Marte no século XX.", a:false },
-    { t:"Andrian Nikolayev foi cosmonauta soviético que estabeleceu recordes de duração em órbita.", a:true },
-    { t:"Konstantin Tsiolkovsky foi um pioneiro teórico da astronáutica russa.", a:true },
-    { t:"O programa Apollo foi cancelado imediatamente após a Apollo 11 pousar na Lua.", a:false },
-    { t:"James McDivitt pilotou a Gemini 4 junto com Ed White, que realizou a primeira caminhada espacial americana.", a:true },
-    { t:"Os astronautas do Projeto Gemini usaram uma nave de duas pessoas para praticar manobras criticas de acoplamento.", a:true },
-    { t:"Zigurat 1 foi o nome original do Sputnik 1 na época de seu lançamento.", a:false },
-    { t:"A cadeia de transmissoes do Sputnik 1 podia ser captada por radioamadores civis.", a:true },
-    { t:"Erich von Braun era o principal rival cientifico de Wernher von Braun durante a corrida espacial.", a:false },
-    { t:"A órbita inicial do Sputnik 1 tinha um apogeu de aproximadamente 950 km.", a:true },
-    { t:"Sally Ride foi a primeira mulher americana a ir ao espaço em 1983.", a:true },
-    { t:"O Challenger era um avião supersônico usado para treinar astronautas, não um onibus espacial.", a:false },
-    { t:"Gherman Titov foi o segundo cosmonauta a ser enviado ao espaço, com apenas 25 anos de idade.", a:true },
+    { t:"O Oceano Pacífico é o maior e mais profundo oceano da Terra.", a:true },
+    { t:"A Fossa das Marianas é o ponto mais profundo já registrado nos oceanos.", a:true },
+    { t:"A Fossa das Marianas é mais profunda do que o Monte Everest é alto.", a:true },
+    { t:"Jacques Cousteau ajudou a inventar um dos primeiros equipamentos modernos de mergulho autônomo.", a:true },
+    { t:"A baleia-azul é o maior animal que já existiu na Terra, maior até que os dinossauros.", a:true },
+    { t:"Os polvos têm três corações.", a:true },
+    { t:"Os tubarões são mamíferos marinhos.", a:false },
+    { t:"Os golfinhos são peixes.", a:false },
+    { t:"O Titanic afundou no Oceano Atlântico Norte.", a:true },
+    { t:"Os recifes de coral são formados por organismos vivos chamados corais.", a:true },
+    { t:"A Grande Barreira de Corais fica na costa da Austrália.", a:true },
+    { t:"Os oceanos cobrem menos da metade da superfície da Terra.", a:false },
+    { t:"As estrelas-do-mar não possuem cérebro.", a:true },
+    { t:"Nos cavalos-marinhos, é o macho quem carrega os filhotes até nascerem.", a:true },
+    { t:"Seres humanos já visitaram o ponto mais profundo da Fossa das Marianas.", a:true },
+    { t:"A maior parte do oxigênio da Terra vem das florestas tropicais.", a:false },
+    { t:"As águas-vivas existem no planeta há mais tempo que os dinossauros.", a:true },
+    { t:"A água do Mar Morto é tão salgada que fica fácil flutuar nela.", a:true },
+    { t:"As tartarugas marinhas costumam voltar à praia onde nasceram para desovar.", a:true },
+    { t:"Tsunamis são causados apenas pela atração gravitacional da lua.", a:false },
+    { t:"O Oceano Atlântico está crescendo lentamente devido à expansão do fundo oceânico.", a:true },
+    { t:"Os polvos conseguem mudar de cor para se camuflar.", a:true },
+    { t:"A zona mais profunda do oceano é totalmente escura, sem luz do sol.", a:true },
+    { t:"O peixe-lua (mola-mola) é o peixe ósseo mais pesado do mundo.", a:true },
+    { t:"As correntes marinhas ajudam a regular o clima da Terra.", a:true },
+    { t:"A Corrente do Golfo leva água quente até o Atlântico Norte.", a:true },
+    { t:"Os narvais são conhecidos por sua longa presa em espiral.", a:true },
+    { t:"O Mar Cáspio é, tecnicamente, o maior lago do mundo.", a:true },
+    { t:"As baleias respiram debaixo d'água através de guelras.", a:false },
+    { t:"Todas as espécies de pinguins selvagens vivem no Hemisfério Sul.", a:true },
+    { t:"A pressão da água aumenta conforme se desce no oceano.", a:true },
+    { t:"O vulcão Mauna Loa fica inteiramente acima do nível do mar.", a:false },
+    { t:"As lontras-marinhas se dão as patas enquanto dormem para não se separarem na água.", a:true },
+    { t:"Os camarões-pistola conseguem produzir um estalo forte o bastante para atordoar suas presas.", a:true },
+    { t:"Fernão de Magalhães liderou a expedição que completou a primeira volta ao mundo, embora tenha morrido antes do fim da viagem.", a:true },
+    { t:"O Oceano Ártico é o menor e mais raso entre os oceanos da Terra.", a:true },
+    { t:"Os corais são plantas, não animais.", a:false },
+    { t:"A chamada 'maré vermelha' é causada por uma proliferação de algas tóxicas.", a:true },
+    { t:"Um grupo de peixes é chamado de cardume.", a:true },
+    { t:"O nível do mar vem subindo devido ao derretimento de geleiras e à expansão térmica da água.", a:true },
+    { t:"A Grande Mancha de Lixo do Pacífico é uma ilha sólida feita de plástico.", a:false },
+    { t:"Os tubarões-baleia são os maiores peixes do mundo, mas se alimentam principalmente de plâncton.", a:true },
+    { t:"O oceano é completamente silencioso, sem nenhum tipo de som.", a:false },
+    { t:"As enguias-elétricas conseguem gerar choques fortes o suficiente para atordoar uma presa.", a:true },
+    { t:"Sylvia Earle é uma oceanógrafa e exploradora marinha que liderou diversas expedições de mergulho em alto-mar.", a:true },
   ];
   function shuffle(arr){
     const a = arr.slice();
@@ -1077,14 +1091,14 @@
 
   // ---------- PLAYER SETUP ----------
   const SKINS = [
-    { id:'classic', name:'Clássica' },
-    { id:'falcon', name:'Falcão' },
-    { id:'blade', name:'Lâmina' },
-    { id:'nova', name:'Nova' },
-    { id:'alien', name:'Alienígena' },
-    { id:'saucer', name:'Disco Voador' },
-    { id:'cruiser', name:'Cruzador' },
-    { id:'stealth', name:'Furtiva' },
+    { id:'classic' },
+    { id:'fin' },
+    { id:'blade' },
+    { id:'drop' },
+    { id:'shell' },
+    { id:'bubble' },
+    { id:'wave' },
+    { id:'stealth' },
   ];
 
   // Config agora chega dos Chromebooks (ver applyPlayerConfig/applyPlayerPowers), não mais de inputs do host.
@@ -1151,20 +1165,178 @@
     sendToAll({ type:'player-configs', configs: out });
   }
 
+  // ---- tela local de configuração (sem Chromebook) — jogadores 1 e 2 ajustam nome, cor, formato e poderes direto no host ----
+  function renderLocalSetup(){
+    const container = $('localsetup-cards');
+    container.innerHTML = '';
+    container.appendChild(buildLocalSetupCard(1));
+    container.appendChild(buildLocalSetupCard(2));
+  }
+
+  function buildLocalSetupCard(slot){
+    const cfg = PLAYERS_CFG[slot-1];
+    const powers = playerPowerConfig[slot];
+
+    const card = document.createElement('div');
+    card.className = 'panel corner-frame player-card';
+    card.style.maxWidth = '380px';
+    card.style.flex = '1 1 320px';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = `Jogador ${slot}`;
+    card.appendChild(h3);
+
+    const nameLabel = document.createElement('label'); nameLabel.textContent = 'Nome';
+    const nameInput = document.createElement('input'); nameInput.type = 'text'; nameInput.maxLength = 14; nameInput.value = cfg.name;
+    nameInput.addEventListener('input', () => {
+      cfg.name = nameInput.value.trim().slice(0,14) || `Player ${slot}`;
+      updateConnectRowPreview(slot);
+      broadcastPlayerConfigs();
+    });
+    card.appendChild(nameLabel); card.appendChild(nameInput);
+
+    const colorLabel = document.createElement('label'); colorLabel.textContent = 'Sua cor';
+    const colorInput = document.createElement('input'); colorInput.type = 'color'; colorInput.value = cfg.color;
+    card.appendChild(colorLabel); card.appendChild(colorInput);
+
+    const skinLabelEl = document.createElement('div'); skinLabelEl.className = 'skin-label'; skinLabelEl.style.marginTop = '0.4rem'; skinLabelEl.textContent = 'Seu formato';
+    card.appendChild(skinLabelEl);
+
+    const carouselWrap = document.createElement('div'); carouselWrap.className = 'ship-carousel';
+    const prevBtn = document.createElement('button'); prevBtn.type = 'button'; prevBtn.className = 'carousel-arrow'; prevBtn.textContent = '‹';
+    const viewport = document.createElement('div'); viewport.className = 'carousel-viewport corner-frame';
+    const track = document.createElement('div'); track.className = 'carousel-track';
+    viewport.appendChild(track);
+    const nextBtn = document.createElement('button'); nextBtn.type = 'button'; nextBtn.className = 'carousel-arrow'; nextBtn.textContent = '›';
+    carouselWrap.appendChild(prevBtn); carouselWrap.appendChild(viewport); carouselWrap.appendChild(nextBtn);
+    card.appendChild(carouselWrap);
+
+    const dots = document.createElement('div'); dots.className = 'carousel-dots';
+    card.appendChild(dots);
+
+    function paintSkinCarousel(){
+      [...track.children].forEach((slide, si) => {
+        const cv = slide.querySelector('canvas');
+        const cx = cv.getContext('2d');
+        cx.clearRect(0,0,100,100);
+        cx.save(); cx.translate(50,53);
+        tracePath(cx, SKINS[si].id, 32);
+        cx.fillStyle = cfg.color; cx.shadowColor = cfg.color; cx.shadowBlur = 18; cx.fill();
+        cx.restore();
+      });
+    }
+    function updateSkinCarousel(instant){
+      const idx = cfg.skinIndex;
+      if (instant) track.classList.add('dragging');
+      track.style.transform = `translateX(${-idx*100}%)`;
+      if (instant) requestAnimationFrame(()=>track.classList.remove('dragging'));
+      [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===idx));
+      cfg.skin = SKINS[idx].id;
+      updateConnectRowPreview(slot);
+      broadcastPlayerConfigs();
+    }
+    function moveSkinCarousel(dir){
+      const len = SKINS.length;
+      cfg.skinIndex = (cfg.skinIndex + dir + len) % len;
+      updateSkinCarousel(true);
+    }
+    SKINS.forEach((sk, si) => {
+      const slide = document.createElement('div'); slide.className = 'carousel-slide';
+      const cv = document.createElement('canvas'); cv.width = 100; cv.height = 100;
+      slide.appendChild(cv); track.appendChild(slide);
+      const dot = document.createElement('button'); dot.type = 'button'; dot.className = 'carousel-dot' + (si===cfg.skinIndex ? ' active' : '');
+      dot.onclick = () => { cfg.skinIndex = si; updateSkinCarousel(true); };
+      dots.appendChild(dot);
+    });
+    paintSkinCarousel();
+    updateSkinCarousel(true);
+    prevBtn.onclick = () => moveSkinCarousel(-1);
+    nextBtn.onclick = () => moveSkinCarousel(1);
+
+    colorInput.addEventListener('input', () => {
+      cfg.color = colorInput.value;
+      paintSkinCarousel();
+      updateConnectRowPreview(slot);
+      broadcastPlayerConfigs();
+    });
+
+    (function enableDrag(){
+      let dragging=false, startX=0, deltaX=0, width=1;
+      viewport.addEventListener('pointerdown', e => {
+        if (e.target.closest('button')) return;
+        dragging=true; startX=e.clientX; deltaX=0; width=viewport.clientWidth||1;
+        track.classList.add('dragging');
+        try { viewport.setPointerCapture(e.pointerId); } catch(err){}
+      });
+      viewport.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        deltaX = e.clientX-startX;
+        const base = -cfg.skinIndex*width;
+        track.style.transform = `translateX(${base+deltaX}px)`;
+      });
+      function endDrag(){
+        if (!dragging) return;
+        dragging=false; track.classList.remove('dragging');
+        if (deltaX < -width*0.16) moveSkinCarousel(1);
+        else if (deltaX > width*0.16) moveSkinCarousel(-1);
+        else updateSkinCarousel();
+        deltaX=0;
+      }
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+    })();
+
+    const powersLabelEl = document.createElement('div'); powersLabelEl.className = 'skin-label'; powersLabelEl.style.marginTop = '0.6rem'; powersLabelEl.textContent = 'Poderes (escolha 2)';
+    card.appendChild(powersLabelEl);
+    const powerList = document.createElement('div'); powerList.className = 'power-list';
+    card.appendChild(powerList);
+
+    function renderPowerList(){
+      powerList.innerHTML = '';
+      const powerSlots = ['power1','power2'];
+      const selectedPowers = new Set(powerSlots.map(k => powers[k]).filter(Boolean));
+      POWER_DEFS.forEach(pw => {
+        const row = document.createElement('div'); row.className = 'power-row';
+        const text = document.createElement('div'); text.className = 'power-row-text';
+        text.innerHTML = `<div class="power-name">${pw.name}</div><div class="power-desc">${pw.desc}</div>`;
+        let assignedSlot = powerSlots.find(k => powers[k] === pw.id);
+        const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn secondary power-key-btn';
+        if (assignedSlot){
+          row.classList.add('selected');
+          btn.textContent = assignedSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2';
+          btn.onclick = () => { powers[assignedSlot] = null; renderPowerList(); broadcastPlayerConfigs(); };
+        } else if (selectedPowers.size < 2){
+          const freeSlot = powerSlots.find(k => !powers[k]);
+          btn.textContent = '+ ' + (freeSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2');
+          btn.onclick = () => { powers[freeSlot] = pw.id; renderPowerList(); broadcastPlayerConfigs(); };
+        } else {
+          row.classList.add('disabled');
+          btn.textContent = '-';
+          btn.disabled = true;
+        }
+        row.appendChild(text); row.appendChild(btn);
+        powerList.appendChild(row);
+      });
+    }
+    renderPowerList();
+
+    return card;
+  }
+
   function skinPoints(skin, R){
     switch(skin){
-      case 'falcon': return [[0,-R*1.1],[R*1.15,R*0.75],[R*0.35,R*0.55],[0,R*0.95],[-R*0.35,R*0.55],[-R*1.15,R*0.75]];
+      case 'fin': return [[0,-R*1.1],[R*1.15,R*0.75],[R*0.35,R*0.55],[0,R*0.95],[-R*0.35,R*0.55],[-R*1.15,R*0.75]];
       case 'blade': return [[0,-R*1.3],[R*0.45,R*0.9],[0,R*0.55],[-R*0.45,R*0.9]];
-      case 'nova': return [[0,-R*0.95],[R*0.55,-R*0.1],[R*0.95,R*0.85],[R*0.25,R*0.55],[0,R*0.9],[-R*0.25,R*0.55],[-R*0.95,R*0.85],[-R*0.55,-R*0.1]];
-      case 'alien': return [[0,-R*0.9],[R*0.6,-R*0.2],[R*1.05,R*0.3],[R*0.5,R*0.95],[R*0.15,R*0.55],[-R*0.1,R*1.15],[-R*0.5,R*0.55],[-R*1.0,R*0.35],[-R*0.55,-R*0.25]];
-      case 'cruiser': return [[0,-R*0.9],[R*0.5,-R*0.3],[R*1.05,R*0.2],[R*0.6,R*0.95],[-R*0.6,R*0.95],[-R*1.05,R*0.2],[-R*0.5,-R*0.3]];
+      case 'drop': return [[0,-R*0.95],[R*0.55,-R*0.1],[R*0.95,R*0.85],[R*0.25,R*0.55],[0,R*0.9],[-R*0.25,R*0.55],[-R*0.95,R*0.85],[-R*0.55,-R*0.1]];
+      case 'shell': return [[0,-R*0.9],[R*0.6,-R*0.2],[R*1.05,R*0.3],[R*0.5,R*0.95],[R*0.15,R*0.55],[-R*0.1,R*1.15],[-R*0.5,R*0.55],[-R*1.0,R*0.35],[-R*0.55,-R*0.25]];
+      case 'wave': return [[0,-R*0.9],[R*0.5,-R*0.3],[R*1.05,R*0.2],[R*0.6,R*0.95],[-R*0.6,R*0.95],[-R*1.05,R*0.2],[-R*0.5,-R*0.3]];
       case 'stealth': return [[0,-R*1.15],[R*1.3,R*0.5],[0,R*0.15],[-R*1.3,R*0.5]];
       default: return [[0,-R],[R*0.8,R*0.9],[0,R*0.4],[-R*0.8,R*0.9]];
     }
   }
   function tracePath(c, skin, R){
     c.beginPath();
-    if (skin === 'saucer'){
+    if (skin === 'bubble'){
       c.ellipse(0, R*0.25, R*1.15, R*0.42, 0, 0, Math.PI*2);
       c.moveTo(R*0.55, -R*0.05);
       c.ellipse(0, -R*0.05, R*0.55, R*0.4, 0, 0, Math.PI*2);
@@ -1178,8 +1350,8 @@
 
   const POWER_DEFS = [
     { id:'punch', name:'Soco', desc:'rápido, curto alcance, atinge o mais próximo' },
-    { id:'meteor', name:'Meteoro', desc:'forte, atordoa' },
-    { id:'blackhole', name:'Buraco Negro', desc:'puxa e atordoa (só na zona neutra)' },
+    { id:'meteor', name:'Onda', desc:'forte, atordoa' },
+    { id:'blackhole', name:'Redemoinho', desc:'puxa e atordoa (só na zona neutra)' },
     { id:'shield', name:'Escudo', desc:'proteção 2s' }
   ];
 
@@ -1211,7 +1383,7 @@
   const keys = {};
   window.addEventListener('keydown', e => {
     keys[e.code] = true;
-    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code)) e.preventDefault();
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter','ShiftLeft','ShiftRight'].includes(e.code)) e.preventDefault();
   });
   window.addEventListener('keyup', e => { keys[e.code] = false; });
 
@@ -1316,7 +1488,7 @@
       if (i === Math.ceil(NUM_PLAYERS/2)){
         const rb = document.createElement('div');
         rb.className = 'round-box corner-frame';
-        rb.style.setProperty('--frame-color', '#b98bff');
+        rb.style.setProperty('--frame-color', '#4fd1c5');
         rb.textContent = `Pergunta ${Math.min(round,5)} / 5`;
         hud.appendChild(rb);
       }
@@ -1470,6 +1642,10 @@
       if (powerSlot === 'power1') return !!keys['KeyQ'];
       if (powerSlot === 'power2') return !!keys['KeyE'];
     }
+    if (slot === 2){
+      if (powerSlot === 'power1') return !!keys['Enter'];
+      if (powerSlot === 'power2') return !!keys['ShiftLeft'] || !!keys['ShiftRight'];
+    }
     return false;
   }
 
@@ -1549,7 +1725,7 @@
     particles.forEach(pt => { pt.x += pt.vx; pt.y += pt.vy; pt.vx*=0.94; pt.vy*=0.94; pt.life -= pt.small ? 0.04 : 0.03; });
     particles = particles.filter(pt => pt.life > 0);
 
-    stars.forEach(s => { s.tw += 0.03; s.y += s.s; if (s.y > canvas.height){ s.y = 0; s.x = Math.random()*canvas.width; } });
+    stars.forEach(s => { s.tw += 0.03; s.y -= s.s; if (s.y < 0){ s.y = canvas.height; s.x = Math.random()*canvas.width; } });
 
     if (gamePhase === 'answering' && performance.now() >= resolveAt){
       resolveRound();
@@ -1567,6 +1743,12 @@
       if (keys['KeyS']) ay += 1;
       if (keys['KeyA']) ax -= 1;
       if (keys['KeyD']) ax += 1;
+    }
+    if (slot === 2){
+      if (keys['ArrowUp']) ay -= 1;
+      if (keys['ArrowDown']) ay += 1;
+      if (keys['ArrowLeft']) ax -= 1;
+      if (keys['ArrowRight']) ax += 1;
     }
     const len = Math.hypot(ax,ay);
     if (len > 1){ ax/=len; ay/=len; }
@@ -1649,7 +1831,7 @@
       if (m.state === 'falling'){
         const t = Math.min((now - m.start)/m.delay, 1);
         const pos = meteorSkyPos(m, t);
-        if (Math.random() < 0.8) particles.push({ x:pos.x, y:pos.y, vx:(Math.random()-0.5)*1.2, vy:-1-Math.random()*1.5, life:0.5, color: Math.random()<0.5?'#ff8a3d':'#ffdd55', small:true });
+        if (Math.random() < 0.8) particles.push({ x:pos.x, y:pos.y, vx:(Math.random()-0.5)*1.2, vy:-1-Math.random()*1.5, life:0.5, color: Math.random()<0.5?'#22b8e0':'#ffdd55', small:true });
 
         if (t >= 1){
           m.state = 'impact';
@@ -1666,7 +1848,7 @@
           } else if (dist < METEOR_RADIUS && now < m.target.shieldUntil){
             for (let i=0;i<8;i++) particles.push({ x: m.x+(Math.random()-0.5)*20, y: m.y+(Math.random()-0.5)*20, vx:(Math.random()-0.5)*3, vy:(Math.random()-0.5)*3, life:0.5, color:'#5ef1ff', small:false });
           }
-          for (let i=0;i<16;i++) spawnPush(m.x, m.y, i%2 ? '#ff8a3d' : '#ffdd55');
+          for (let i=0;i<16;i++) spawnPush(m.x, m.y, i%2 ? '#22b8e0' : '#ffdd55');
         }
       }
     });
@@ -1692,7 +1874,7 @@
         if (Math.random() < 0.6) {
           const angle = Math.random() * Math.PI * 2;
           const radius = BLACKHOLE_RADIUS * (0.5 + Math.random() * 0.5);
-          particles.push({ x: bh.x+Math.cos(angle)*radius, y: bh.y+Math.sin(angle)*radius, vx:-Math.sin(angle)*(2+t*1), vy:Math.cos(angle)*(2+t*1), life:0.7, color:'#7d5aff', small:false });
+          particles.push({ x: bh.x+Math.cos(angle)*radius, y: bh.y+Math.sin(angle)*radius, vx:-Math.sin(angle)*(2+t*1), vy:Math.cos(angle)*(2+t*1), life:0.7, color:'#1a8f96', small:false });
         }
         if (t >= 1){
           bh.state = 'impact';
@@ -1750,7 +1932,7 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, RADIUS+9+pulse*4, 0, Math.PI*2);
       ctx.stroke();
-      ctx.font = "700 15px Orbitron";
+      ctx.font = "700 15px Comfortaa";
       ctx.textAlign = "center";
       ctx.fillStyle = "#ffe066";
       ctx.shadowColor = "#ffe066";
@@ -1766,7 +1948,7 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, RADIUS+10, spin, spin+Math.PI*1.3);
       ctx.stroke();
-      ctx.font = "16px Orbitron";
+      ctx.font = "16px Comfortaa";
       ctx.textAlign = "center";
       ctx.fillStyle = "#ffe066";
       ctx.fillText("★", p.x + Math.cos(spin*1.5)*(RADIUS+18), p.y - RADIUS - 22 + Math.sin(spin*1.5)*4);
@@ -1781,14 +1963,14 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, RADIUS+14+shieldPulse*3, 0, Math.PI*2);
       ctx.stroke();
-      ctx.font = "16px Orbitron";
+      ctx.font = "16px Comfortaa";
       ctx.textAlign = "center";
       ctx.fillStyle = "#5ef1ff";
       ctx.fillText("🛡", p.x, p.y - RADIUS - 24);
       ctx.restore();
     }
 
-    ctx.font = "bold 13px Rajdhani";
+    ctx.font = "bold 13px Quicksand";
     ctx.fillStyle = "#fff";
     ctx.textAlign = "center";
     ctx.shadowBlur = 0;
@@ -1798,14 +1980,15 @@
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     const g = ctx.createLinearGradient(0,0,0,canvas.height);
-    g.addColorStop(0,'#07050f'); g.addColorStop(0.55,'#130c30'); g.addColorStop(1,'#2a1456');
+    g.addColorStop(0,'#08292c'); g.addColorStop(0.55,'#0f4448'); g.addColorStop(1,'#2fa6a3');
     ctx.fillStyle = g;
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     stars.forEach(s => {
-      ctx.globalAlpha = 0.5 + Math.sin(s.tw)*0.5;
-      ctx.fillStyle = '#fff';
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha = (0.35 + Math.sin(s.tw)*0.25) * 0.8;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r*1.8,0,Math.PI*2);
+      ctx.strokeStyle = 'rgba(220,255,250,0.8)'; ctx.lineWidth = 0.6; ctx.stroke();
+      ctx.fillStyle = 'rgba(210,255,248,0.35)'; ctx.fill();
     });
     ctx.globalAlpha = 1;
 
@@ -1825,7 +2008,7 @@
       ctx.beginPath(); ctx.moveTo(canvas.width-zoneW,0); ctx.lineTo(canvas.width-zoneW,canvas.height); ctx.stroke();
 
       ctx.textAlign = 'center';
-      ctx.font = `900 ${Math.min(zoneW*0.28,46)}px Orbitron`;
+      ctx.font = `900 ${Math.min(zoneW*0.28,46)}px Comfortaa`;
       ctx.fillStyle = trueIsCorrect ? 'rgba(120,255,170,0.6)' : 'rgba(120,255,170,0.22)';
       ctx.fillText(trueIsCorrect ? '✓ V' : 'V', zoneW/2, canvas.height/2);
       ctx.fillStyle = falseIsCorrect ? 'rgba(255,130,130,0.6)' : 'rgba(255,130,130,0.22)';
@@ -1839,30 +2022,28 @@
           const pulse = 0.5+0.5*Math.sin(performance.now()*0.02);
           ctx.beginPath();
           ctx.arc(m.x, m.y, METEOR_RADIUS*(0.85+0.1*pulse), 0, Math.PI*2);
-          ctx.strokeStyle = `rgba(255,90,50,${0.35+0.45*t})`;
+          ctx.strokeStyle = `rgba(40,180,255,${0.35+0.45*t})`;
           ctx.lineWidth = 3;
           ctx.stroke();
-          ctx.fillStyle = `rgba(255,90,50,${0.06+0.14*t})`;
+          ctx.fillStyle = `rgba(40,180,255,${0.06+0.14*t})`;
           ctx.fill();
-          ctx.font = "700 13px Orbitron";
-          ctx.fillStyle = "#ffb37a";
+          ctx.font = "700 13px Comfortaa";
+          ctx.fillStyle = "#7ad9ff";
           ctx.textAlign = "center";
-          ctx.fillText("METEORO", m.x, m.y - METEOR_RADIUS - 8);
+          ctx.fillText("ONDA", m.x, m.y - METEOR_RADIUS - 8);
 
           const pos = meteorSkyPos(m, t);
           const size = 10 + t*22;
           ctx.save();
           ctx.translate(pos.x, pos.y);
-          ctx.rotate(m.rot + t*10);
+          ctx.rotate(m.rot*0.15);
           ctx.beginPath();
-          for (let i=0;i<7;i++){
-            const a = (i/7)*Math.PI*2;
-            const r = size*(0.75+((i%2)*0.35));
-            ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
-          }
+          ctx.moveTo(0,-size*1.2);
+          ctx.bezierCurveTo(size*0.9,-size*0.1,size*0.75,size*1.05,0,size*1.05);
+          ctx.bezierCurveTo(-size*0.75,size*1.05,-size*0.9,-size*0.1,0,-size*1.2);
           ctx.closePath();
-          ctx.fillStyle = '#8a5a3a';
-          ctx.shadowColor = '#ff8a3d';
+          ctx.fillStyle = '#1f6f86';
+          ctx.shadowColor = '#22b8e0';
           ctx.shadowBlur = 24;
           ctx.fill();
           ctx.restore();
@@ -1870,7 +2051,7 @@
           const p = Math.min((performance.now()-m.impactStart)/400, 1);
           ctx.beginPath();
           ctx.arc(m.x, m.y, METEOR_RADIUS*(0.3+p*0.9), 0, Math.PI*2);
-          ctx.strokeStyle = `rgba(255,180,80,${1-p})`;
+          ctx.strokeStyle = `rgba(120,225,255,${1-p})`;
           ctx.lineWidth = 5*(1-p)+1;
           ctx.stroke();
         }
@@ -1922,13 +2103,13 @@
       for (let i = 3; i > 0; i--){
         const radius = BLACKHOLE_RADIUS * (i/3);
         const alpha = 0.3 * (1 - (i/3));
-        ctx.strokeStyle = `rgba(125,90,255,${alpha})`;
+        ctx.strokeStyle = `rgba(20,170,180,${alpha})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(bh.x, bh.y, radius, 0, Math.PI*2);
         ctx.stroke();
       }
-      ctx.strokeStyle = 'rgba(125,90,255,0.7)';
+      ctx.strokeStyle = 'rgba(20,170,180,0.7)';
       ctx.lineWidth = 2;
       for (let i = 0; i < 3; i++){
         const angle = (i/3) * Math.PI * 2 + spin;
@@ -1938,10 +2119,10 @@
         ctx.arc(x, y, 6, 0, Math.PI*2);
         ctx.stroke();
       }
-      ctx.font = "700 13px Orbitron";
-      ctx.fillStyle = "#7d5aff";
+      ctx.font = "700 13px Comfortaa";
+      ctx.fillStyle = "#1a8f96";
       ctx.textAlign = "center";
-      ctx.fillText("⭘", bh.x, bh.y - BLACKHOLE_RADIUS - 8);
+      ctx.fillText("🌀", bh.x, bh.y - BLACKHOLE_RADIUS - 8);
       ctx.globalAlpha = 1;
       ctx.restore();
     });
@@ -1962,7 +2143,7 @@
       ctx.stroke();
       ctx.fillStyle = 'rgba(255,224,102,0.12)';
       ctx.fill();
-      ctx.font = "900 24px Orbitron";
+      ctx.font = "900 24px Comfortaa";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffe066";
