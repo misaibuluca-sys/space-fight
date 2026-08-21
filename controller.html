@@ -563,110 +563,53 @@
     box-shadow:0 0 12px rgba(255,90,90,0.4);
   }
 
-  /* ================= TOUCH CONTROLS: joystick + botões de poder para celular/tablet ================= */
+  /* ================= CONTROLES DE TOQUE (celular) — funcionam junto com o teclado (Chromebook) ================= */
   #touch-controls {
-    position:absolute; inset:0; z-index:30;
-    pointer-events:none; display:none;
+    position:absolute; inset:0; pointer-events:none; z-index:5;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
-  #touch-controls.active { display:block; }
-  .touch-joystick {
-    position:absolute;
-    left:max(22px, 4vw);
-    bottom:max(22px, 6vh);
-    width:clamp(120px, 24vw, 168px);
-    height:clamp(120px, 24vw, 168px);
-    pointer-events:auto;
-    touch-action:none;
+  .joystick-zone {
+    position:absolute; left:22px; bottom:22px;
+    width:clamp(110px,28vw,150px); height:clamp(110px,28vw,150px);
+    pointer-events:auto; touch-action:none;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, rgba(94,241,255,0.14), rgba(255,255,255,0.05) 70%);
+    border:1px solid rgba(94,241,255,0.35);
+    box-shadow:0 0 22px rgba(20,110,110,0.35), inset 0 0 18px rgba(94,241,255,0.1);
   }
-  .joy-base {
-    position:absolute; inset:0; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, rgba(94,241,255,0.14), rgba(8,42,45,0.55) 70%);
-    border:2px solid rgba(160,220,255,0.4);
-    box-shadow:0 0 24px rgba(20,110,110,0.35), inset 0 0 20px rgba(0,0,0,0.25);
-    backdrop-filter:blur(2px);
-  }
-  .joy-stick {
-    position:absolute; top:50%; left:50%; width:46%; height:46%;
-    border-radius:50%; transform:translate(-50%,-50%);
-    background:linear-gradient(180deg, rgba(140,230,215,0.85), rgba(30,130,125,0.7) 60%, rgba(15,70,70,0.75));
-    border:1px solid rgba(220,255,250,0.75);
-    box-shadow:0 4px 0 rgba(4,22,24,0.5), inset 0 1px 0 rgba(255,255,255,0.4), 0 0 18px rgba(94,220,255,0.4);
+  .joystick-knob {
+    position:absolute; top:50%; left:50%; width:44%; height:44%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #eafeff, #5ef1ff 70%);
+    box-shadow:0 0 16px rgba(94,241,255,0.6), 0 3px 0 rgba(4,22,24,0.4);
     transition:box-shadow .15s ease;
   }
-  .touch-joystick.held .joy-stick { box-shadow:0 2px 0 rgba(4,22,24,0.5), inset 0 1px 0 rgba(255,255,255,0.5), 0 0 30px rgba(94,220,255,0.7); }
+  .joystick-zone.active .joystick-knob { box-shadow:0 0 24px rgba(94,241,255,0.9), 0 3px 0 rgba(4,22,24,0.4); }
+
   .touch-powers {
-    position:absolute;
-    right:max(20px, 4vw);
-    bottom:max(22px, 6vh);
-    display:flex; align-items:flex-end; gap:clamp(14px, 3vw, 22px);
+    position:absolute; right:18px; bottom:22px;
+    display:flex; flex-direction:column-reverse; gap:0.8rem;
     pointer-events:none;
   }
-  .power-btn {
+  .touch-power-btn {
     pointer-events:auto; touch-action:none;
-    width:clamp(72px, 15vw, 100px); height:clamp(72px, 15vw, 100px);
+    width:clamp(64px,16vw,80px); height:clamp(64px,16vw,80px);
     border-radius:50%;
-    background:linear-gradient(180deg, rgba(110,220,210,0.5), rgba(20,100,105,0.4) 60%, rgba(10,55,60,0.6));
-    border:2px solid rgba(160,220,255,0.65);
-    box-shadow:0 5px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 20px rgba(94,220,255,0.25);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
-    font-family:'Comfortaa'; color:#eafcff;
-    transition:transform .1s ease, box-shadow .15s ease;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:0.3rem;
+    font-family:'Comfortaa'; font-size:0.68rem; letter-spacing:0.02em; text-transform:uppercase; line-height:1.15;
+    color:#e3faf5;
+    background:linear-gradient(180deg, rgba(110,220,210,0.5), rgba(10,55,60,0.55));
+    border:1px solid rgba(160,220,255,0.6);
+    box-shadow:0 4px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 16px rgba(94,220,255,0.2);
+    transition:transform .08s ease, box-shadow .08s ease;
   }
-  .power-btn .power-icon { font-size:clamp(1.5rem, 5vw, 2.1rem); line-height:1; }
-  .power-btn .touch-power-label { font-size:0.58rem; letter-spacing:0.03em; text-transform:uppercase; opacity:0.85; }
-  .power-btn.held { transform:translateY(3px); box-shadow:0 2px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.35), 0 0 30px rgba(94,220,255,0.55); }
-  .power-btn:nth-child(2) { margin-bottom:clamp(18px, 5vh, 34px); } /* botão 2 um pouco mais alto, fica sob o polegar naturalmente */
-  #touch-rotate-hint {
-    position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:40;
-    display:none; align-items:center; gap:0.5rem;
-    background:rgba(8,42,45,0.9); border:1px solid rgba(255,224,102,0.4);
-    color:#ffe066; font-family:'Comfortaa'; font-size:0.75rem; letter-spacing:0.04em; text-transform:uppercase;
-    padding:0.45rem 0.9rem; border-radius:20px; box-shadow:0 0 16px rgba(0,0,0,0.4);
-    pointer-events:none;
-  }
-  @media (orientation:portrait){
-    #touch-rotate-hint.show { display:flex; }
-  }
-
-  /* ================= LANDSCAPE: otimiza telas de sala/escolha/configuração para celular deitado ================= */
-  @media (orientation:landscape) and (max-height:560px){
-    #app { padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
-    h1 { font-size:1.15rem; margin-bottom:0.2rem; }
-    .sub { font-size:0.7rem; margin-bottom:0.6rem; }
-
-    #screen-room, #screen-pick { gap:0.5rem; padding:0.8rem 1rem; }
-    .room-code-box { font-size:clamp(1.6rem,5vw,2.2rem); padding:0.4rem 1rem; margin:0.2rem 0 0.4rem; }
-    #screen-pick { flex-direction:row; flex-wrap:wrap; align-content:center; }
-    #screen-pick h1, #screen-pick .sub { width:100%; }
-
-    #screen-config { padding:1vh 1rem 1.5vh; }
-    .ctrl-header { max-width:640px !important; }
-    .panel.player-card#cfg-card {
-      max-width:640px !important;
-      padding:0.9rem 1.1rem;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      grid-template-areas:
-        "name skin"
-        "color skin"
-        "keys powers";
-      column-gap:1.2rem;
-      row-gap:0.5rem;
-      align-items:start;
-    }
-    .cfg-field-name  { grid-area:name; }
-    .cfg-field-color { grid-area:color; }
-    .cfg-field-skin  { grid-area:skin; }
-    .cfg-field-keys  { grid-area:keys; }
-    .cfg-field-powers{ grid-area:powers; }
-    .cfg-field { display:flex; flex-direction:column; gap:0.35rem; }
-    #cfg-card .skin-label { margin-top:0 !important; }
-    #cfg-card label { font-size:0.7rem; }
-    #cfg-card input[type="text"] { padding:0.4rem 0.6rem; }
-    #cfg-card input[type="color"] { height:1.9rem; }
-    .power-list { gap:0.35rem; }
-    .setup-carousel, .ship-carousel { width:100%; }
-    #cfg-wait-msg { margin-top:0.4rem !important; font-size:0.75rem; }
+  .touch-power-btn.empty { opacity:0.35; }
+  .touch-power-btn.pressed {
+    transform:translateY(2px) scale(0.94);
+    box-shadow:0 1px 0 rgba(4,22,24,0.7), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 22px rgba(94,220,255,0.5);
+    background:linear-gradient(180deg, rgba(140,230,215,0.7), rgba(15,70,70,0.65));
   }
 
 </style>
@@ -697,39 +640,29 @@
       <button class="ctrl-leave" id="btn-config-leave">trocar</button>
     </div>
     <div class="panel corner-frame player-card" id="cfg-card" style="max-width:420px; margin-top:0.8rem;">
-      <div class="cfg-field cfg-field-name">
-        <label>Nome</label>
-        <input type="text" id="cfg-name" maxlength="14">
-      </div>
-      <div class="cfg-field cfg-field-color">
-        <label>Sua cor</label>
-        <input type="color" id="cfg-color">
-      </div>
-      <div class="cfg-field cfg-field-skin">
-        <div class="skin-label">Seu formato</div>
-        <div class="ship-carousel">
-          <button type="button" class="carousel-arrow" id="cfg-skin-prev">‹</button>
-          <div class="carousel-viewport corner-frame" id="cfg-skin-viewport">
-            <div class="carousel-track" id="cfg-skin-track"></div>
-          </div>
-          <button type="button" class="carousel-arrow" id="cfg-skin-next">›</button>
+      <label>Nome</label>
+      <input type="text" id="cfg-name" maxlength="14">
+      <label>Sua cor</label>
+      <input type="color" id="cfg-color">
+      <div class="skin-label">Seu formato</div>
+      <div class="ship-carousel">
+        <button type="button" class="carousel-arrow" id="cfg-skin-prev">‹</button>
+        <div class="carousel-viewport corner-frame" id="cfg-skin-viewport">
+          <div class="carousel-track" id="cfg-skin-track"></div>
         </div>
-        <div class="carousel-dots" id="cfg-skin-dots"></div>
+        <button type="button" class="carousel-arrow" id="cfg-skin-next">›</button>
       </div>
+      <div class="carousel-dots" id="cfg-skin-dots"></div>
 
-      <div class="cfg-field cfg-field-keys">
-        <div class="skin-label">Teclas de movimento</div>
-        <select id="cfg-keyset">
-          <option value="wasd">W A S D</option>
-          <option value="arrows">Setas (↑ ↓ ← →)</option>
-          <option value="ijkl">I J K L</option>
-        </select>
-      </div>
+      <div class="skin-label" style="margin-top:0.6rem;">Teclas de movimento</div>
+      <select id="cfg-keyset">
+        <option value="wasd">W A S D</option>
+        <option value="arrows">Setas (↑ ↓ ← →)</option>
+        <option value="ijkl">I J K L</option>
+      </select>
 
-      <div class="cfg-field cfg-field-powers">
-        <div class="skin-label">Poderes (escolha 2)</div>
-        <div class="power-list" id="cfg-power-list"></div>
-      </div>
+      <div class="skin-label" style="margin-top:0.6rem;">Poderes (escolha 2)</div>
+      <div class="power-list" id="cfg-power-list"></div>
     </div>
     <div class="sub2" id="cfg-wait-msg" style="margin-top:0.8rem;">Aguardando o host começar a partida...</div>
   </div>
@@ -743,28 +676,18 @@
         <div id="result-banner" class="hidden"></div>
       </div>
       <div id="mirror-stale-badge" class="hidden">Sincronizando…</div>
+      <div id="touch-controls">
+        <div class="joystick-zone" id="joy-zone"><div class="joystick-knob" id="joy-knob"></div></div>
+        <div class="touch-powers" id="touch-powers">
+          <button type="button" class="touch-power-btn empty" id="touch-power1">1</button>
+          <button type="button" class="touch-power-btn empty" id="touch-power2">2</button>
+        </div>
+      </div>
       <div id="mirror-waiting">
         <h2 id="mirror-waiting-title">GUERRA DAS MARÉS</h2>
         <div class="sub2" id="mirror-waiting-sub">Conectando à sala...</div>
         <div id="mirror-waiting-extra"></div>
       </div>
-      <div id="touch-controls">
-        <div class="touch-joystick" id="touch-joystick">
-          <div class="joy-base"></div>
-          <div class="joy-stick" id="joy-stick"></div>
-        </div>
-        <div class="touch-powers">
-          <button type="button" class="power-btn" id="touch-power1" data-power="power1">
-            <span class="power-icon">👊</span>
-            <span class="touch-power-label">1</span>
-          </button>
-          <button type="button" class="power-btn" id="touch-power2" data-power="power2">
-            <span class="power-icon">🌊</span>
-            <span class="touch-power-label">2</span>
-          </button>
-        </div>
-      </div>
-      <div id="touch-rotate-hint">↻ Gire o celular pra jogar melhor</div>
     </div>
   </div>
 
@@ -1086,6 +1009,96 @@
     sendKeyset();
   });
 
+  // ---- movimento e poderes por toque (celular) — funciona junto com o teclado (Chromebook) ----
+  const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  const touchControlsEl = $('touch-controls');
+  if (!isTouchDevice) touchControlsEl.classList.add('hidden');
+
+  const joyZone = $('joy-zone');
+  const joyKnob = $('joy-knob');
+  let joyPointerId = null;
+  let joyCenterX = 0, joyCenterY = 0, joyRadius = 1;
+
+  function joyStart(e){
+    if (joyPointerId !== null) return;
+    joyPointerId = e.pointerId;
+    const rect = joyZone.getBoundingClientRect();
+    joyCenterX = rect.left + rect.width/2;
+    joyCenterY = rect.top + rect.height/2;
+    joyRadius = rect.width/2;
+    joyZone.classList.add('active');
+    try { joyZone.setPointerCapture(e.pointerId); } catch(err){}
+    joyMove(e);
+  }
+  function joyMove(e){
+    if (joyPointerId !== e.pointerId) return;
+    let dx = e.clientX - joyCenterX, dy = e.clientY - joyCenterY;
+    const dist = Math.hypot(dx, dy) || 1;
+    const clamped = Math.min(dist, joyRadius);
+    const nx = (dx/dist) * clamped, ny = (dy/dist) * clamped;
+    joyKnob.style.transform = `translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;
+    let x = nx / joyRadius, y = ny / joyRadius;
+    if (Math.hypot(x,y) < 0.12){ x = 0; y = 0; }
+    x = Math.round(x*100)/100; y = Math.round(y*100)/100;
+    if (x !== lastSentX || y !== lastSentY){
+      lastSentX = x; lastSentY = y;
+      sendMove(x, y);
+    }
+  }
+  function joyEnd(e){
+    if (joyPointerId !== e.pointerId) return;
+    joyPointerId = null;
+    joyZone.classList.remove('active');
+    joyKnob.style.transform = '';
+    lastSentX = 0; lastSentY = 0;
+    sendMove(0, 0);
+  }
+  joyZone.addEventListener('pointerdown', joyStart);
+  joyZone.addEventListener('pointermove', joyMove);
+  joyZone.addEventListener('pointerup', joyEnd);
+  joyZone.addEventListener('pointercancel', joyEnd);
+
+  const touchPowerBtns = { power1: $('touch-power1'), power2: $('touch-power2') };
+  const touchPowerHeld = { power1:false, power2:false };
+
+  function updateTouchPowerLabels(){
+    for (const slot of ['power1','power2']){
+      const btn = touchPowerBtns[slot];
+      const id = myPowers[slot];
+      const def = POWER_DEFS.find(p => p.id === id);
+      if (def){
+        btn.textContent = def.name;
+        btn.classList.remove('empty');
+      } else {
+        btn.textContent = slot === 'power1' ? '1' : '2';
+        btn.classList.add('empty');
+      }
+    }
+  }
+
+  function bindTouchPower(slot){
+    const btn = touchPowerBtns[slot];
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (!myPowers[slot]) return;
+      touchPowerHeld[slot] = true;
+      btn.classList.add('pressed');
+      try { btn.setPointerCapture(e.pointerId); } catch(err){}
+      sendInput(slot, true);
+    });
+    function release(e){
+      if (!touchPowerHeld[slot]) return;
+      touchPowerHeld[slot] = false;
+      btn.classList.remove('pressed');
+      sendInput(slot, false);
+    }
+    btn.addEventListener('pointerup', release);
+    btn.addEventListener('pointercancel', release);
+    btn.addEventListener('pointerleave', release);
+  }
+  bindTouchPower('power1');
+  bindTouchPower('power2');
+
   // ---- tela de configuração (nome, cor, skin, poderes) ----
   const SKINS = [
     { id:'classic' },
@@ -1132,6 +1145,7 @@
     myConfig.skinIndex = idx >= 0 ? idx : 0;
     myPowers.power1 = powers.power1 || null;
     myPowers.power2 = powers.power2 || null;
+    updateTouchPowerLabels();
     if (KEYSETS[cfg.keyset]){
       myKeyset = cfg.keyset;
       $('cfg-keyset').value = myKeyset;
@@ -1250,11 +1264,11 @@
       if (assignedSlot){
         row.classList.add('selected');
         btn.textContent = assignedSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2';
-        btn.onclick = () => { myPowers[assignedSlot] = null; renderCfgPowerList(); sendPowers(); };
+        btn.onclick = () => { myPowers[assignedSlot] = null; renderCfgPowerList(); updateTouchPowerLabels(); sendPowers(); };
       } else if (selectedPowers.size < 2){
         const freeSlot = powerSlots.find(k => !myPowers[k]);
         btn.textContent = '+ ' + (freeSlot === 'power1' ? 'BOTÃO 1' : 'BOTÃO 2');
-        btn.onclick = () => { myPowers[freeSlot] = pw.id; renderCfgPowerList(); sendPowers(); };
+        btn.onclick = () => { myPowers[freeSlot] = pw.id; renderCfgPowerList(); updateTouchPowerLabels(); sendPowers(); };
       } else {
         row.classList.add('disabled');
         btn.textContent = '-';
@@ -1263,104 +1277,6 @@
       row.appendChild(text);
       row.appendChild(btn);
       list.appendChild(row);
-    });
-    updateTouchPowerButtons();
-  }
-
-  // ================= TOUCH CONTROLS: joystick + botões de poder (celular/tablet) =================
-  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-  const POWER_ICONS = { punch:'👊', meteor:'🌊', blackhole:'🌀', shield:'🛡️' };
-  const POWER_SHORT = { punch:'Soco', meteor:'Onda', blackhole:'Redemoinho', shield:'Escudo' };
-  const touchControlsEl = $('touch-controls');
-  const touchRotateHint = $('touch-rotate-hint');
-
-  function updateTouchPowerButtons(){
-    ['power1','power2'].forEach(slot => {
-      const btn = $('touch-' + slot);
-      if (!btn) return;
-      const powerId = myPowers[slot];
-      const icon = btn.querySelector('.power-icon');
-      const label = btn.querySelector('.touch-power-label');
-      if (powerId){
-        icon.textContent = POWER_ICONS[powerId] || '⚡';
-        label.textContent = POWER_SHORT[powerId] || '';
-        btn.classList.remove('hidden');
-      } else {
-        btn.classList.add('hidden');
-      }
-    });
-  }
-
-  function updateTouchControlsVisibility(){
-    const show = isTouchDevice && mirrorActive;
-    touchControlsEl.classList.toggle('active', show);
-    touchRotateHint.classList.toggle('show', show);
-  }
-
-  if (isTouchDevice){
-    // ---- joystick virtual: reaproveita o mesmo envio (sendMove) usado pelo teclado ----
-    const joyEl = $('touch-joystick');
-    const joyStick = $('joy-stick');
-    let joyPointerId = null, joyCenterX = 0, joyCenterY = 0, joyRadius = 1;
-
-    function joyStart(e){
-      if (joyPointerId !== null) return;
-      joyPointerId = e.pointerId;
-      const rect = joyEl.getBoundingClientRect();
-      joyCenterX = rect.left + rect.width/2;
-      joyCenterY = rect.top + rect.height/2;
-      joyRadius = rect.width/2;
-      joyEl.classList.add('held');
-      try { joyEl.setPointerCapture(joyPointerId); } catch(err){}
-      joyMove(e);
-    }
-    function joyMove(e){
-      if (e.pointerId !== joyPointerId) return;
-      let dx = e.clientX - joyCenterX;
-      let dy = e.clientY - joyCenterY;
-      const dist = Math.hypot(dx, dy);
-      const max = joyRadius * 0.62;
-      if (dist > max){ dx = dx/dist*max; dy = dy/dist*max; }
-      joyStick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-      let nx = dx/max, ny = dy/max;
-      const mag = Math.hypot(nx, ny);
-      if (mag > 1){ nx /= mag; ny /= mag; }
-      sendMove(nx, ny);
-    }
-    function joyEnd(e){
-      if (e.pointerId !== joyPointerId) return;
-      joyPointerId = null;
-      joyEl.classList.remove('held');
-      joyStick.style.transform = 'translate(-50%,-50%)';
-      sendMove(0, 0);
-    }
-    joyEl.addEventListener('pointerdown', e => { e.preventDefault(); joyStart(e); });
-    joyEl.addEventListener('pointermove', e => { e.preventDefault(); joyMove(e); });
-    joyEl.addEventListener('pointerup', joyEnd);
-    joyEl.addEventListener('pointercancel', joyEnd);
-
-    // ---- botões de poder (equivalentes a Q/E do teclado) ----
-    ['power1','power2'].forEach(slot => {
-      const btn = $('touch-' + slot);
-      let activePointerId = null;
-      const start = e => {
-        if (activePointerId !== null) return;
-        activePointerId = e.pointerId;
-        e.preventDefault();
-        btn.classList.add('held');
-        try { btn.setPointerCapture(activePointerId); } catch(err){}
-        sendInput(slot, true);
-      };
-      const end = e => {
-        if (e.pointerId !== activePointerId) return;
-        activePointerId = null;
-        btn.classList.remove('held');
-        sendInput(slot, false);
-      };
-      btn.addEventListener('pointerdown', start);
-      btn.addEventListener('pointerup', end);
-      btn.addEventListener('pointercancel', end);
-      btn.addEventListener('pointerleave', end);
     });
   }
 
@@ -1587,11 +1503,9 @@
     if (msg.screen === 'game'){
       mirrorActive = true;
       mirrorWaiting.classList.add('hidden');
-      updateTouchControlsVisibility();
       return;
     }
     mirrorActive = false;
-    updateTouchControlsVisibility();
     mirrorWaiting.classList.remove('hidden');
     mirrorWaitingExtra.innerHTML = '';
     if (msg.screen === 'connect'){
